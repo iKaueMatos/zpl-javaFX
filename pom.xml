@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.zpl</groupId>
-    <artifactId>zpl</artifactId>
+    <artifactId>zpl-javaFX</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>zpl</name>
 
@@ -24,6 +24,11 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>17.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.palexdev</groupId>
+            <artifactId>materialfx</artifactId>
+            <version>11.17.0</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>

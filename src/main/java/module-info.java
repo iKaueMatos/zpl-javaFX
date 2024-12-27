@@ -1,12 +1,8 @@
 module com.zpl.zpl {
-    requires javafx.controls;
-    requires javafx.fxml;
     requires javafx.web;
     requires org.apache.poi.poi;
     requires org.apache.poi.ooxml;
     requires java.sql;
-    requires java.desktop;
-
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires net.synedra.validatorfx;
@@ -14,6 +10,7 @@ module com.zpl.zpl {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
     requires usb.api;
+    requires MaterialFX;
 
     opens com.zpl.zpl to javafx.fxml;
     exports com.zpl.zpl;

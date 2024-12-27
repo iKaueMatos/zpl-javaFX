@@ -1,0 +1,57 @@
+/* dark-theme.css */
+.root {
+  -fx-base: #1e1e1e;
+  -fx-background: #1e1e1e;
+  -fx-control-inner-background: #1e1e1e; /* Cor de fundo dos controles */
+  -fx-accent: #ff9800; /* Cor de destaque - laranja */
+  -fx-focus-color: #ff9800; /* Cor de foco */
+  -fx-faint-focus-color: #ff980022; /* Cor de foco suave */
+  -fx-text-fill: #e0e0e0; /* Cor do texto */
+}
+
+.label {
+  -fx-text-fill: #e0e0e0; /* Cor do texto das labels */
+  -fx-font-size: 14px;
+}
+
+.button {
+  -fx-background-color: linear-gradient(#ff9800, #e68900); /* Cor de fundo do botão - laranja */
+  -fx-text-fill: #ffffff;
+  -fx-font-weight: bold;
+  -fx-background-radius: 5;
+  -fx-padding: 10 20;
+}
+
+.button:hover {
+  -fx-background-color: linear-gradient(#e68900, #d07a00); /* Cor de fundo do botão ao passar o mouse */
+}
+
+.text-field, .combo-box, .spinner {
+  -fx-background-color: #1e1e1e;
+  -fx-text-fill: #e0e0e0;
+  -fx-prompt-text-fill: #ffffff99; /* Texto de sugestão mais suave */
+  -fx-border-color: #ff9800; /* Cor da borda - laranja */
+  -fx-border-radius: 5;
+  -fx-padding: 5;
+}
+
+.table-view {
+  -fx-background-color: #1e1e1e;
+  -fx-table-cell-border-color: transparent;
+  -fx-control-inner-background: #1e1e1e;
+  -fx-text-background-color: #e0e0e0;
+  -fx-border-color: #ff9800; /* Cor da borda - laranja */
+}
+
+.table-view .column-header-background {
+  -fx-background-color: #000000;
+  -fx-border-color: #ff9800; /* Cor da borda do cabeçalho da tabela */
+}
+
+.text-area {
+  -fx-background-color: #1e1e1e;
+  -fx-text-fill: #e0e0e0;
+  -fx-border-color: #ff9800; /* Cor da borda da área de texto */
+  -fx-border-radius: 5;
+  -fx-padding: 10;
+}

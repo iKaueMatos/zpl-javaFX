@@ -1,24 +1,24 @@
 package com.zpl.zpl.view;
 
+import com.zpl.zpl.application.usecase.LabelGenerator;
+import com.zpl.zpl.application.usecase.SpreadsheetReader;
 import com.zpl.zpl.domain.service.PrinterService;
 import com.zpl.zpl.domain.service.ZplFileService;
-import com.zpl.zpl.usecase.LabelGenerator;
-import com.zpl.zpl.usecase.SpreadsheetReader;
 import com.zpl.zpl.infrastructure.database.DatabaseManager;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.print.PrinterJob;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,53 +27,100 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javax.print.PrintService;
+
+import javafx.event.ActionEvent;
+
 public class GenerateZplLabelView implements Initializable {
     @FXML
     private TextField eanField;
+
     @FXML
     private TextField skuField;
+
     @FXML
     private TextField quantityField;
+
     @FXML
     private ComboBox<String> formatFieldComboBox;
+
     @FXML
     private ComboBox<String> labelTypeComboBox;
-    @FXML
-    private CheckBox option1CheckBox;
-    @FXML
-    private CheckBox option2CheckBox;
-    @FXML
-    private CheckBox option3CheckBox;
+
     @FXML
     private Button generateButton;
+
     @FXML
     private Button clearButton;
+
     @FXML
     private Button printButton;
+
     @FXML
     private Button printerSettingsButton;
+
     @FXML
     private Button visualizeButton;
+
     @FXML
     private Button saveButton;
+
     @FXML
     private Button filterButton;
+
     @FXML
     private TextField filterEanField;
+
     @FXML
     private TextField filterSkuField;
+
     @FXML
     private TextField filterQuantityField;
+
     @FXML
     private TextArea outputArea;
+
     @FXML
     private TableView<Map<String, Object>> dataTable;
+
     @FXML
     private TableColumn<Map<String, Object>, String> eanColumn;
+
     @FXML
     private TableColumn<Map<String, Object>, String> skuColumn;
+
     @FXML
     private TableColumn<Map<String, Object>, String> quantityColumn;
+
+    @FXML
+    private Spinner<Integer> labelWidthSpinner;
+
+    @FXML
+    private Spinner<Integer> labelHeightSpinner;
+
+    @FXML
+    private Spinner<Integer> columnsSpinner;
+
+    @FXML
+    private Spinner<Integer> rowsSpinner;
+
+    @FXML
+    private AnchorPane rootPane;
+
+    @FXML
+    private HBox menuContainer;
+
+    @FXML
+    private Button menuButton;
+
+    @FXML
+    private Button selectPrinterButton;
+
+    @FXML
+    private VBox printerSelectionBox;
+
+    @FXML
+    private ComboBox<String> printerComboBox;
 
     private final LabelGenerator labelGenerator;
     private final SpreadsheetReader spreadsheetReader;
@@ -99,8 +146,15 @@ public class GenerateZplLabelView implements Initializable {
         quantityColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("Quantidade").toString()));
 
         dataTable.setItems(data);
-        visualizeButton.setDisable(true);
         saveButton.setDisable(true);
+
+        labelWidthSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(100, 1000, 400));
+        labelHeightSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(100, 1000, 150));
+        columnsSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 2));
+        rowsSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 2));
+
+        selectPrinterButton.setOnAction(event -> showPrinterSelection());
+        printerComboBox.setOnAction(event -> selectPrinter());
     }
 
     @FXML
@@ -138,29 +192,64 @@ public class GenerateZplLabelView implements Initializable {
 
     @FXML
     private void generateLabel() {
+        if (!validateFields()) {
+            return;
+        }
+
         String format = formatFieldComboBox.getValue();
+        String labelType = labelTypeComboBox.getValue();
         List<Map<String, Object>> eansAndSkus = data;
 
+        if (eanField.getText().isEmpty() || skuField.getText().isEmpty() || quantityField.getText().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Dados Ausentes", "Por favor, preencha todos os campos: EAN, SKU e Quantidade.");
+            return;
+        }
+
+        if (eansAndSkus.isEmpty()) {
+            eansAndSkus = List.of(Map.of(
+                "EAN", eanField.getText(),
+                "SKU", skuField.getText(),
+                "Quantidade", quantityField.getText()
+            ));
+        } else {
+            eansAndSkus.add(Map.of(
+                "EAN", eanField.getText(),
+                "SKU", skuField.getText(),
+                "Quantidade", quantityField.getText()
+            ));
+        }
+
         try {
-            String zpl = labelGenerator.generateZpl(eansAndSkus, format);
+            int labelWidth = labelWidthSpinner.getValue();
+            int labelHeight = labelHeightSpinner.getValue();
+            int columns = columnsSpinner.getValue();
+            int rows = rowsSpinner.getValue();
+
+            String zpl = labelGenerator.generateZpl(eansAndSkus, format, labelType, labelWidth, labelHeight, columns, rows);
             if (zplFileService.validateZplContent(zpl)) {
                 outputArea.setText(zpl);
                 visualizeButton.setDisable(false);
                 saveButton.setDisable(false);
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro de Validação");
-                alert.setHeaderText(null);
-                alert.setContentText("O conteúdo ZPL gerado é inválido.");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.ERROR, "Erro de Validação", "O conteúdo ZPL gerado é inválido.");
             }
         } catch (IllegalArgumentException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro de Validação");
-            alert.setHeaderText(null);
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Erro de Validação", e.getMessage());
         }
+    }
+
+    private boolean validateFields() {
+        if (formatFieldComboBox.getValue() == null || formatFieldComboBox.getValue().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Campo Obrigatório", "Por favor, selecione um formato de etiqueta.");
+            return false;
+        }
+
+        if (data.isEmpty() && (eanField.getText().isEmpty() || skuField.getText().isEmpty() || quantityField.getText().isEmpty())) {
+            showAlert(Alert.AlertType.WARNING, "Dados Ausentes", "Nenhum dado foi carregado. Por favor, importe ou insira os dados necessários.");
+            return false;
+        }
+
+        return true;
     }
 
     @FXML
@@ -170,9 +259,6 @@ public class GenerateZplLabelView implements Initializable {
         quantityField.clear();
         formatFieldComboBox.getSelectionModel().clearSelection();
         labelTypeComboBox.getSelectionModel().clearSelection();
-        option1CheckBox.setSelected(false);
-        option2CheckBox.setSelected(false);
-        option3CheckBox.setSelected(false);
         outputArea.clear();
         data.clear();
 
@@ -220,41 +306,18 @@ public class GenerateZplLabelView implements Initializable {
 
     @FXML
     private void openPrinterSettings() {
-        if (printerService.getSelectedPrinter() != null || printerService.getPrinterIp() != null) {
-            try {
-                PrinterJob job = PrinterJob.createPrinterJob();
-                if (job != null && job.showPrintDialog(null)) {
-                    job.endJob();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro ao Abrir Configurações da Impressora");
-                alert.setHeaderText(null);
-                alert.setContentText("Não foi possível abrir as configurações da impressora.");
-                alert.showAndWait();
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Impressora Não Selecionada");
-            alert.setHeaderText(null);
-            alert.setContentText("Nenhuma impressora foi selecionada.");
-            alert.showAndWait();
-        }
-    }
-
-    @FXML
-    private void visualizeZpl() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/VisualizeZplView.fxml"));
-            Stage stage = new Stage();
-            stage.setScene(new Scene(loader.load()));
-            VisualizeZplView controller = loader.getController();
-            controller.setZplContent(outputArea.getText());
-            stage.setTitle("Visualize ZPL");
-            stage.show();
-        } catch (IOException e) {
+            PrinterJob job = PrinterJob.createPrinterJob();
+            if (job != null && job.showPrintDialog(null)) {
+                job.endJob();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro ao Abrir Configurações da Impressora");
+            alert.setHeaderText(null);
+            alert.setContentText("Não foi possível abrir as configurações da impressora.");
+            alert.showAndWait();
         }
     }
 
@@ -291,5 +354,57 @@ public class GenerateZplLabelView implements Initializable {
         List<Map<String, Object>> filteredData = DatabaseManager.fetchFilteredData(eanFilter, skuFilter, quantityFilter);
         data.clear();
         data.addAll(filteredData);
+    }
+
+    private void showPrinterSelection() {
+        List<PrintService> printers = printerService.getAvailablePrinters();
+        printerComboBox.getItems().clear();
+        for (PrintService printer : printers) {
+            printerComboBox.getItems().add(printer.getName());
+        }
+        printerSelectionBox.setVisible(true);
+    }
+
+    private void selectPrinter() {
+        int selectedIndex = printerComboBox.getSelectionModel().getSelectedIndex();
+        printerService.selectPrinter(selectedIndex);
+        printerSelectionBox.setVisible(false);
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void downloadTemplate(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+        fileChooser.setInitialFileName("template.xlsx");
+        File file = fileChooser.showSaveDialog(new Stage());
+
+        if (file != null) {
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.write("EAN\tSKU\tQuantidade\n");
+                writer.write("1234567890123\tSKU123\t10\n");
+                writer.write("9876543210987\tSKU987\t20\n");
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Salvar Modelo de Planilha");
+                alert.setHeaderText(null);
+                alert.setContentText("Modelo de planilha salvo com sucesso!");
+                alert.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erro ao Salvar");
+                alert.setHeaderText(null);
+                alert.setContentText("Ocorreu um erro ao salvar o modelo de planilha.");
+                alert.showAndWait();
+            }
+        }
     }
 }

@@ -6,7 +6,6 @@ import java.util.*;
 import javax.print.*;
 import javax.print.attribute.*;
 import javax.print.attribute.standard.PrinterName;
-import javax.usb.*;
 
 import java.util.Scanner;
 
@@ -14,6 +13,7 @@ public class PrinterService {
     private PrintService selectedPrinter;
     private String printerIp;
     private int printerPort;
+    private List<PrintService> availablePrinters;
 
     public PrinterService() {
         detectPrinters();
@@ -21,7 +21,7 @@ public class PrinterService {
 
     public void detectPrinters() {
         try {
-            List<PrintService> availablePrinters = new ArrayList<>();
+            availablePrinters = new ArrayList<>();
             DocFlavor df = DocFlavor.BYTE_ARRAY.AUTOSENSE;
 
             PrintService[] printServices = PrintServiceLookup.lookupPrintServices(df, null);
@@ -35,51 +35,18 @@ public class PrinterService {
                     }
                 }
             }
-
-            UsbServices services = UsbHostManager.getUsbServices();
-            UsbHub rootHub = services.getRootUsbHub();
-            detectUsbPrinters(rootHub);
-
-            selectPrinterFromList(availablePrinters);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void detectUsbPrinters(UsbHub hub) throws UsbException {
-        for (UsbDevice device : (List<UsbDevice>) hub.getAttachedUsbDevices()) {
-            if (device.isUsbHub()) {
-                detectUsbPrinters((UsbHub) device);
-            } else {
-                UsbDeviceDescriptor descriptor = device.getUsbDeviceDescriptor();
-                if (descriptor.idVendor() == 0x0A5F) { // Zebra vendor ID
-                    System.out.println("Impressora Zebra USB detectada: " + device);
-                    selectedPrinter = null;
-                    printerIp = null;
-                    printerPort = -1;
-                }
-            }
-        }
+    public List<PrintService> getAvailablePrinters() {
+        return availablePrinters;
     }
 
-    private void selectPrinterFromList(List<PrintService> availablePrinters) {
-        if (availablePrinters.isEmpty()) {
-            System.out.println("Nenhuma impressora encontrada.");
-            return;
-        }
-
-        System.out.println("Selecione uma impressora:");
-        for (int i = 0; i < availablePrinters.size(); i++) {
-            PrintService printService = availablePrinters.get(i);
-            String printerName = getPrinterName(printService);
-            System.out.println((i + 1) + ". " + printerName);
-        }
-
-        Scanner scanner = new Scanner(System.in);
-        int selection = scanner.nextInt() - 1;
-        if (selection >= 0 && selection < availablePrinters.size()) {
-            selectedPrinter = availablePrinters.get(selection);
+    public void selectPrinter(int index) {
+        if (index >= 0 && index < availablePrinters.size()) {
+            selectedPrinter = availablePrinters.get(index);
             String selectedPrinterName = getPrinterName(selectedPrinter);
             System.out.println("Impressora selecionada: " + selectedPrinterName);
         } else {
@@ -147,7 +114,6 @@ public class PrinterService {
         }
     }
 
-    // Imprime um documento ZPL para impressoras Zebra
     public synchronized boolean printZplDocument(String zplContent) {
         if (printerIp != null && printerPort > 0) {
             try (Socket socket = new Socket(printerIp, printerPort)) {

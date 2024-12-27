@@ -2,123 +2,154 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zpl.zpl.view.GenerateZplLabelView" spacing="10" styleClass="container">
-    <children>
-        <Label text="Gerador de Etiquetas ZPL" styleClass="h1" />
-        
-        <Button text="Importar Planilha" onAction="#importSpreadsheet" styleClass="btn btn-primary" />
-        
-        <TableView fx:id="dataTable" prefHeight="200" prefWidth="800">
-            <columns>
-                <TableColumn text="EAN" fx:id="eanColumn" />
-                <TableColumn text="SKU" fx:id="skuColumn" />
-                <TableColumn text="Quantidade" fx:id="quantityColumn" />
-            </columns>
-        </TableView>
-        
-        <HBox spacing="15">
-            <children>
-                <VBox spacing="10">
-                    <children>
-                        <Label text="EAN:" styleClass="form-label" />
-                        <TextField fx:id="eanField" promptText="Digite o EAN" prefWidth="300" styleClass="form-control" />
-                    </children>
-                </VBox>
-                <VBox spacing="10">
-                    <children>
-                        <Label text="SKU:" styleClass="form-label" />
-                        <TextField fx:id="skuField" promptText="Digite o SKU" prefWidth="300" styleClass="form-control" />
-                    </children>
-                </VBox>
-                <VBox spacing="10">
-                    <children>
-                        <Label text="Quantidade por linha:" styleClass="form-label" />
-                        <TextField fx:id="quantityField" promptText="Digite a quantidade por linha" prefWidth="300" styleClass="form-control" />
-                    </children>
-                </VBox>
-            </children>
-        </HBox>
-        
-        <HBox spacing="15">
-            <children>
-                <VBox spacing="10">
-                    <children>
-                        <Label text="Formato da etiqueta:" styleClass="form-label" />
-                        <ComboBox fx:id="formatFieldComboBox" prefWidth="300" styleClass="form-control" />
-                    </children>
-                </VBox>
-                <VBox spacing="10">
-                    <children>
-                        <Label text="Tipo de etiqueta:" styleClass="form-label" />
-                        <ComboBox fx:id="labelTypeComboBox" prefWidth="300" styleClass="form-control" />
-                    </children>
-                </VBox>
-            </children>
-        </HBox>
-        
-        <Label text="Opções:" styleClass="form-label" />
-        <HBox spacing="15">
-            <children>
-                <CheckBox fx:id="option1CheckBox" text="Opção 1" styleClass="form-check-input" />
-                <CheckBox fx:id="option2CheckBox" text="Opção 2" styleClass="form-check-input" />
-                <CheckBox fx:id="option3CheckBox" text="Opção 3" styleClass="form-check-input" />
-            </children>
-        </HBox>
-        
-        <Separator />
-        
-        <HBox spacing="10">
-            <children>
-                <Button fx:id="generateButton" text="Gerar Etiqueta" prefWidth="150" onAction="#generateLabel" styleClass="btn btn-success" />
-                <Button fx:id="clearButton" text="Limpar" prefWidth="150" onAction="#clearFields" styleClass="btn btn-danger" />
-                <Button fx:id="printButton" text="Imprimir" prefWidth="150" onAction="#printLabel" styleClass="btn btn-warning" />
-                <Button fx:id="printerSettingsButton" text="Configurações da Impressora" prefWidth="200" onAction="#openPrinterSettings" styleClass="btn btn-info" />
-                <Button fx:id="visualizeButton" text="Visualizar ZPL" prefWidth="200" onAction="#visualizeZpl" styleClass="btn btn-info" />
-                <Button fx:id="saveButton" text="Salvar ZPL" prefWidth="150" onAction="#saveZplToFile" styleClass="btn btn-primary" />
-                <Button fx:id="filterButton" text="Filtrar Dados" prefWidth="150" onAction="#filterData" styleClass="btn btn-secondary" />
-            </children>
-        </HBox>
-        
-        <HBox spacing="15">
-            <children>
-                <VBox spacing="10">
-                    <children>
-                        <Label text="Filtrar por EAN:" styleClass="form-label" />
-                        <TextField fx:id="filterEanField" promptText="Digite o EAN" prefWidth="300" styleClass="form-control" />
-                    </children>
-                </VBox>
-                <VBox spacing="10">
-                    <children>
-                        <Label text="Filtrar por SKU:" styleClass="form-label" />
-                        <TextField fx:id="filterSkuField" promptText="Digite o SKU" prefWidth="300" styleClass="form-control" />
-                    </children>
-                </VBox>
-                <VBox spacing="10">
-                    <children>
-                        <Label text="Filtrar por Quantidade:" styleClass="form-label" />
-                        <TextField fx:id="filterQuantityField" promptText="Digite a quantidade" prefWidth="300" styleClass="form-control" />
-                    </children>
-                </VBox>
-            </children>
-        </HBox>
-        
-        <Label text="ZPL Gerado:" styleClass="form-label" />
-        <TextArea fx:id="outputArea" promptText="O ZPL gerado aparecerá aqui" prefHeight="400" prefWidth="800" styleClass="form-control" />
-    </children>
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20" />
-    </padding>
-</VBox>
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zpl.zpl.view.GenerateZplLabelView">
+    <VBox spacing="15" styleClass="container" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <children>
+            <Label text="Gerador de Etiquetas ZPL" styleClass="h1" />
+            
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <children>
+                    <Button text="Importar Planilha" onAction="#importSpreadsheet" styleClass="btn btn-primary" />
+                    <Button text="Baixar Modelo de Planilha" onAction="#downloadTemplate" styleClass="btn btn-secondary" />
+                </children>
+            </HBox>
+
+            <TableView fx:id="dataTable" prefHeight="200" prefWidth="800">
+                <columns>
+                    <TableColumn text="EAN" fx:id="eanColumn" />
+                    <TableColumn text="SKU" fx:id="skuColumn" />
+                    <TableColumn text="Quantidade" fx:id="quantityColumn" />
+                </columns>
+            </TableView>
+            
+            <Label text="Dados da Etiqueta" styleClass="h2" />
+            <HBox spacing="15">
+                <children>
+                    <VBox spacing="10">
+                        <children>
+                            <Label text="EAN:" styleClass="form-label" />
+                            <TextField fx:id="eanField" promptText="Digite o EAN" prefWidth="250" styleClass="form-control" />
+                        </children>
+                    </VBox>
+                    <VBox spacing="10">
+                        <children>
+                            <Label text="SKU:" styleClass="form-label" />
+                            <TextField fx:id="skuField" promptText="Digite o SKU" prefWidth="250" styleClass="form-control" />
+                        </children>
+                    </VBox>
+                    <VBox spacing="10">
+                        <children>
+                            <Label text="Quantidade por linha:" styleClass="form-label" />
+                            <TextField fx:id="quantityField" promptText="Digite a quantidade por linha" prefWidth="250" styleClass="form-control" />
+                        </children>
+                    </VBox>
+                </children>
+            </HBox>
+            
+            <HBox spacing="15">
+                <children>
+                    <VBox spacing="10">
+                        <children>
+                            <Label text="Formato da etiqueta:" styleClass="form-label" />
+                            <ComboBox fx:id="formatFieldComboBox" prefWidth="250" styleClass="form-control" />
+                        </children>
+                    </VBox>
+                    <VBox spacing="10">
+                        <children>
+                            <Label text="Tipo de etiqueta:" styleClass="form-label" />
+                            <ComboBox fx:id="labelTypeComboBox" prefWidth="250" styleClass="form-control" />
+                        </children>
+                    </VBox>
+                </children>
+            </HBox>
+
+            <HBox spacing="15">
+                <children>
+                    <VBox spacing="10">
+                        <children>
+                            <Label text="Largura:" styleClass="form-label" />
+                            <Spinner fx:id="labelWidthSpinner" prefWidth="100" />
+                        </children>
+                    </VBox>
+                    <VBox spacing="10">
+                        <children>
+                            <Label text="Altura:" styleClass="form-label" />
+                            <Spinner fx:id="labelHeightSpinner" prefWidth="100" />
+                        </children>
+                    </VBox>
+                    <VBox spacing="10">
+                        <children>
+                            <Label text="Colunas:" styleClass="form-label" />
+                            <Spinner fx:id="columnsSpinner" prefWidth="100" />
+                        </children>
+                    </VBox>
+                    <VBox spacing="10">
+                        <children>
+                            <Label text="Linhas:" styleClass="form-label" />
+                            <Spinner fx:id="rowsSpinner" prefWidth="100" />
+                        </children>
+                    </VBox>
+                </children>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER">
+                <children>
+                    <Button fx:id="generateButton" text="Gerar Etiqueta" prefWidth="150" onAction="#generateLabel" styleClass="btn btn-success" />
+                    <Button fx:id="clearButton" text="Limpar" prefWidth="150" onAction="#clearFields" styleClass="btn btn-danger" />
+                    <Button fx:id="printButton" text="Imprimir" prefWidth="150" onAction="#printLabel" styleClass="btn btn-warning" />
+                    <Button fx:id="saveButton" text="Salvar ZPL" prefWidth="150" onAction="#saveZplToFile" styleClass="btn btn-primary" />
+                    <Button fx:id="selectPrinterButton" text="Selecionar Impressora" prefWidth="150" styleClass="btn btn-primary" />
+                </children>
+            </HBox>
+
+            <VBox fx:id="printerSelectionBox" spacing="10" visible="false">
+                <children>
+                    <Label text="Selecione uma Impressora:" />
+                    <ComboBox fx:id="printerComboBox" prefWidth="250" />
+                </children>
+            </VBox>
+
+            <Label text="Filtros de Dados" styleClass="h2" />
+            <HBox spacing="15">
+                <children>
+                    <VBox spacing="10">
+                        <children>
+                            <Label text="Filtrar por EAN:" styleClass="form-label" />
+                            <TextField fx:id="filterEanField" promptText="Digite o EAN" prefWidth="250" styleClass="form-control" />
+                        </children>
+                    </VBox>
+                    <VBox spacing="10">
+                        <children>
+                            <Label text="Filtrar por SKU:" styleClass="form-label" />
+                            <TextField fx:id="filterSkuField" promptText="Digite o SKU" prefWidth="250" styleClass="form-control" />
+                        </children>
+                    </VBox>
+                    <VBox spacing="10">
+                        <children>
+                            <Label text="Filtrar por Quantidade:" styleClass="form-label" />
+                            <TextField fx:id="filterQuantityField" promptText="Digite a quantidade" prefWidth="250" styleClass="form-control" />
+                        </children>
+                    </VBox>
+                </children>
+            </HBox>
+
+            <Label text="ZPL Gerado:" styleClass="form-label" />
+            <TextArea fx:id="outputArea" promptText="O ZPL gerado aparecerá aqui" prefHeight="300" prefWidth="800" styleClass="form-control" />
+        </children>
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20" />
+        </padding>
+    </VBox>
+</AnchorPane>

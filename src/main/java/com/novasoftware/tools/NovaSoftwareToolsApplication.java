@@ -14,7 +14,7 @@ import com.novasoftware.tools.infrastructure.http.controller.auth.LoginControlle
 
 public class NovaSoftwareToolsApplication extends Application {
 
-    private static final String GLOBAL_CSS = "/css/dark-theme.css";
+    private static final String GLOBAL_CSS = "/css/style.css";
 
     @Override
     public void start(Stage primaryStage) throws Exception {

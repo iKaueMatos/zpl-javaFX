@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 public class MainScreen extends Application {
 
-    private static final String GLOBAL_CSS = "/css/dark-theme.css";
+    private static final String GLOBAL_CSS = "/css/style.css";
 
     @Override
     public void start(Stage primaryStage) throws Exception {

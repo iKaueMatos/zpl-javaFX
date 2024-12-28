@@ -11,6 +11,8 @@ module com.zpl.zpl {
     requires com.almasb.fxgl.all;
     requires usb.api;
     requires MaterialFX;
+    requires javafx.controls;
+    requires javafx.fxml;
 
     opens com.novasoftware.tools to javafx.fxml;
     exports com.novasoftware.tools;
@@ -27,4 +29,6 @@ module com.zpl.zpl {
     opens com.novasoftware.tools.infrastructure.http.controller.tools to javafx.fxml;
     exports com.novasoftware.tools.infrastructure.http.controller.auth;
     opens com.novasoftware.tools.infrastructure.http.controller.auth to javafx.fxml;
+    exports com.novasoftware.tools.infrastructure.http.controller.spreadsheet to javafx.fxml;
+    opens com.novasoftware.tools.infrastructure.http.controller.spreadsheet to javafx.fxml;
 }

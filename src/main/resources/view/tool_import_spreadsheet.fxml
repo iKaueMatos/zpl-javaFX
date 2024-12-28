@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.control.TextArea?>
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.tools.infrastructure.http.controller.spreadsheet.SpreadsheetController">
+    <VBox spacing="15" styleClass="container" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <children>
+            <Label text="Importar e Analisar Planilha" styleClass="h1 mfx-title" />
+
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <children>
+                    <MFXButton text="Importar Planilha" onAction="#importSpreadsheet" styleClass="mfx-button mfx-primary" />
+                    <MFXButton text="Baixar Modelo de Planilha" onAction="#downloadTemplate" styleClass="mfx-button mfx-secondary" />
+                </children>
+            </HBox>
+
+            <MFXTableView fx:id="dataTable" prefHeight="200" prefWidth="800" styleClass="mfx-table-view"></MFXTableView>
+
+            <HBox spacing="10" alignment="CENTER">
+                <children>
+                    <MFXButton fx:id="analyzeButton" text="Analisar Dados" prefWidth="150" onAction="#analyzeData" styleClass="mfx-button mfx-success" />
+                    <MFXButton fx:id="printButton" text="Imprimir Dados" prefWidth="150" onAction="#printData" styleClass="mfx-button mfx-warning" />
+                </children>
+            </HBox>
+
+            <Label text="Filtros de Dados" styleClass="h2 mfx-subtitle" />
+            <HBox spacing="15">
+                <children>
+                    <VBox spacing="10">
+                        <children>
+                            <Label text="Filtrar por EAN:" styleClass="form-label mfx-label" />
+                            <MFXTextField fx:id="filterEanField" promptText="Digite o EAN" prefWidth="250" />
+                        </children>
+                    </VBox>
+                    <VBox spacing="10">
+                        <children>
+                            <Label text="Filtrar por SKU:" styleClass="form-label mfx-label" />
+                            <MFXTextField fx:id="filterSkuField" promptText="Digite o SKU" prefWidth="250" />
+                        </children>
+                    </VBox>
+                    <VBox spacing="10">
+                        <children>
+                            <Label text="Filtrar por Quantidade:" styleClass="form-label mfx-label" />
+                            <MFXTextField fx:id="filterQuantityField" promptText="Digite a quantidade" prefWidth="250" />
+                        </children>
+                    </VBox>
+                </children>
+            </HBox>
+
+            <Label text="Dados Analisados:" styleClass="form-label mfx-label" />
+            <TextArea fx:id="outputArea" promptText="Os dados analisados aparecerão aqui" prefHeight="300" prefWidth="800" />
+        </children>
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20" />
+        </padding>
+    </VBox>
+</AnchorPane>

@@ -16,10 +16,19 @@ public class SpreadsheetReader {
     private static final List<String> MANDATORY_COLUMNS = Arrays.asList("EAN", "SKU", "Quantidade");
 
     public List<Map<String, Object>> readSpreadsheet(File file) throws IOException {
+        if (file == null || !file.exists()) {
+            throw new IOException("The file is null or does not exist.");
+        }
+
         List<Map<String, Object>> data = new ArrayList<>();
         try (FileInputStream fis = new FileInputStream(file);
              Workbook workbook = new XSSFWorkbook(fis)) {
+
             Sheet sheet = workbook.getSheetAt(0);
+            if (sheet == null) {
+                throw new IOException("The spreadsheet does not contain any sheets.");
+            }
+
             Row headerRow = sheet.getRow(0);
             if (headerRow == null) {
                 throw new IOException("The spreadsheet is empty or does not have a header row.");
@@ -27,7 +36,7 @@ public class SpreadsheetReader {
 
             List<String> columns = new ArrayList<>();
             for (Cell cell : headerRow) {
-                columns.add(cell.getStringCellValue());
+                columns.add(cell.getStringCellValue().trim());
             }
 
             validateMandatoryColumns(columns);
@@ -38,12 +47,14 @@ public class SpreadsheetReader {
 
                 Map<String, Object> rowData = new HashMap<>();
                 for (int colIndex = 0; colIndex < columns.size(); colIndex++) {
-                    Cell cell = row.getCell(colIndex);
                     String columnName = columns.get(colIndex);
+                    Cell cell = row.getCell(colIndex);
                     rowData.put(columnName, getCellValue(cell));
                 }
                 data.add(rowData);
             }
+        } catch (IOException e) {
+            throw new IOException("Error reading spreadsheet: " + e.getMessage(), e);
         }
         return data;
     }
@@ -77,7 +88,11 @@ public class SpreadsheetReader {
             case BOOLEAN:
                 return cell.getBooleanCellValue();
             case FORMULA:
-                return cell.getCellFormula();
+                try {
+                    return cell.getStringCellValue();
+                } catch (IllegalStateException e) {
+                    return cell.getNumericCellValue();
+                }
             case BLANK:
                 return "";
             default:

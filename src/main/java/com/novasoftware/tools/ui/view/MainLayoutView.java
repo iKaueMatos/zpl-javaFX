@@ -135,4 +135,9 @@ public class MainLayoutView {
     private void loadGenerateZPL() {
         loadDynamicContent("/view/tool_zpl_tag.fxml");
     }
+
+    @FXML
+    private void loadImport() {
+        loadDynamicContent("/view/tool_import_spreadsheet.fxml");
+    }
 }

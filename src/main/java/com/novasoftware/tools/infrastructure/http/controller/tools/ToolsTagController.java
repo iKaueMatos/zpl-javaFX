@@ -1,24 +1,5 @@
 package com.novasoftware.tools.infrastructure.http.controller.tools;
 
-import com.novasoftware.tools.application.usecase.LabelGenerator;
-import com.novasoftware.tools.application.usecase.SpreadsheetReader;
-import com.novasoftware.tools.domain.service.PrinterService;
-import com.novasoftware.tools.domain.service.ZplFileService;
-import com.novasoftware.tools.infrastructure.database.DatabaseManager;
-
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.print.PrinterJob;
-import javafx.scene.control.*;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,80 +10,104 @@ import java.util.ResourceBundle;
 
 import javax.print.PrintService;
 
-import javafx.event.ActionEvent;
+import com.novasoftware.tools.application.usecase.LabelGenerator;
+import com.novasoftware.tools.application.usecase.SpreadsheetReader;
+import com.novasoftware.tools.domain.service.PrinterService;
+import com.novasoftware.tools.domain.service.ZplFileService;
+import com.novasoftware.tools.infrastructure.database.DatabaseManager;
+
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXSpinner;
+import io.github.palexdev.materialfx.controls.MFXTableColumn;
+import io.github.palexdev.materialfx.controls.MFXTableView;
+import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.models.spinner.IntegerSpinnerModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.print.PrinterJob;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class ToolsTagController implements Initializable {
     @FXML
-    private TextField eanField;
+    private MFXTextField eanField;
 
     @FXML
-    private TextField skuField;
+    private MFXTextField skuField;
 
     @FXML
-    private TextField quantityField;
+    private MFXTextField quantityField;
 
     @FXML
-    private ComboBox<String> formatFieldComboBox;
+    private MFXComboBox<String> formatFieldComboBox;
 
     @FXML
-    private ComboBox<String> labelTypeComboBox;
+    private MFXComboBox<String> labelTypeComboBox;
 
     @FXML
-    private Button generateButton;
+    private MFXButton generateButton;
 
     @FXML
-    private Button clearButton;
+    private MFXButton clearButton;
 
     @FXML
-    private Button printButton;
+    private MFXButton printButton;
 
     @FXML
-    private Button printerSettingsButton;
+    private MFXButton printerSettingsButton;
 
     @FXML
-    private Button visualizeButton;
+    private MFXButton visualizeButton;
 
     @FXML
-    private Button saveButton;
+    private MFXButton saveButton;
 
     @FXML
-    private Button filterButton;
+    private MFXButton filterButton;
 
     @FXML
-    private TextField filterEanField;
+    private MFXTextField filterEanField;
 
     @FXML
-    private TextField filterSkuField;
+    private MFXTextField filterSkuField;
 
     @FXML
-    private TextField filterQuantityField;
+    private MFXTextField filterQuantityField;
 
     @FXML
     private TextArea outputArea;
 
     @FXML
-    private TableView<Map<String, Object>> dataTable;
+    private MFXTableView<Map<String, Object>> dataTable;
 
     @FXML
-    private TableColumn<Map<String, Object>, String> eanColumn;
+    private MFXTableColumn<Map<String, Object>> eanColumn;
 
     @FXML
-    private TableColumn<Map<String, Object>, String> skuColumn;
+    private MFXTableColumn<Map<String, Object>> skuColumn;
 
     @FXML
-    private TableColumn<Map<String, Object>, String> quantityColumn;
+    private MFXTableColumn<Map<String, Object>> quantityColumn;
 
     @FXML
-    private Spinner<Integer> labelWidthSpinner;
+    private MFXSpinner<Integer> labelWidthSpinner;
 
     @FXML
-    private Spinner<Integer> labelHeightSpinner;
+    private MFXSpinner<Integer> labelHeightSpinner;
 
     @FXML
-    private Spinner<Integer> columnsSpinner;
+    private MFXSpinner<Integer> columnsSpinner;
 
     @FXML
-    private Spinner<Integer> rowsSpinner;
+    private MFXSpinner<Integer> rowsSpinner;
 
     @FXML
     private AnchorPane rootPane;
@@ -111,16 +116,16 @@ public class ToolsTagController implements Initializable {
     private HBox menuContainer;
 
     @FXML
-    private Button menuButton;
+    private MFXButton menuButton;
 
     @FXML
-    private Button selectPrinterButton;
+    private MFXButton selectPrinterButton;
 
     @FXML
     private VBox printerSelectionBox;
 
     @FXML
-    private ComboBox<String> printerComboBox;
+    private MFXComboBox<String> printerComboBox;
 
     private final LabelGenerator labelGenerator;
     private final SpreadsheetReader spreadsheetReader;
@@ -138,56 +143,27 @@ public class ToolsTagController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        formatFieldComboBox.setItems(FXCollections.observableArrayList("2-Colunas", "1-Coluna", "4-etiquetas por página", "Entiqueta Envio personalizado", "QRCode", "Code128"));
-        labelTypeComboBox.setItems(FXCollections.observableArrayList("Code 128", "Code 39", "EAN-13", "UPC-A", "QR Code"));
+        formatFieldComboBox.setItems(FXCollections.observableArrayList(
+                "2-Colunas", "1-Coluna", "4-etiquetas por página", "Etiqueta Envio personalizado", "QRCode", "Code128"
+        ));
+        labelTypeComboBox.setItems(FXCollections.observableArrayList(
+                "Code 128", "Code 39", "EAN-13", "UPC-A", "QR Code"
+        ));
 
-        eanColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("EAN").toString()));
-        skuColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("SKU").toString()));
-        quantityColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get("Quantidade").toString()));
-
-        dataTable.setItems(data);
         saveButton.setDisable(true);
 
-        labelWidthSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(100, 1000, 400));
-        labelHeightSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(100, 1000, 150));
-        columnsSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 2));
-        rowsSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 2));
+        labelWidthSpinner.setSpinnerModel(new IntegerSpinnerModel(100));
+        labelHeightSpinner.setSpinnerModel(new IntegerSpinnerModel(100));
+        columnsSpinner.setSpinnerModel(new IntegerSpinnerModel(1));
+        rowsSpinner.setSpinnerModel(new IntegerSpinnerModel(1));
+
+        labelWidthSpinner.setValue(400);
+        labelHeightSpinner.setValue(150);
+        columnsSpinner.setValue(2);
+        rowsSpinner.setValue(2);
 
         selectPrinterButton.setOnAction(event -> showPrinterSelection());
         printerComboBox.setOnAction(event -> selectPrinter());
-    }
-
-    @FXML
-    private void importSpreadsheet() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx", "*.xls"));
-        File file = fileChooser.showOpenDialog(new Stage());
-        if (file != null) {
-            try {
-                List<Map<String, Object>> importedData = spreadsheetReader.readSpreadsheet(file);
-                data.clear();
-                data.addAll(importedData);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Importação bem-sucedida");
-                alert.setHeaderText(null);
-                alert.setContentText("Planilha importada com sucesso!");
-                alert.showAndWait();
-
-                eanField.setDisable(true);
-                skuField.setDisable(true);
-                quantityField.setDisable(true);
-                if (!importedData.isEmpty()) {
-                    quantityField.setText(importedData.get(0).get("Quantidade").toString());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro de Importação");
-                alert.setHeaderText(null);
-                alert.setContentText("Ocorreu um erro ao importar a planilha.");
-                alert.showAndWait();
-            }
-        }
     }
 
     @FXML
@@ -377,34 +353,5 @@ public class ToolsTagController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    @FXML
-    private void downloadTemplate(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
-        fileChooser.setInitialFileName("template.xlsx");
-        File file = fileChooser.showSaveDialog(new Stage());
-
-        if (file != null) {
-            try (FileWriter writer = new FileWriter(file)) {
-                writer.write("EAN\tSKU\tQuantidade\n");
-                writer.write("1234567890123\tSKU123\t10\n");
-                writer.write("9876543210987\tSKU987\t20\n");
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Salvar Modelo de Planilha");
-                alert.setHeaderText(null);
-                alert.setContentText("Modelo de planilha salvo com sucesso!");
-                alert.showAndWait();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erro ao Salvar");
-                alert.setHeaderText(null);
-                alert.setContentText("Ocorreu um erro ao salvar o modelo de planilha.");
-                alert.showAndWait();
-            }
-        }
     }
 }

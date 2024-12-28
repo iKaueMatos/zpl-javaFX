@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.zpl</groupId>
-    <artifactId>zpl-javaFX</artifactId>
+    <artifactId>nova-javafx</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>zpl</name>
 
@@ -158,7 +158,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.zpl.zpl/com.zpl.zpl.ZplApplication</mainClass>
+                            <mainClass>com.zpl.zpl/com.novasoftware.tools.NovaSoftwareToolsApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

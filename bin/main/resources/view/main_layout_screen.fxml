@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ScrollPane?>
+<BorderPane xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.tools.ui.view.MainLayoutView">
+    <top>
+        <HBox fx:id="titleBar" spacing="10" style="-fx-background-color: #000000; -fx-padding: 10; -fx-alignment: center-left;">
+            <Label fx:id="menuButton" text="☰" style="-fx-font-size: 16px; -fx-text-fill: #FFA500; -fx-cursor: hand;" onMouseClicked="#handleMenuButton" />
+            <Label text="Menu de Ferramentas - Nova Software" style="-fx-font-size: 14px; -fx-text-fill: #FFA500;" />
+            <HBox style="-fx-alignment: center-right;" HBox.hgrow="ALWAYS">
+                <Label fx:id="minimizeLabel" text="-" style="-fx-font-size: 16px; -fx-text-fill: #FFA500; -fx-cursor: hand; -fx-padding: 0 10 0 0;" />
+                <Label fx:id="maximizeLabel" text="☐" style="-fx-font-size: 16px; -fx-text-fill: #FFA500; -fx-cursor: hand; -fx-padding: 0 10 0 0;" />
+                <Label fx:id="closeLabel" text="✖" style="-fx-font-size: 16px; -fx-text-fill: #FFA500; -fx-cursor: hand; -fx-padding: 0 10 0 0;" />
+            </HBox>
+        </HBox>
+    </top>
+
+    <left>
+        <VBox fx:id="menuPane" spacing="20" style="-fx-background-color: #1A508B; -fx-pref-width: 250; -fx-padding: 20;">
+            <Label text="N" style="-fx-font-size: 50px; -fx-font-weight: bold; -fx-text-fill: #FFFFFF; -fx-alignment: center;"/>
+
+            <Button text="Dashboard" style="-fx-background-color: transparent; -fx-text-fill: #FFFFFF; -fx-font-size: 16px; -fx-alignment: center-left;" onAction="#loadGenerateZPL" />
+            <Button text="Configurações" style="-fx-background-color: transparent; -fx-text-fill: #FFFFFF; -fx-font-size: 16px; -fx-alignment: center-left;" onAction="#loadConfig" />
+
+            <VBox style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS" />
+            <Button text="Sair" style="-fx-background-color: transparent; -fx-text-fill: #FF0000; -fx-font-size: 16px; -fx-alignment: center-left;" />
+            <Label text="Nova Software Hub" style="-fx-text-fill: #D1E8FF; -fx-font-size: 12px;"/>
+            <Label text="© 2023 Powered by Nova Software" style="-fx-text-fill: #D1E8FF; -fx-font-size: 12px;"/>
+        </VBox>
+    </left>
+
+    <center>
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent;">
+            <VBox fx:id="contentPane" style="-fx-background-color: #F4F4F4; -fx-padding: 10;" />
+        </ScrollPane>
+    </center>
+</BorderPane>

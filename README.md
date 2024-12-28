@@ -1,7 +1,7 @@
-# Gerador de Arquivos ZPL
+# Nova Tools
 
 ## Visão Geral
-O Gerador de Arquivos ZPL é uma aplicação desktop Java projetada para facilitar a geração e manipulação de arquivos ZPL (Zebra Programming Language). Esta aplicação permite que os usuários criem conteúdo ZPL com base em suas entradas e o convertam em formatos ZPL e PDF.
+O Nova Tools é um software desktop multifuncional desenvolvido para facilitar diversas tarefas do dia a dia. Uma das principais funcionalidades é o Gerador de Arquivos ZPL, uma aplicação Java que permite a criação e manipulação de arquivos ZPL (Zebra Programming Language). Com esta ferramenta, os usuários podem gerar conteúdo ZPL a partir de suas entradas e convertê-lo para os formatos ZPL e PDF.
 
 ## Funcionalidades
 - Gerar arquivos ZPL a partir de conteúdo definido pelo usuário.
@@ -16,36 +16,41 @@ zpl-file-generator
 │   ├── main
 │   │   ├── java
 │   │   │   ├── com
-│   │   │   │   └── zpl
-│   │   │   │       ├── application
-│   │   │   │       │   ├── ZplApplication.java
-│   │   │   │       │   └── ZplFileGenerator.java
-│   │   │   │       ├── domain
-│   │   │   │       │   ├── model
-│   │   │   │       │   │   └── ZplFile.java
-│   │   │   │       │   └── service
-│   │   │   │       │       ├── PrinterService.java
-│   │   │   │       │       └── ZplFileService.java
-│   │   │   │       ├── infrastructure
-│   │   │   │       │   ├── database
-│   │   │   │       │   │   ├── DatabaseInitializer.java
-│   │   │   │       │   │   └── DatabaseManager.java
-│   │   │   │       │   ├── PdfGenerator.java
-│   │   │   │       │   └── ZplFileRepository.java
-│   │   │   │       ├── ui
-│   │   │   │       │   ├── StageInitializer.java
-│   │   │   │       │   └── controller
-│   │   │   │       │       ├── GenerateZplLabelView.java
-│   │   │   │       │       ├── VisualizeZplView.java
-│   │   │   │       │       └── ZplFileController.java
-│   │   │   │       └── usecase
-│   │   │   │           ├── LabelGenerator.java
-│   │   │   │           └── SpreadsheetReader.java
+│   │   │   │   └── novasoftware
+│   │   │   │       ├── tools
+│   │   │   │       │   ├── NovaSoftwareToolsApplication.java
+│   │   │   │       │   ├── infrastructure
+│   │   │   │       │   │   ├── database
+│   │   │   │       │   │   │   ├── DatabaseInitializer.java
+│   │   │   │       │   │   │   └── DatabaseManager.java
+│   │   │   │       │   │   ├── http
+│   │   │   │       │   │     └── controller
+│   │   │   │       │   │           └── auth
+│   │   │   │       │   │             └── LoginController.java
+│   │   │   │       │   ├── ui
+│   │   │   │       │   │   ├── util
+│   │   │   │       │   │   │   └── CustomAlert.java
+│   │   │   │       │   │   ├── view
+│   │   │   │       │   │   │   ├── MainLayoutView.java
+│   │   │   │       │   │   │   └── MainScreen.java
+│   │   │   │       │   │   └── StageInitializer.java
+│   │   │   │       │   └── usecase
+│   │   │   │       │       ├── LabelGenerator.java
+│   │   │   │       │       └── SpreadsheetReader.java
 │   │   └── resources
 │   │       └── view
-│   │           ├── GenerateZplLabelView.fxml
-│   │           ├── VisualizeZplView.fxml
-│   │           └── StartupView.fxml
+│   │           ├── assets
+│   │           │   ├── logo-app.jpg
+│   │           │   └── logo.png
+│   │           ├── css
+│   │           │   └── tool-zpl.css
+│   │           ├── fxml
+│   │           │   ├── configuration_screen.fxml
+│   │           │   ├── loading_screen.fxml
+│   │           │   ├── login_screen.fxml
+│   │           │   ├── main_layout_screen.fxml
+│   │           │   ├── tool_import_spreadsheet_screen.fxml
+│   │           │   └── tool_zpl_tag.fxml
 ├── build.gradle
 ├── LICENSE
 └── README.md
@@ -55,11 +60,11 @@ zpl-file-generator
 1. Clone o repositório para sua máquina local.
 2. Navegue até o diretório do projeto.
 3. Construa o projeto usando Gradle:
-   ```
+   ```sh
    ./gradlew build
    ```
 4. Execute a aplicação:
-   ```
+   ```sh
    ./gradlew run
    ```
 

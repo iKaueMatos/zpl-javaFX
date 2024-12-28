@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.novasoftware.tools.infrastructure.http.controller.auth.LoginController">
+
+    <VBox>
+        <HBox fx:id="titleBar" alignment="CENTER_RIGHT" styleClass="title-bar" maxHeight="30.0"
+              onMousePressed="#onMousePressed" onMouseDragged="#onMouseDragged">
+            <Label fx:id="titleLabel" styleClass="title-label" />
+            <HBox alignment="CENTER" spacing="10" styleClass="window-controls">
+                <MFXButton fx:id="minimizeButton" styleClass="window-button" text="−" onAction="#handleMinimize" />
+                <MFXButton fx:id="closeButton" styleClass="window-button" text="✕" onAction="#handleClose" />
+            </HBox>
+        </HBox>
+
+        <HBox alignment="CENTER" styleClass="login-container" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" spacing="0">
+            <VBox alignment="CENTER" spacing="30" styleClass="left-panel" HBox.hgrow="ALWAYS">
+                <Label styleClass="logo-title" text="Novo Software" />
+                <Label alignment="CENTER" styleClass="subtitle" text="Inovando soluções para você." />
+            </VBox>
+
+            <VBox alignment="CENTER" spacing="40" styleClass="right-panel" HBox.hgrow="ALWAYS">
+                <VBox alignment="CENTER" spacing="10">
+                    <Label styleClass="welcome-title" text="Bem-vindo de volta!" />
+                    <Label styleClass="welcome-subtitle" text="Acesse sua conta para continuar com as soluções inteligentes." />
+                </VBox>
+
+                <VBox alignment="CENTER" spacing="24">
+                    <MFXTextField fx:id="usernameField" prefWidth="350.0" floatMode="ABOVE" floatingText="E-mail" />
+                    <MFXPasswordField fx:id="passwordField" prefWidth="350.0" floatMode="ABOVE" floatingText="Senha" />
+                </VBox>
+
+                <VBox alignment="CENTER" spacing="20">
+                    <MFXButton onAction="#handleLogin" prefHeight="50.0" prefWidth="250.0" styleClass="primary-button" text="Entrar" />
+                    <Label onMouseClicked="#handleForgotPassword" styleClass="link-text" text="Esqueceu sua senha?" />
+                </VBox>
+
+                <HBox alignment="CENTER" spacing="5">
+                    <Label styleClass="small-text" text="Novo por aqui?" />
+                    <Label onMouseClicked="#handleSignUp" styleClass="link-bold-text" text="Cadastre-se agora" />
+                </HBox>
+
+                <Label styleClass="footer-text" text="© 2024 Novo Software - Todos os direitos reservados." />
+            </VBox>
+        </HBox>
+    </VBox>
+</StackPane>

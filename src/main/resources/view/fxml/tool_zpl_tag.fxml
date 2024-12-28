@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.control.TextArea?>
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.tools.infrastructure.http.controller.tools.ToolsTagController">
+    <VBox spacing="20" styleClass="container" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <children>
+            <Label text="Gerador de Etiquetas ZPL" styleClass="h1 mfx-title" />
+
+            <VBox spacing="15">
+                <children>
+                    <Label text="Dados da Etiqueta" styleClass="h2 mfx-subtitle" />
+                    <HBox spacing="20">
+                        <children>
+                            <MFXTextField fx:id="eanField" promptText="Digite o EAN" prefWidth="250" />
+                            <MFXTextField fx:id="skuField" promptText="Digite o SKU" prefWidth="250" />
+                            <MFXTextField fx:id="quantityField" promptText="Digite a quantidade por linha" prefWidth="250" />
+                        </children>
+                    </HBox>
+                </children>
+            </VBox>
+
+            <VBox spacing="15">
+                <children>
+                    <Label text="Configuração da Etiqueta" styleClass="h2 mfx-subtitle" />
+                    <HBox spacing="20">
+                        <children>
+                            <MFXComboBox fx:id="formatFieldComboBox" promptText="Formato da Etiqueta" prefWidth="250" />
+                            <MFXComboBox fx:id="labelTypeComboBox" promptText="Tipo de Etiqueta" prefWidth="250" />
+                        </children>
+                    </HBox>
+                </children>
+            </VBox>
+
+            <VBox spacing="15">
+                <children>
+                    <Label text="Tamanho da Etiqueta" styleClass="h2 mfx-subtitle" />
+                    <HBox spacing="20">
+                        <children>
+                            <MFXSpinner fx:id="labelWidthSpinner" promptText="Largura" prefWidth="100" />
+                            <MFXSpinner fx:id="labelHeightSpinner" promptText="Altura" prefWidth="100" />
+                            <MFXSpinner fx:id="columnsSpinner" promptText="Colunas" prefWidth="100" />
+                            <MFXSpinner fx:id="rowsSpinner" promptText="Linhas" prefWidth="100" />
+                        </children>
+                    </HBox>
+                </children>
+            </VBox>
+
+            <HBox spacing="15" alignment="CENTER">
+                <children>
+                    <MFXButton fx:id="generateButton" text="Gerar Etiqueta" prefWidth="150" onAction="#generateLabel" styleClass="mfx-success" />
+                    <MFXButton fx:id="clearButton" text="Limpar" prefWidth="150" onAction="#clearFields" styleClass="mfx-danger" />
+                    <MFXButton fx:id="printButton" text="Imprimir" prefWidth="150" onAction="#printLabel" styleClass="mfx-warning" />
+                    <MFXButton fx:id="saveButton" text="Salvar ZPL" prefWidth="150" onAction="#saveZplToFile" styleClass="mfx-primary" />
+                </children>
+            </HBox>
+
+            <VBox spacing="15">
+                <children>
+                    <Label text="ZPL Gerado" styleClass="h2 mfx-subtitle" />
+                    <TextArea fx:id="outputArea" promptText="O ZPL gerado aparecerá aqui" prefHeight="300" prefWidth="800" />
+                </children>
+            </VBox>
+        </children>
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20" />
+        </padding>
+    </VBox>
+</AnchorPane>

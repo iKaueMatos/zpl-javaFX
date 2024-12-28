@@ -11,14 +11,25 @@ module com.zpl.zpl {
     requires com.almasb.fxgl.all;
     requires usb.api;
     requires MaterialFX;
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires org.kordamp.ikonli.materialdesign2;
 
-    opens com.zpl.zpl to javafx.fxml;
-    exports com.zpl.zpl;
-    exports com.zpl.zpl.view to javafx.fxml;
-    opens com.zpl.zpl.view to javafx.fxml;
-    exports com.zpl.zpl.domain.model to javafx.fxml;
-    exports com.zpl.zpl.domain.service to javafx.fxml;
-    exports com.zpl.zpl.ui to javafx.fxml;
-    opens com.zpl.zpl.ui to javafx.fxml;
-    exports com.zpl.zpl.infrastructure.database to javafx.fxml;
+    opens com.novasoftware.tools to javafx.fxml;
+    exports com.novasoftware.tools;
+    opens com.novasoftware.tools.ui.view to javafx.fxml;
+    exports com.novasoftware.tools.domain.model to javafx.fxml;
+    exports com.novasoftware.tools.domain.service to javafx.fxml;
+    exports com.novasoftware.tools.infrastructure.database to javafx.fxml;
+    exports com.novasoftware.tools.infrastructure.http.controller.config;
+    opens com.novasoftware.tools.infrastructure.http.controller.config to javafx.fxml;
+    exports com.novasoftware.tools.infrastructure.http.controller.loading;
+    opens com.novasoftware.tools.infrastructure.http.controller.loading to javafx.fxml;
+    exports com.novasoftware.tools.ui.view;
+    exports com.novasoftware.tools.infrastructure.http.controller.tools;
+    opens com.novasoftware.tools.infrastructure.http.controller.tools to javafx.fxml;
+    exports com.novasoftware.tools.infrastructure.http.controller.auth;
+    opens com.novasoftware.tools.infrastructure.http.controller.auth to javafx.fxml;
+    exports com.novasoftware.tools.infrastructure.http.controller.spreadsheet to javafx.fxml;
+    opens com.novasoftware.tools.infrastructure.http.controller.spreadsheet to javafx.fxml;
 }

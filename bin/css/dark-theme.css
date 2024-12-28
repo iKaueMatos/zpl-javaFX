@@ -1,0 +1,76 @@
+.root {
+  -fx-base: #ffffff;
+  -fx-background: #ffffff;
+  -fx-control-inner-background: #ffffff;
+  -fx-accent: #ff9800;
+  -fx-focus-color: #ff9800;
+  -fx-faint-focus-color: #ff980022;
+  -fx-text-fill: #333333;
+}
+
+.label {
+  -fx-text-fill: #333333;
+  -fx-font-size: 14px;
+  -fx-font-weight: 500;
+}
+
+.button {
+  -fx-background-color: linear-gradient(#ff9800, #e68900);
+  -fx-text-fill: #ffffff;
+  -fx-font-weight: bold;
+  -fx-background-radius: 8;
+  -fx-padding: 12 24;
+  -fx-border-color: #333333;
+  -fx-border-width: 2px;
+}
+
+.button:hover {
+  -fx-background-color: linear-gradient(#e68900, #d07a00);
+  -fx-border-color: #ff9800;
+}
+
+.text-field, .combo-box, .spinner {
+  -fx-background-color: #f9f9f9;
+  -fx-text-fill: #333333;
+  -fx-prompt-text-fill: #aaaaaa;
+  -fx-border-color: #ff9800;
+  -fx-border-radius: 5;
+  -fx-padding: 8;
+}
+
+.table-view {
+  -fx-background-color: #ffffff;
+  -fx-control-inner-background: #f9f9f9;
+  -fx-text-background-color: #333333;
+  -fx-border-color: #ff9800;
+  -fx-border-radius: 5;
+}
+
+.table-view .column-header-background {
+  -fx-background-color: #ff9800;
+  -fx-border-color: #e68900;
+  -fx-text-fill: #ffffff;
+  -fx-font-weight: bold;
+}
+
+.text-area {
+  -fx-background-color: #f9f9f9;
+  -fx-text-fill: #333333;
+  -fx-border-color: #ff9800;
+  -fx-border-radius: 5;
+  -fx-padding: 12;
+}
+
+.progress-indicator {
+  -fx-progress-color: #ff9800;
+}
+
+.scroll-bar {
+  -fx-background-color: #f9f9f9;
+  -fx-border-color: #ff9800;
+}
+
+.scroll-bar .thumb {
+  -fx-background-color: #ff9800;
+  -fx-background-radius: 5;
+}

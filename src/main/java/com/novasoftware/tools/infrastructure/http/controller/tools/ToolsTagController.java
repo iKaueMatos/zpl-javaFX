@@ -119,23 +119,18 @@ public class ToolsTagController implements Initializable {
     private MFXButton menuButton;
 
     @FXML
-    private MFXButton selectPrinterButton;
-
-    @FXML
     private VBox printerSelectionBox;
 
     @FXML
     private MFXComboBox<String> printerComboBox;
 
     private final LabelGenerator labelGenerator;
-    private final SpreadsheetReader spreadsheetReader;
     private final ZplFileService zplFileService;
     private final ObservableList<Map<String, Object>> data;
     private final PrinterService printerService;
 
     public ToolsTagController() {
         this.labelGenerator = new LabelGenerator();
-        this.spreadsheetReader = new SpreadsheetReader();
         this.zplFileService = new ZplFileService();
         this.data = FXCollections.observableArrayList();
         this.printerService = new PrinterService();
@@ -161,9 +156,6 @@ public class ToolsTagController implements Initializable {
         labelHeightSpinner.setValue(150);
         columnsSpinner.setValue(2);
         rowsSpinner.setValue(2);
-
-        selectPrinterButton.setOnAction(event -> showPrinterSelection());
-        printerComboBox.setOnAction(event -> selectPrinter());
     }
 
     @FXML
@@ -238,7 +230,6 @@ public class ToolsTagController implements Initializable {
         outputArea.clear();
         data.clear();
 
-        // Enable fields
         eanField.setDisable(false);
         skuField.setDisable(false);
         quantityField.setDisable(false);

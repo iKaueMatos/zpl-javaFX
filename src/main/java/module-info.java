@@ -13,6 +13,7 @@ module com.zpl.zpl {
     requires MaterialFX;
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.kordamp.ikonli.materialdesign2;
 
     opens com.novasoftware.tools to javafx.fxml;
     exports com.novasoftware.tools;

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <StackPane prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/auth.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.novasoftware.tools.infrastructure.http.controller.auth.LoginController">
+           fx:controller="com.novasoftware.tools.infrastructure.http.controller.auth.RegisterController">
 
     <VBox>
         <HBox fx:id="titleBar" alignment="CENTER_RIGHT" styleClass="title-bar" maxHeight="30.0"
@@ -21,32 +21,29 @@
             </HBox>
         </HBox>
 
-        <HBox alignment="CENTER" styleClass="login-container" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" spacing="0">
+        <HBox alignment="CENTER" styleClass="register-container" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" spacing="0">
             <VBox alignment="CENTER" spacing="30" styleClass="left-panel" HBox.hgrow="ALWAYS">
                 <Label styleClass="logo-title" text="Novo Software" />
                 <Label alignment="CENTER" styleClass="subtitle" text="Inovando soluções para você." />
             </VBox>
 
-            <VBox alignment="CENTER" spacing="40" styleClass="right-panel" HBox.hgrow="ALWAYS">
+            <VBox alignment="CENTER" spacing="30" styleClass="right-panel" HBox.hgrow="ALWAYS">
                 <VBox alignment="CENTER" spacing="10">
-                    <Label styleClass="welcome-title" text="Bem-vindo de volta!" />
-                    <Label styleClass="welcome-subtitle" text="Acesse sua conta para continuar com as soluções inteligentes." />
+                    <Label styleClass="welcome-title" text="Crie sua conta" />
+                    <Label styleClass="welcome-subtitle" text="Preencha os campos abaixo para se registrar." />
                 </VBox>
 
-                <VBox alignment="CENTER" spacing="24">
-                    <MFXTextField fx:id="usernameField" prefWidth="350.0" floatMode="BORDER" floatingText="E-mail" />
+                <VBox alignment="CENTER" spacing="28">
+                    <MFXTextField fx:id="nameField" prefWidth="350.0" floatMode="BORDER" floatingText="Primeiro Nome" />
+                    <MFXTextField fx:id="emailField" prefWidth="350.0" floatMode="BORDER" floatingText="E-mail" />
                     <MFXPasswordField fx:id="passwordField" prefWidth="350.0" floatMode="BORDER" floatingText="Senha" />
+                    <MFXPasswordField fx:id="confirmPasswordField" prefWidth="350.0" floatMode="BORDER" floatingText="Confirme sua Senha" />
                 </VBox>
 
                 <VBox alignment="CENTER" spacing="20">
-                    <MFXButton onAction="#handleLogin" prefHeight="50.0" prefWidth="250.0" styleClass="primary-button" text="Entrar" />
-                    <Label onMouseClicked="#handleForgotPassword" styleClass="link-text" text="Esqueceu sua senha?" />
+                    <MFXButton onAction="#handleRegister" prefHeight="50.0" prefWidth="250.0" styleClass="primary-button" text="Registrar" />
+                    <Label onMouseClicked="#handleBackToLogin" styleClass="link-text" text="Voltar para o login" />
                 </VBox>
-
-                <HBox alignment="CENTER" spacing="5">
-                    <Label styleClass="small-text" text="Novo por aqui?" />
-                    <Label onMouseClicked="#handleSignUp" styleClass="link-bold-text" text="Cadastre-se agora" />
-                </HBox>
 
                 <Label styleClass="footer-text" text="© 2024 Novo Software - Todos os direitos reservados." />
             </VBox>

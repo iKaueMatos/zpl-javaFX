@@ -1,110 +1,16 @@
-.root {
-  -fx-base: #F5F7FA;
-  -fx-background: linear-gradient(to bottom, #ffffff, #f9f9f9);
-  -fx-control-inner-background: #ffffff;
-  -fx-accent: #f97316;
-  -fx-focus-color: #f97316;
-  -fx-faint-focus-color: #f9731640;
-  -fx-text-fill: #0A0A0A;
-  -fx-font-family: 'Roboto', sans-serif;
+.mfx-spinner {
+    -fx-border-color: #F97316;
+    -fx-border-width: 1px;
+    -fx-background-color: #ffffff;
+    -fx-color: #F97316;
 }
 
-.label {
-  -fx-text-fill: #f97316;
-  -fx-font-size: 15px;
-  -fx-font-weight: 600;
+.mfx-spinner .increment-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: #ffffff;
 }
 
-.button {
-  -fx-background-color: #f97316;
-  -fx-text-fill: #FFFFFF;
-  -fx-font-weight: bold;
-  -fx-background-radius: 10;
-  -fx-padding: 10 20;
-  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 6, 0, 0, 2);
-  -fx-cursor: hand;
-}
-
-.button:hover {
-  -fx-background-color: linear-gradient(to right, #0A0A0A, #333333);
-  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.15), 8, 0, 0, 3);
-}
-
-.button:pressed {
-  -fx-background-color: #f9731666;
-  -fx-effect: none;
-}
-
-.text-field, .combo-box, .spinner {
-  -fx-background-color: #FFFFFF;
-  -fx-text-fill: #0A0A0A;
-  -fx-prompt-text-fill: #AAAAAA;
-  -fx-border-color: #e0e0e0;
-  -fx-border-radius: 6;
-  -fx-padding: 8;
-  -fx-background-radius: 6;
-  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 4, 0, 0, 1);
-}
-
-.text-field:focused, .combo-box:focused, .spinner:focused {
-  -fx-border-color: #f97316;
-  -fx-effect: dropshadow(three-pass-box, rgba(249, 115, 22, 0.2), 8, 0, 0, 2);
-}
-
-.table-view {
-  -fx-background-color: #FFFFFF;
-  -fx-control-inner-background: #FAFAFA;
-  -fx-cell-hover-color: #f9731633;
-  -fx-table-cell-border-color: #E0E0E0;
-  -fx-border-radius: 8;
-}
-
-.table-view .column-header {
-  -fx-background-color: linear-gradient(to bottom, #f97316, #e85e15);
-  -fx-text-fill: #FFFFFF;
-  -fx-font-size: 14px;
-  -fx-font-weight: bold;
-  -fx-padding: 10 5;
-}
-
-.table-view .cell {
-  -fx-alignment: center-left;
-  -fx-text-fill: #333333;
-  -fx-font-size: 13px;
-  -fx-padding: 8;
-}
-
-.text-area {
-  -fx-background-color: #FAFAFA;
-  -fx-text-fill: #0A0A0A;
-  -fx-border-color: #e0e0e0;
-  -fx-border-radius: 8;
-  -fx-background-radius: 8;
-  -fx-padding: 14;
-  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 4, 0, 0, 1);
-}
-
-.text-area:focused {
-  -fx-border-color: #f97316;
-  -fx-effect: dropshadow(three-pass-box, rgba(249, 115, 22, 0.2), 8, 0, 0, 2);
-}
-
-.scroll-bar {
-  -fx-background-color: #F5F5F5;
-}
-
-.scroll-bar .thumb {
-  -fx-background-color: #f97316;
-  -fx-background-radius: 6;
-  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 4, 0, 0, 1);
-}
-
-.scroll-bar .thumb:hover {
-  -fx-background-color: #e85e15;
-}
-
-.separator {
-  -fx-background-color: #e0e0e0;
-  -fx-padding: 2 0 2 0;
-  -fx-background-radius: 1;
+.mfx-spinner .decrement-button {
+    -fx-background-color: #FF5722;
+    -fx-text-fill: #ffffff;
 }

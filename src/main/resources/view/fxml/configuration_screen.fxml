@@ -7,7 +7,7 @@
 <?import javafx.geometry.Insets?>
 
 <StackPane xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.tools.infrastructure.http.controller.config.ConfigPrinterController">
-    <VBox spacing="20" alignment="TOP_CENTER" style="-fx-background-color: #f4f4f4; -fx-padding: 20;">
+    <VBox spacing="20" alignment="TOP_CENTER" style="-fx-background-color: #FFFFFF; -fx-padding: 20;">
         <Label text="Configurações Globais" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
         <Label text="As configurações alteradas serão gravadas automaticamente" style="-fx-font-size: 12px; -fx-text-fill: #666;" />
 

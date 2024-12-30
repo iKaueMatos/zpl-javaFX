@@ -1,4 +1,4 @@
-.login-container {
+.login-container, .register-container {
     -fx-background-color: #0A0A0A;
 }
 
@@ -39,7 +39,7 @@
 }
 
 .primary-button {
-    -fx-background-color: #f97316;
+    -fx-background-color: #b916f9;
     -fx-text-fill: #ffffff;
     -fx-font-size: 18px;
     -fx-font-weight: bold;
@@ -115,25 +115,32 @@
     -fx-font-family: 'Arial', sans-serif;
     -fx-font-size: 14px;
     -fx-padding: 2px 6px;
-    -fx-text-fill: #FFFFFF;
+    -fx-text-fill: #0A0A0A;
     -fx-prompt-text-fill: #aaaaaa;
     -fx-cursor: text;
 }
 
 .mfx-text-field:focused, .mfx-password-field:focused {
-    -fx-border-color: #F97316;
+    -fx-border-color: #b916f9;
+    -fx-border-width: 2px;
+    -fx-background-color: #FFFFFF;
+    -fx-effect: none;
+}
+
+.mfx-text-field:hover, .mfx-password-field:hover {
+    -fx-border-color: #b916f9;
+}
+
+.mfx-text-field:focused .border, .mfx-password-field:focused .border {
+    -fx-stroke: transparent;
 }
 
 .mfx-text-field .text, .mfx-password-field .text {
-    -fx-fill: #F97316;
+    -fx-fill: #0A0A0A;
 }
 
 .mfx-text-field .prompt-text, .mfx-password-field .prompt-text {
     -fx-fill: #aaaaaa;
-}
-
-.mfx-text-field:focused .border, .mfx-password-field:focused .border {
-    -fx-stroke: #F97316;
 }
 
 .logo-title {

@@ -1,16 +1,19 @@
 package com.novasoftware.tools.infrastructure.http.controller.auth;
 
 import java.io.IOException;
+import java.net.URL;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class LoginController {
+public class LoginController extends BaseScreenAuthController {
 
     public MFXButton minimizeButton;
 
@@ -28,10 +31,6 @@ public class LoginController {
     @FXML
     private Label titleLabel;
 
-    private Stage stage;
-    private double xOffset = 0;
-    private double yOffset = 0;
-
     private Runnable onLoginSuccess;
 
     public void setStage(Stage stage) {
@@ -40,26 +39,6 @@ public class LoginController {
 
     public void setOnLoginSuccess(Runnable onLoginSuccess) {
         this.onLoginSuccess = onLoginSuccess;
-    }
-
-    @FXML
-    private void handleClose() {
-        if (stage != null) {
-            stage.close();
-        } else {
-            Stage currentStage = (Stage) titleLabel.getScene().getWindow();
-            currentStage.close();
-        }
-    }
-
-    @FXML
-    private void handleMinimize() {
-        if (stage != null) {
-            stage.setIconified(true);
-        } else {
-            Stage currentStage = (Stage) titleLabel.getScene().getWindow();
-            currentStage.setIconified(true);
-        }
     }
 
     @FXML
@@ -87,22 +66,27 @@ public class LoginController {
         System.out.println("Recuperação de senha acionada");
     }
 
-
     @FXML
-    private void handleSignUp() {
-        System.out.println("Botão de cadastro clicado");
-    }
+    public void handleSignUp() {
+        try {
+            URL resource = getClass().getResource("/view/fxml/register_screen.fxml");
 
-    @FXML
-    private void onMousePressed(MouseEvent event) {
-        xOffset = event.getSceneX();
-        yOffset = event.getSceneY();
-    }
+            if (resource == null) {
+                throw new IllegalArgumentException("Arquivo FXML não encontrado: /view/fxml/register_screen.fxml");
+            }
 
-    @FXML
-    private void onMouseDragged(MouseEvent event) {
-        Stage currentStage = (Stage) titleLabel.getScene().getWindow();
-        currentStage.setX(event.getScreenX() - xOffset);
-        currentStage.setY(event.getScreenY() - yOffset);
+            FXMLLoader loader = new FXMLLoader(resource);
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+
+            stage.setScene(scene);
+            stage.setWidth(1200);
+            stage.setHeight(600);
+            stage.setResizable(false);
+            stage.show();
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar a tela de registro: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

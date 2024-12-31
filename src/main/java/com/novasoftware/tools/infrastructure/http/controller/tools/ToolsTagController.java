@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import com.novasoftware.base.controller.BaseController;
 import com.novasoftware.tools.application.usecase.LabelGenerator;
 import com.novasoftware.tools.domain.service.PrinterService;
 import com.novasoftware.tools.domain.service.ZplFileService;
@@ -21,10 +22,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class ToolsTagController implements Initializable {
+public class ToolsTagController extends BaseController implements Initializable {
+
     @FXML
     private MFXTextField eanField;
 
@@ -41,66 +44,121 @@ public class ToolsTagController implements Initializable {
     private MFXComboBox<String> labelTypeComboBox;
 
     @FXML
-    private MFXButton saveButton;
+    private TextArea outputArea;
 
     @FXML
-    private TextArea outputArea;
+    private MFXButton saveButton;
+
+    public VBox dynamicFieldsContainer;
 
     private final LabelGenerator labelGenerator;
     private final ZplFileService zplFileService;
-    private final ObservableList<Map<String, Object>> data;
     private final PrinterService printerService;
 
     public ToolsTagController() {
         this.labelGenerator = new LabelGenerator();
         this.zplFileService = new ZplFileService();
-        this.data = FXCollections.observableArrayList();
         this.printerService = new PrinterService();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        formatFieldComboBox.setItems(FXCollections.observableArrayList(
-                "2-Colunas", "1-Coluna", "4-etiquetas por página", "Etiqueta Envio personalizado", "QRCode", "Code128"
-        ));
-        labelTypeComboBox.setItems(FXCollections.observableArrayList(
-                "Code 128", "Code 39", "EAN-13", "UPC-A", "QR Code"
-        ));
+        ObservableList<String> formats = FXCollections.observableArrayList(
+                "2-Colunas - Etiquetas em duas colunas por página",
+                "1-Coluna - Etiquetas em uma única coluna por página",
+                "4-etiquetas por página - Padrão de 4 etiquetas iguais por página",
+                "Etiqueta Envio personalizado - Formato para envio com dados customizados"
+        );
+
+        ObservableList<String> labelTypes = FXCollections.observableArrayList(
+                "Code 128 - Código de barras linear",
+                "Code 39 - Código de barras alfanumérico",
+                "EAN-13 - Código de barras padrão internacional",
+                "UPC-A - Código de barras para produtos americanos",
+                "QR Code - Código bidimensional"
+        );
+
+        formatFieldComboBox.setItems(formats);
+        labelTypeComboBox.setItems(labelTypes);
 
         saveButton.setDisable(true);
+
+        formatFieldComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                showExampleForFormat(newVal);
+                updateDynamicFields(newVal);
+            }
+        });
+
+        skuField.textProperty().addListener((obs, oldVal, newVal) -> validateFields());
+        eanField.textProperty().addListener((obs, oldVal, newVal) -> validateFields());
+        quantityField.textProperty().addListener((obs, oldVal, newVal) -> validateFields());
+        formatFieldComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> validateFields());
+    }
+
+    private void showExampleForFormat(String format) {
+        String exampleText;
+        String skuOrEan = skuField.getText().isEmpty() ? eanField.getText() : skuField.getText();
+
+        switch (format) {
+            case "2-Colunas - Etiquetas em duas colunas por página":
+                exampleText = "Exemplo: Etiquetas organizadas em 2 colunas.";
+                break;
+            case "1-Coluna - Etiquetas em uma única coluna por página":
+                exampleText = "Exemplo: Etiquetas organizadas em 1 coluna.";
+                break;
+            case "4-etiquetas por página - Padrão de 4 etiquetas iguais por página":
+                exampleText = "Exemplo: Página com 4 etiquetas idênticas.";
+                break;
+            case "Etiqueta Envio personalizado - Formato para envio com dados customizados":
+                exampleText = "Exemplo: Etiqueta personalizada para envio.";
+                break;
+            case "QRCode - Etiqueta com QR Code":
+                exampleText = "Exemplo: Etiqueta com QR Code para escaneamento.";
+                break;
+            case "Code128 - Etiqueta com código de barras Code 128":
+                exampleText = "Exemplo: Código de barras padrão Code 128.";
+                break;
+            default:
+                exampleText = "";
+        }
+        outputArea.setText(exampleText);
+    }
+
+    private void updateDynamicFields(String format) {
+        dynamicFieldsContainer.getChildren().clear();
+
+        if (format.contains("QRCode")) {
+            MFXTextField qrCodeField = new MFXTextField();
+            qrCodeField.setPromptText("Digite os dados para o QR Code");
+            dynamicFieldsContainer.getChildren().add(qrCodeField);
+        } else if (format.contains("Code128")) {
+            MFXTextField barcodeField = new MFXTextField();
+            barcodeField.setPromptText("Digite os dados para o Code128");
+            dynamicFieldsContainer.getChildren().add(barcodeField);
+        }
     }
 
     @FXML
     private void generateLabel() {
-        if (!validateFields()) {
+        if (isComboBoxEmptyMessage(formatFieldComboBox, "Por favor, selecione um formato de etiqueta.") ||
+                isFieldEmptyMessage(eanField, "Por favor, preencha o campo EAN.") ||
+                isFieldEmptyMessage(skuField, "Por favor, preencha o campo SKU.") ||
+                isFieldEmptyMessage(quantityField, "Por favor, preencha o campo Quantidade.")) {
             return;
-        }
-
-        String format = formatFieldComboBox.getValue();
-        String labelType = labelTypeComboBox.getValue();
-        List<Map<String, Object>> eansAndSkus = data;
-
-        if (eanField.getText().isEmpty() || skuField.getText().isEmpty() || quantityField.getText().isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Dados Ausentes", "Por favor, preencha todos os campos: EAN, SKU e Quantidade.");
-            return;
-        }
-
-        if (eansAndSkus.isEmpty()) {
-            eansAndSkus = List.of(Map.of(
-                "EAN", eanField.getText(),
-                "SKU", skuField.getText(),
-                "Quantidade", quantityField.getText()
-            ));
-        } else {
-            eansAndSkus.add(Map.of(
-                "EAN", eanField.getText(),
-                "SKU", skuField.getText(),
-                "Quantidade", quantityField.getText()
-            ));
         }
 
         try {
-            String zpl = labelGenerator.generateZpl(eansAndSkus, format, labelType);
+            String zpl = labelGenerator.generateZpl(
+                    List.of(Map.of(
+                            "EAN", eanField.getText(),
+                            "SKU", skuField.getText(),
+                            "Quantidade", quantityField.getText()
+                    )),
+                    formatFieldComboBox.getValue(),
+                    labelTypeComboBox.getValue()
+            );
+
             if (zplFileService.validateZplContent(zpl)) {
                 outputArea.setText(zpl);
                 saveButton.setDisable(false);
@@ -110,52 +168,13 @@ public class ToolsTagController implements Initializable {
         }
     }
 
-    private boolean validateFields() {
-        if (formatFieldComboBox.getValue() == null || formatFieldComboBox.getValue().isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Campo Obrigatório", "Por favor, selecione um formato de etiqueta.");
-            return false;
-        }
+    private void validateFields() {
+        boolean allValid = !eanField.getText().isEmpty() &&
+                !skuField.getText().isEmpty() &&
+                !quantityField.getText().isEmpty() &&
+                formatFieldComboBox.getValue() != null;
 
-        if (data.isEmpty() && (eanField.getText().isEmpty() || skuField.getText().isEmpty() || quantityField.getText().isEmpty())) {
-            showAlert(Alert.AlertType.WARNING, "Dados Ausentes", "Nenhum dado foi carregado. Por favor, importe ou insira os dados necessários.");
-            return false;
-        }
-
-        return true;
-    }
-
-    @FXML
-    private void clearFields() {
-        eanField.clear();
-        skuField.clear();
-        quantityField.clear();
-        formatFieldComboBox.getSelectionModel().clearSelection();
-        labelTypeComboBox.getSelectionModel().clearSelection();
-        outputArea.clear();
-        data.clear();
-
-        eanField.setDisable(false);
-        skuField.setDisable(false);
-        quantityField.setDisable(false);
-        saveButton.setDisable(true);
-    }
-
-    @FXML
-    private void printLabel() {
-        String zpl = outputArea.getText();
-        if (!zpl.isEmpty()) {
-            if (printerService.getSelectedPrinter() != null || printerService.getPrinterIp() != null) {
-                if (printerService.printZplDocument(zpl)) {
-                    showAlert(Alert.AlertType.INFORMATION, "Impressão", "Etiqueta impressa com sucesso!");
-                } else {
-                    showAlert(Alert.AlertType.ERROR, "Erro de Impressão", "Ocorreu um erro ao imprimir a etiqueta.");
-                }
-            } else {
-                showAlert(Alert.AlertType.WARNING, "Impressora Não Selecionada", "Nenhuma impressora foi selecionada.");
-            }
-        } else {
-            showAlert(Alert.AlertType.WARNING, "Sem ZPL", "Nenhum conteúdo ZPL gerado para impressão.");
-        }
+        saveButton.setDisable(!allValid);
     }
 
     @FXML
@@ -163,22 +182,14 @@ public class ToolsTagController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("ZPL Files", "*.zpl"));
         File file = fileChooser.showSaveDialog(new Stage());
+
         if (file != null) {
             try (FileWriter writer = new FileWriter(file)) {
                 writer.write(outputArea.getText());
-                showAlert(Alert.AlertType.INFORMATION, "Salvar ZPL", "ZPL salvo com sucesso!");
+                showAlert(Alert.AlertType.INFORMATION, "Arquivo Salvo", "ZPL salvo com sucesso.");
             } catch (IOException e) {
-                e.printStackTrace();
-                showAlert(Alert.AlertType.ERROR, "Erro ao Salvar", "Ocorreu um erro ao salvar o ZPL.");
+                showAlert(Alert.AlertType.ERROR, "Erro ao Salvar", "Não foi possível salvar o arquivo.");
             }
         }
-    }
-
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

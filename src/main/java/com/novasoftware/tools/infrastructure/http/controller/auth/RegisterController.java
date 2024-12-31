@@ -2,6 +2,8 @@ package com.novasoftware.tools.infrastructure.http.controller.auth;
 
 import java.net.URL;
 
+import com.novasoftware.base.controller.BaseController;
+
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.event.ActionEvent;
@@ -12,7 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class RegisterController extends BaseScreenAuthController {
+public class RegisterController extends BaseController {
 
   @FXML
   private MFXTextField nameField;

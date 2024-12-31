@@ -3,6 +3,8 @@ package com.novasoftware.tools.infrastructure.http.controller.auth;
 import java.io.IOException;
 import java.net.URL;
 
+import com.novasoftware.base.controller.BaseController;
+
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -13,7 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class LoginController extends BaseScreenAuthController {
+public class LoginController extends BaseController {
 
     public MFXButton minimizeButton;
 
@@ -32,6 +34,7 @@ public class LoginController extends BaseScreenAuthController {
     private Label titleLabel;
 
     private Runnable onLoginSuccess;
+
 
     public void setStage(Stage stage) {
         this.stage = stage;

@@ -1,5 +1,7 @@
 package com.novasoftware.tools.domain.service;
 
+import com.novasoftware.tools.domain.Enum.LabelConstants;
+
 import java.util.List;
 import java.util.Map;
 
@@ -7,11 +9,11 @@ public class ZplFormatService {
 
     public String generateZpl(String labelFormat, List<Map<String, Object>> eansAndSkus, String labelType) {
         switch (labelFormat) {
-            case "1-Coluna":
+            case LabelConstants.FORMAT_1_COLUMN:
                 return generateZpl1Column(eansAndSkus, labelType);
-            case "2-Colunas":
+            case LabelConstants.FORMAT_2_COLUMNS:
                 return generateZpl2Columns(eansAndSkus, labelType);
-            case "4-etiquetas por página":
+            case LabelConstants.FORMAT_4_LABELS:
                 return generateZpl4LabelsPerPage(eansAndSkus, labelType);
             default:
                 throw new IllegalArgumentException("Formato de etiqueta desconhecido.");
@@ -58,10 +60,11 @@ public class ZplFormatService {
                                     "^FO555,80^A0N,20,25^FH^%s^FS\n" +
                                     "^FO556,80^A0N,20,25^FH^%s^FS\n" +
                                     "^FS\n" +
-                                    "^XZ",
                             sku1, sku1, sku1, sku1, sku1, sku1
                     ));
                 }
+
+                zpl.append("^XZ");
             }
         }
 

@@ -1,16 +1,19 @@
-.mfx-spinner {
-    -fx-border-color: #F97316;
-    -fx-border-width: 1px;
-    -fx-background-color: #ffffff;
-    -fx-color: #F97316;
+.tab {
+    -fx-background-color: #CCCCCC; /* Fundo cinza para abas não selecionadas */
+    -fx-text-fill: #333333;
 }
 
-.mfx-spinner .increment-button {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: #ffffff;
+.tab:selected {
+    -fx-background-color: #B916F9; /* Fundo roxo para aba selecionada */
+    -fx-text-fill: #FFFFFF; /* Texto branco */
+    -fx-font-weight: bold;
 }
 
-.mfx-spinner .decrement-button {
-    -fx-background-color: #FF5722;
-    -fx-text-fill: #ffffff;
+.tab:hover {
+    -fx-background-color: #E0E0E0; /* Fundo mais claro ao passar o mouse */
+    -fx-text-fill: #333333;
+}
+
+.tab-header-area {
+    -fx-background-color: #F5F5F5; /* Fundo claro para a área das abas */
 }

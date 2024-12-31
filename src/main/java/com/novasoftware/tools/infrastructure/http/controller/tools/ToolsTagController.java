@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 
 import com.novasoftware.base.controller.BaseController;
 import com.novasoftware.tools.application.usecase.LabelGenerator;
+import com.novasoftware.tools.domain.Enum.LabelConstants;
+import com.novasoftware.tools.domain.Enum.LabelType;
 import com.novasoftware.tools.domain.service.PrinterService;
 import com.novasoftware.tools.domain.service.ZplFileService;
 
@@ -64,18 +66,18 @@ public class ToolsTagController extends BaseController implements Initializable 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<String> formats = FXCollections.observableArrayList(
-                "2-Colunas - Etiquetas em duas colunas por página",
-                "1-Coluna - Etiquetas em uma única coluna por página",
-                "4-etiquetas por página - Padrão de 4 etiquetas iguais por página",
-                "Etiqueta Envio personalizado - Formato para envio com dados customizados"
+                LabelConstants.FORMAT_2_COLUMNS,
+                LabelConstants.FORMAT_1_COLUMN,
+                LabelConstants.FORMAT_4_LABELS,
+                LabelConstants.FORMAT_CUSTOM_SHIPPING
         );
 
         ObservableList<String> labelTypes = FXCollections.observableArrayList(
-                "Code 128 - Código de barras linear",
-                "Code 39 - Código de barras alfanumérico",
-                "EAN-13 - Código de barras padrão internacional",
-                "UPC-A - Código de barras para produtos americanos",
-                "QR Code - Código bidimensional"
+                LabelConstants.LABEL_CODE_128,
+                LabelConstants.LABEL_CODE_39,
+                LabelConstants.LABEL_EAN_13,
+                LabelConstants.LABEL_UPC_A,
+                LabelConstants.LABEL_QR_CODE
         );
 
         formatFieldComboBox.setItems(formats);
@@ -86,7 +88,12 @@ public class ToolsTagController extends BaseController implements Initializable 
         formatFieldComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 showExampleForFormat(newVal);
-                updateDynamicFields(newVal);
+            }
+        });
+
+        labelTypeComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                toggleFieldsBasedOnLabelType(newVal);
             }
         });
 
@@ -95,6 +102,7 @@ public class ToolsTagController extends BaseController implements Initializable 
         quantityField.textProperty().addListener((obs, oldVal, newVal) -> validateFields());
         formatFieldComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> validateFields());
     }
+
 
     private void showExampleForFormat(String format) {
         String exampleText;
@@ -125,29 +133,43 @@ public class ToolsTagController extends BaseController implements Initializable 
         outputArea.setText(exampleText);
     }
 
-    private void updateDynamicFields(String format) {
-        dynamicFieldsContainer.getChildren().clear();
+    private void toggleFieldsBasedOnLabelType(String labelType) {
+        LabelType type = LabelType.fromString(labelType);
 
-        if (format.contains("QRCode")) {
-            MFXTextField qrCodeField = new MFXTextField();
-            qrCodeField.setPromptText("Digite os dados para o QR Code");
-            dynamicFieldsContainer.getChildren().add(qrCodeField);
-        } else if (format.contains("Code128")) {
-            MFXTextField barcodeField = new MFXTextField();
-            barcodeField.setPromptText("Digite os dados para o Code128");
-            dynamicFieldsContainer.getChildren().add(barcodeField);
+        if (type != null) {
+            switch (type) {
+                case EAN_13:
+                case UPC_A:
+                    eanField.setDisable(false);
+                    skuField.setDisable(true);
+                    eanField.setPromptText("Digite o EAN");
+                    skuField.clear();
+                    break;
+
+                case CODE_128:
+                case CODE_39:
+                    eanField.setDisable(true);
+                    skuField.setDisable(false);
+                    skuField.setPromptText("Digite o SKU");
+                    eanField.clear();
+                    break;
+
+                case QR_CODE:
+                    eanField.setDisable(true);
+                    skuField.setDisable(false);
+                    skuField.setPromptText("Digite os dados para o QR Code");
+                    eanField.clear();
+                    break;
+
+                default:
+                    eanField.setDisable(false);
+                    skuField.setDisable(false);
+            }
         }
     }
 
     @FXML
     private void generateLabel() {
-        if (isComboBoxEmptyMessage(formatFieldComboBox, "Por favor, selecione um formato de etiqueta.") ||
-                isFieldEmptyMessage(eanField, "Por favor, preencha o campo EAN.") ||
-                isFieldEmptyMessage(skuField, "Por favor, preencha o campo SKU.") ||
-                isFieldEmptyMessage(quantityField, "Por favor, preencha o campo Quantidade.")) {
-            return;
-        }
-
         try {
             String zpl = labelGenerator.generateZpl(
                     List.of(Map.of(

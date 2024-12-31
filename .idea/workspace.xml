@@ -5,12 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad99ba91-effb-41a9-a6c1-7cc6e4f52db4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/domain/Enum/LabelConstants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/domain/Enum/LabelType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/example/ZPLGenerateExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/service/ZebraPrinterConfigurationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/service/ZebraPrinterService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/Enum/LabelFormat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/Enum/LabelFormat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/http/client/LabelaryClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/http/client/LabelaryClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/domain/service/PrinterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/domain/service/PrinterService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/domain/service/ZplFileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/domain/service/ZplFileService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/domain/service/ZplFormatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/domain/service/ZplFormatService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/http/controller/tools/ToolsTagController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/http/controller/tools/ToolsTagController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/persistence/repository/ZplFileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/repository/ZplFileRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/view/css/tool-zpl.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/css/tool-zpl.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/main_layout_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/main_layout_screen.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_zpl_tag.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_zpl_tag.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -23,8 +31,8 @@
       <list>
         <option value="FxmlFile" />
         <option value="JavaFXApplication" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -81,14 +89,14 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "Application.NovaSoftwareToolsApplication.executor": "Run",
     "Downloaded.Files.Path.Enabled": "true",
-    "Repository.Attach.Annotations": "true",
+    "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "NOVA-1-layout-materialfx",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/kaue1/Downloads/MaterialFX-11.16.0/MaterialFX-11.16.0/demo",
+    "last_opened_file_path": "C:/Users/kaue1/Downloads/zebra-linkos-mpsdk-nov-2024/PC/v2.15.5376/lib/usb4java-1.2.0.jar",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.48965517",
@@ -110,12 +118,22 @@
   <component name="RunManager">
     <configuration name="NovaSoftwareToolsApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.novasoftware.tools.NovaSoftwareToolsApplication" />
-      <module name="zpl-javaFX" />
+      <module name="nova-javafx" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.novasoftware.tools.*" />
           <option name="ENABLED" value="true" />
         </pattern>
+      </extension>
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+        </ENTRIES>
       </extension>
       <method v="2">
         <option name="Make" enabled="true" />

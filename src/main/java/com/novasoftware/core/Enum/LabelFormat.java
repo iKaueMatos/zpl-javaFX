@@ -1,7 +1,7 @@
 package com.novasoftware.core.Enum;
 
 public enum LabelFormat {
-    BASE_URL("http://api.labelary.com/v1/printers"),
+    BASE_URL("https://api.labelary.com/v1/printers"),
 
     // Configurações de densidade da impressora
     PRINTER_DENSITY_8DPMM("8dpmm"),

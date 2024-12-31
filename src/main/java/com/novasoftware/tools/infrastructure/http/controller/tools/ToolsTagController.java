@@ -1,5 +1,6 @@
 package com.novasoftware.tools.infrastructure.http.controller.tools;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,26 +10,44 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.novasoftware.base.controller.BaseController;
+import com.novasoftware.core.Enum.LabelFormat;
+import com.novasoftware.core.example.ZPLGenerateExample;
+import com.novasoftware.core.http.client.LabelaryClient;
 import com.novasoftware.tools.application.usecase.LabelGenerator;
 import com.novasoftware.tools.domain.Enum.LabelConstants;
 import com.novasoftware.tools.domain.Enum.LabelType;
-import com.novasoftware.tools.domain.service.PrinterService;
 import com.novasoftware.tools.domain.service.ZplFileService;
 
+import com.novasoftware.tools.infrastructure.service.ZebraPrinterConfigurationService;
+import com.novasoftware.tools.infrastructure.service.ZebraPrinterService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class ToolsTagController extends BaseController implements Initializable {
+
+    @FXML
+    public ImageView imageView;
+
+    @FXML
+    public MFXButton printer;
+
+    @FXML
+    public MFXButton detectPrintersButton;
 
     @FXML
     private MFXTextField eanField;
@@ -51,23 +70,33 @@ public class ToolsTagController extends BaseController implements Initializable 
     @FXML
     private MFXButton saveButton;
 
-    public VBox dynamicFieldsContainer;
+    @FXML
+    private ProgressIndicator loadingIndicator;
 
-    private final LabelGenerator labelGenerator;
-    private final ZplFileService zplFileService;
-    private final PrinterService printerService;
+    @FXML
+    private MFXComboBox<String> labelDimension;
 
-    public ToolsTagController() {
-        this.labelGenerator = new LabelGenerator();
-        this.zplFileService = new ZplFileService();
-        this.printerService = new PrinterService();
-    }
+
+    private final LabelGenerator labelGenerator = new LabelGenerator();
+    private final ZplFileService zplFileService = new ZplFileService();
+
+    private final ZebraPrinterConfigurationService zebraPrinterConfiguration = new ZebraPrinterConfigurationService();
+
+    private final ZebraPrinterService zebraPrinterService = new ZebraPrinterService();
+
+    @FXML
+    private VBox imageContainer;
+
+    @FXML
+    private Label imageContainerLabel;
+
+    public ToolsTagController() {}
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<String> formats = FXCollections.observableArrayList(
-                LabelConstants.FORMAT_2_COLUMNS,
                 LabelConstants.FORMAT_1_COLUMN,
+                LabelConstants.FORMAT_2_COLUMNS,
                 LabelConstants.FORMAT_4_LABELS,
                 LabelConstants.FORMAT_CUSTOM_SHIPPING
         );
@@ -84,16 +113,23 @@ public class ToolsTagController extends BaseController implements Initializable 
         labelTypeComboBox.setItems(labelTypes);
 
         saveButton.setDisable(true);
-
-        formatFieldComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                showExampleForFormat(newVal);
-            }
-        });
+        outputArea.setDisable(true);
+        imageContainer.setVisible(false);
+        imageContainerLabel.setVisible(false);
+        imageContainer.setMinSize(300, 300);
+        imageContainer.setPrefSize(400, 400);
+        imageContainer.setMaxSize(500, 500);
 
         labelTypeComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 toggleFieldsBasedOnLabelType(newVal);
+                try {
+                    showExampleForFormat(newVal);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -103,34 +139,76 @@ public class ToolsTagController extends BaseController implements Initializable 
         formatFieldComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> validateFields());
     }
 
+    private void showExampleForFormat(String format) throws IOException, InterruptedException {
+        loadingIndicator.setVisible(true);
+        try {
+            String exampleText;
+            byte[] imageBytes;
+            switch (format) {
+                case LabelConstants.LABEL_CODE_128:
+                    imageBytes = LabelaryClient.sendZplToLabelary(
+                            ZPLGenerateExample.generateCode128("Exemplo"),
+                            LabelFormat.PRINTER_DENSITY_8DPMM.getValue(),
+                            LabelFormat.LABEL_DIMENSIONS_3X2.getValue(),
+                            LabelFormat.LABEL_INDEX_0.getValue(),
+                            LabelFormat.OUTPUT_FORMAT_IMAGE.getValue()
+                    );
+                    imageContainer.setVisible(true);
+                    imageContainerLabel.setVisible(true);
+                    exampleText = "Exemplo: Etiquetas organizadas em 2 colunas.";
+                    break;
+                case LabelConstants.LABEL_QR_CODE:
+                    imageBytes = LabelaryClient.sendZplToLabelary(
+                            ZPLGenerateExample.generateQRCode("Exemplo"),
+                            LabelFormat.PRINTER_DENSITY_8DPMM.getValue(),
+                            LabelFormat.LABEL_DIMENSIONS_3X2.getValue(),
+                            LabelFormat.LABEL_INDEX_0.getValue(),
+                            LabelFormat.OUTPUT_FORMAT_IMAGE.getValue()
+                    );
+                    imageContainer.setVisible(true);
+                    imageContainerLabel.setVisible(true);
+                    exampleText = "Exemplo: Etiquetas organizadas em 1 coluna.";
+                    break;
+                case LabelConstants.LABEL_EAN_13:
+                    imageBytes = LabelaryClient.sendZplToLabelary(
+                            ZPLGenerateExample.generateEAN13("7891186260103"),
+                            LabelFormat.PRINTER_DENSITY_8DPMM.getValue(),
+                            LabelFormat.LABEL_DIMENSIONS_3X2.getValue(),
+                            LabelFormat.LABEL_INDEX_0.getValue(),
+                            LabelFormat.OUTPUT_FORMAT_IMAGE.getValue()
+                    );
+                    imageContainer.setVisible(true);
+                    imageContainerLabel.setVisible(true);
+                    exampleText = "Exemplo: Página com 4 etiquetas idênticas.";
+                    break;
+                default:
+                    imageBytes = null;
+                    exampleText = "";
+            }
 
-    private void showExampleForFormat(String format) {
-        String exampleText;
-        String skuOrEan = skuField.getText().isEmpty() ? eanField.getText() : skuField.getText();
+            outputArea.setText(exampleText);
 
-        switch (format) {
-            case "2-Colunas - Etiquetas em duas colunas por página":
-                exampleText = "Exemplo: Etiquetas organizadas em 2 colunas.";
-                break;
-            case "1-Coluna - Etiquetas em uma única coluna por página":
-                exampleText = "Exemplo: Etiquetas organizadas em 1 coluna.";
-                break;
-            case "4-etiquetas por página - Padrão de 4 etiquetas iguais por página":
-                exampleText = "Exemplo: Página com 4 etiquetas idênticas.";
-                break;
-            case "Etiqueta Envio personalizado - Formato para envio com dados customizados":
-                exampleText = "Exemplo: Etiqueta personalizada para envio.";
-                break;
-            case "QRCode - Etiqueta com QR Code":
-                exampleText = "Exemplo: Etiqueta com QR Code para escaneamento.";
-                break;
-            case "Code128 - Etiqueta com código de barras Code 128":
-                exampleText = "Exemplo: Código de barras padrão Code 128.";
-                break;
-            default:
-                exampleText = "";
+            if (imageBytes != null) {
+                Image image = new Image(new ByteArrayInputStream(imageBytes));
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(300);
+                imageView.setFitHeight(300);
+                imageView.setPreserveRatio(true);
+                imageContainer.getChildren().clear();
+                imageContainer.getChildren().add(imageView);
+            }
+        } finally {
+            loadingIndicator.setVisible(false);
         }
-        outputArea.setText(exampleText);
+    }
+
+    private void validateFields() {
+        boolean allValid = !eanField.getText().isEmpty() &&
+                !skuField.getText().isEmpty() &&
+                !quantityField.getText().isEmpty() &&
+                formatFieldComboBox.getValue() != null;
+
+        saveButton.setDisable(!allValid);
     }
 
     private void toggleFieldsBasedOnLabelType(String labelType) {
@@ -142,7 +220,9 @@ public class ToolsTagController extends BaseController implements Initializable 
                 case UPC_A:
                     eanField.setDisable(false);
                     skuField.setDisable(true);
+                    skuField.setPromptText("Desabilitado");
                     eanField.setPromptText("Digite o EAN");
+                    eanField.setAnimated(true);
                     skuField.clear();
                     break;
 
@@ -150,6 +230,7 @@ public class ToolsTagController extends BaseController implements Initializable 
                 case CODE_39:
                     eanField.setDisable(true);
                     skuField.setDisable(false);
+                    eanField.setPromptText("Desabilitado");
                     skuField.setPromptText("Digite o SKU");
                     eanField.clear();
                     break;
@@ -157,6 +238,7 @@ public class ToolsTagController extends BaseController implements Initializable 
                 case QR_CODE:
                     eanField.setDisable(true);
                     skuField.setDisable(false);
+                    eanField.setPromptText("Desabilitado");
                     skuField.setPromptText("Digite os dados para o QR Code");
                     eanField.clear();
                     break;
@@ -179,39 +261,37 @@ public class ToolsTagController extends BaseController implements Initializable 
                     )),
                     formatFieldComboBox.getValue(),
                     labelTypeComboBox.getValue()
-            );
+                );
 
-            if (zplFileService.validateZplContent(zpl)) {
-                outputArea.setText(zpl);
-                saveButton.setDisable(false);
-            }
-        } catch (IllegalArgumentException e) {
+                if (zplFileService.validateZplContent(zpl)) {
+                    outputArea.setDisable(false);
+                    outputArea.setText(zpl);
+                    printer.setVisible(true);
+                    detectPrintersButton.setVisible(true);
+                    saveButton.setDisable(false);
+                }
+            } catch (IllegalArgumentException e) {
             showAlert(Alert.AlertType.ERROR, "Erro de Validação", e.getMessage());
         }
     }
 
-    private void validateFields() {
-        boolean allValid = !eanField.getText().isEmpty() &&
-                !skuField.getText().isEmpty() &&
-                !quantityField.getText().isEmpty() &&
-                formatFieldComboBox.getValue() != null;
-
-        saveButton.setDisable(!allValid);
+    @FXML
+    private void saveZplToFile() {
+        try {
+            zplFileService.saveZplToFile(outputArea.getText());
+            showAlert(Alert.AlertType.INFORMATION, "Arquivo Salvo", "ZPL salvo com sucesso.");
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Erro ao Salvar", "Não foi possível salvar o arquivo.");
+        }
     }
 
     @FXML
-    private void saveZplToFile() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("ZPL Files", "*.zpl"));
-        File file = fileChooser.showSaveDialog(new Stage());
+    private void printLabel() {
+        zebraPrinterService.printLabel(outputArea.getText());
+    }
 
-        if (file != null) {
-            try (FileWriter writer = new FileWriter(file)) {
-                writer.write(outputArea.getText());
-                showAlert(Alert.AlertType.INFORMATION, "Arquivo Salvo", "ZPL salvo com sucesso.");
-            } catch (IOException e) {
-                showAlert(Alert.AlertType.ERROR, "Erro ao Salvar", "Não foi possível salvar o arquivo.");
-            }
-        }
+    @FXML
+    private void onDetectPrintersButtonClicked(ActionEvent event) {
+        zebraPrinterConfiguration.detectZebraPrinters();
     }
 }

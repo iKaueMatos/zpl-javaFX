@@ -1,19 +1,8 @@
-.tab {
-    -fx-background-color: #CCCCCC; /* Fundo cinza para abas não selecionadas */
-    -fx-text-fill: #333333;
-}
-
-.tab:selected {
-    -fx-background-color: #B916F9; /* Fundo roxo para aba selecionada */
-    -fx-text-fill: #FFFFFF; /* Texto branco */
-    -fx-font-weight: bold;
-}
-
-.tab:hover {
-    -fx-background-color: #E0E0E0; /* Fundo mais claro ao passar o mouse */
-    -fx-text-fill: #333333;
-}
-
-.tab-header-area {
-    -fx-background-color: #F5F5F5; /* Fundo claro para a área das abas */
+.image-container {
+    -fx-min-width: 300px;
+    -fx-min-height: 300px;
+    -fx-pref-width: 400px;
+    -fx-pref-height: 400px;
+    -fx-max-width: 500px;
+    -fx-max-height: 500px;
 }

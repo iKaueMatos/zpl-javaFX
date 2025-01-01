@@ -1,4 +1,4 @@
-package com.novasoftware.base.controller;
+package com.novasoftware.base.layout;
 
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.fxml.FXML;
@@ -48,14 +48,6 @@ public class BaseController {
         }
     }
 
-    public void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
     public boolean isFieldEmptyMessage(TextField textField, String errorMessage) {
         if (textField.getText() == null || textField.getText().isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Campo Obrigatório", errorMessage);
@@ -76,5 +68,13 @@ public class BaseController {
         for (TextField field : fields) {
             field.clear();
         }
+    }
+
+    public void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

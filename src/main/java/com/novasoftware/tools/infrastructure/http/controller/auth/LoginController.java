@@ -3,8 +3,7 @@ package com.novasoftware.tools.infrastructure.http.controller.auth;
 import java.io.IOException;
 import java.net.URL;
 
-import com.novasoftware.base.controller.BaseController;
-
+import com.novasoftware.base.layout.BaseController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;

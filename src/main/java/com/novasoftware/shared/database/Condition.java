@@ -1,7 +1,7 @@
-package com.novasoftware.tools.infrastructure.database;
+package com.novasoftware.shared.database;
 
-import com.novasoftware.tools.infrastructure.Enum.Column;
-import com.novasoftware.tools.infrastructure.Enum.Operator;
+import com.novasoftware.shared.Enum.Column;
+import com.novasoftware.shared.Enum.Operator;
 
 public class Condition {
   private final Column column;

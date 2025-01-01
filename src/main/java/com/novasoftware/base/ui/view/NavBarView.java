@@ -1,11 +1,10 @@
-package com.novasoftware.tools.ui.view;
+package com.novasoftware.base.ui.view;
 
 import com.novasoftware.routes.Routes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
-import org.apache.logging.log4j.core.appender.routing.Route;
 
 import java.io.IOException;
 

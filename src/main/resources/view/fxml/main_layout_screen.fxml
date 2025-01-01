@@ -7,7 +7,8 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import io.github.palexdev.mfxresources.fonts.MFXFontIcon?>
-<BorderPane xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.tools.ui.view.MainLayoutView">
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.base.layout.LayoutController">
     <top>
         <HBox fx:id="titleBar" spacing="10" style="-fx-background-color: #0A0A0A; -fx-padding: 10; -fx-alignment: center-left;">
             <Label fx:id="menuButton" text="☰" style="-fx-font-size: 20px; -fx-text-fill: #FFFFFF; -fx-cursor: hand;" onMouseClicked="#handleMenuButton" />

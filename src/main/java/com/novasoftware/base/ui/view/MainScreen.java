@@ -1,4 +1,4 @@
-package com.novasoftware.tools.ui.view;
+package com.novasoftware.base.ui.view;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;

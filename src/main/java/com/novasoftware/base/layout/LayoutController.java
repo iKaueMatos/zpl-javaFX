@@ -2,9 +2,10 @@ package com.novasoftware.base.layout;
 
 import java.io.InputStream;
 
+import com.novasoftware.base.ui.view.NavBarView;
 import com.novasoftware.routes.Routes;
-import com.novasoftware.tools.ui.view.NavBarView;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,13 +24,13 @@ public class LayoutController extends NavBarView {
     private VBox contentPane;
 
     @FXML
-    private javafx.scene.control.Label minimizeLabel;
+    private Label minimizeLabel;
 
     @FXML
-    private javafx.scene.control.Label maximizeLabel;
+    private Label maximizeLabel;
 
     @FXML
-    private javafx.scene.control.Label closeLabel;
+    private Label closeLabel;
 
     @FXML
     private HBox titleBar;

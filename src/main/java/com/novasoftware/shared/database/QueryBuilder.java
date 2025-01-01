@@ -1,4 +1,4 @@
-package com.novasoftware.tools.infrastructure.database;
+package com.novasoftware.shared.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.novasoftware.tools.infrastructure.Enum.Column;
-import com.novasoftware.tools.infrastructure.Enum.Operator;
+import com.novasoftware.shared.Enum.Column;
+import com.novasoftware.shared.Enum.Operator;
 
 public class QueryBuilder<T> {
   private String table;

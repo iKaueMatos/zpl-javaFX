@@ -1,25 +1,28 @@
 package com.novasoftware.tools.infrastructure.http.controller.tools;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import com.novasoftware.base.controller.BaseController;
+import com.novasoftware.base.layout.BaseController;
 import com.novasoftware.core.Enum.LabelFormat;
 import com.novasoftware.core.example.ZPLGenerateExample;
 import com.novasoftware.core.http.client.LabelaryClient;
 import com.novasoftware.tools.application.usecase.LabelGenerator;
 import com.novasoftware.tools.domain.Enum.LabelConstants;
 import com.novasoftware.tools.domain.Enum.LabelType;
+import com.novasoftware.tools.domain.service.ImageZoomService;
 import com.novasoftware.tools.domain.service.ZplFileService;
 
 import com.novasoftware.tools.infrastructure.service.ZebraPrinterConfigurationService;
 import com.novasoftware.tools.infrastructure.service.ZebraPrinterService;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -29,14 +32,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+
+import javax.imageio.ImageIO;
 
 public class ToolsTagController extends BaseController implements Initializable {
 
@@ -48,6 +50,12 @@ public class ToolsTagController extends BaseController implements Initializable 
 
     @FXML
     public MFXButton detectPrintersButton;
+
+    @FXML
+    public VBox imageViewContainer;
+
+    @FXML
+    public MFXComboBox<String> labelDpmm;
 
     @FXML
     private MFXTextField eanField;
@@ -76,9 +84,10 @@ public class ToolsTagController extends BaseController implements Initializable 
     @FXML
     private MFXComboBox<String> labelDimension;
 
-
     private final LabelGenerator labelGenerator = new LabelGenerator();
     private final ZplFileService zplFileService = new ZplFileService();
+
+    private final ImageZoomService imageZoomService = new ImageZoomService();
 
     private final ZebraPrinterConfigurationService zebraPrinterConfiguration = new ZebraPrinterConfigurationService();
 
@@ -86,9 +95,6 @@ public class ToolsTagController extends BaseController implements Initializable 
 
     @FXML
     private VBox imageContainer;
-
-    @FXML
-    private Label imageContainerLabel;
 
     public ToolsTagController() {}
 
@@ -113,23 +119,9 @@ public class ToolsTagController extends BaseController implements Initializable 
         labelTypeComboBox.setItems(labelTypes);
 
         saveButton.setDisable(true);
-        outputArea.setDisable(true);
-        imageContainer.setVisible(false);
-        imageContainerLabel.setVisible(false);
-        imageContainer.setMinSize(300, 300);
-        imageContainer.setPrefSize(400, 400);
-        imageContainer.setMaxSize(500, 500);
-
         labelTypeComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 toggleFieldsBasedOnLabelType(newVal);
-                try {
-                    showExampleForFormat(newVal);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
             }
         });
 
@@ -137,65 +129,73 @@ public class ToolsTagController extends BaseController implements Initializable 
         eanField.textProperty().addListener((obs, oldVal, newVal) -> validateFields());
         quantityField.textProperty().addListener((obs, oldVal, newVal) -> validateFields());
         formatFieldComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> validateFields());
+
+        try {
+            showExampleForFormat(LabelConstants.LABEL_CODE_128);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException("Erro ao carregar exemplo inicial", e);
+        }
     }
 
     private void showExampleForFormat(String format) throws IOException, InterruptedException {
         loadingIndicator.setVisible(true);
         try {
-            String exampleText;
+            String zpl = "";
             byte[] imageBytes;
             switch (format) {
                 case LabelConstants.LABEL_CODE_128:
+                    String zplGenerateExampleCode128 = ZPLGenerateExample.generateCode128("Exemplo");
                     imageBytes = LabelaryClient.sendZplToLabelary(
-                            ZPLGenerateExample.generateCode128("Exemplo"),
+                            zplGenerateExampleCode128,
                             LabelFormat.PRINTER_DENSITY_8DPMM.getValue(),
                             LabelFormat.LABEL_DIMENSIONS_3X2.getValue(),
                             LabelFormat.LABEL_INDEX_0.getValue(),
                             LabelFormat.OUTPUT_FORMAT_IMAGE.getValue()
                     );
-                    imageContainer.setVisible(true);
-                    imageContainerLabel.setVisible(true);
-                    exampleText = "Exemplo: Etiquetas organizadas em 2 colunas.";
+                    zpl = zplGenerateExampleCode128;
                     break;
                 case LabelConstants.LABEL_QR_CODE:
+                    String zplGenerateExampleQrCode = ZPLGenerateExample.generateQRCode("Exemplo");
                     imageBytes = LabelaryClient.sendZplToLabelary(
-                            ZPLGenerateExample.generateQRCode("Exemplo"),
+                            zplGenerateExampleQrCode,
                             LabelFormat.PRINTER_DENSITY_8DPMM.getValue(),
                             LabelFormat.LABEL_DIMENSIONS_3X2.getValue(),
                             LabelFormat.LABEL_INDEX_0.getValue(),
                             LabelFormat.OUTPUT_FORMAT_IMAGE.getValue()
                     );
-                    imageContainer.setVisible(true);
-                    imageContainerLabel.setVisible(true);
-                    exampleText = "Exemplo: Etiquetas organizadas em 1 coluna.";
+                    zpl = zplGenerateExampleQrCode;
                     break;
                 case LabelConstants.LABEL_EAN_13:
+                    String zplGenerateExampleEan = ZPLGenerateExample.generateEAN13("7891186260103");
                     imageBytes = LabelaryClient.sendZplToLabelary(
-                            ZPLGenerateExample.generateEAN13("7891186260103"),
+                            zplGenerateExampleEan,
                             LabelFormat.PRINTER_DENSITY_8DPMM.getValue(),
                             LabelFormat.LABEL_DIMENSIONS_3X2.getValue(),
                             LabelFormat.LABEL_INDEX_0.getValue(),
                             LabelFormat.OUTPUT_FORMAT_IMAGE.getValue()
                     );
                     imageContainer.setVisible(true);
-                    imageContainerLabel.setVisible(true);
-                    exampleText = "Exemplo: Página com 4 etiquetas idênticas.";
+                    zpl = zplGenerateExampleEan;
                     break;
                 default:
                     imageBytes = null;
-                    exampleText = "";
             }
 
-            outputArea.setText(exampleText);
-
+            outputArea.setText(zpl);
             if (imageBytes != null) {
                 Image image = new Image(new ByteArrayInputStream(imageBytes));
+
                 ImageView imageView = new ImageView(image);
-                imageView.setFitWidth(300);
-                imageView.setFitHeight(300);
+                imageView.setFitWidth(558.0);
+                imageView.setFitHeight(300.0);
                 imageView.setPreserveRatio(true);
-                imageContainer.getChildren().clear();
-                imageContainer.getChildren().add(imageView);
+                imageView.setSmooth(true);
+
+                imageViewContainer.getChildren().add(imageView);
+                imageZoomService.setupImageZoom(imageViewContainer, imageView);
+
+                printer.setVisible(false);
+                detectPrintersButton.setVisible(false);
             }
         } finally {
             loadingIndicator.setVisible(false);
@@ -261,17 +261,53 @@ public class ToolsTagController extends BaseController implements Initializable 
                     )),
                     formatFieldComboBox.getValue(),
                     labelTypeComboBox.getValue()
-                );
+            );
 
-                if (zplFileService.validateZplContent(zpl)) {
-                    outputArea.setDisable(false);
-                    outputArea.setText(zpl);
-                    printer.setVisible(true);
-                    detectPrintersButton.setVisible(true);
-                    saveButton.setDisable(false);
-                }
-            } catch (IllegalArgumentException e) {
+            labelDpmm.setValue(labelDpmm.getValue() != null ? labelDpmm.getValue() : LabelFormat.PRINTER_DENSITY_8DPMM.getValue());
+            labelDimension.setValue(labelDimension.getValue() != null ? labelDimension.getValue() : LabelFormat.LABEL_DIMENSIONS_3X2.getValue());
+
+            byte[] imageBytes = LabelaryClient.sendZplToLabelary(
+                    zpl,
+                    labelDpmm.getValue(),
+                    labelDimension.getValue(),
+                    LabelFormat.LABEL_INDEX_0.getValue(),
+                    LabelFormat.OUTPUT_FORMAT_IMAGE.getValue()
+            );
+
+            if (imageBytes != null) {
+                InputStream byteInputStream = new ByteArrayInputStream(imageBytes);
+                BufferedImage bufferedImage = ImageIO.read(byteInputStream);
+
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                ImageIO.write(bufferedImage, "png", outputStream);
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+                Image image = new Image(inputStream);
+
+                ImageView imageView = new ImageView(image);
+                imageView.setPreserveRatio(true);
+                imageView.setSmooth(true);
+                imageView.setFitWidth(800);
+                imageView.setFitHeight(600);
+
+                imageViewContainer.getChildren().clear();
+                imageZoomService.setupImageZoom(imageViewContainer, imageView);
+
+                printer.setVisible(true);
+                detectPrintersButton.setVisible(true);
+            }
+
+            if (zplFileService.validateZplContent(zpl)) {
+                printer.setVisible(true);
+                outputArea.setText(zpl);
+                detectPrintersButton.setVisible(true);
+                saveButton.setDisable(false);
+            }
+        } catch (IllegalArgumentException e) {
             showAlert(Alert.AlertType.ERROR, "Erro de Validação", e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -294,4 +330,5 @@ public class ToolsTagController extends BaseController implements Initializable 
     private void onDetectPrintersButtonClicked(ActionEvent event) {
         zebraPrinterConfiguration.detectZebraPrinters();
     }
+
 }

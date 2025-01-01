@@ -1,10 +1,11 @@
-package com.novasoftware.tools;
+package com.novasoftware;
 
 import java.net.URL;
 
-import com.novasoftware.tools.infrastructure.database.DatabaseInitializer;
+import com.novasoftware.base.ui.view.MainScreen;
+import com.novasoftware.routes.Routes;
+import com.novasoftware.shared.database.DatabaseInitializer;
 import com.novasoftware.tools.infrastructure.http.controller.auth.LoginController;
-import com.novasoftware.tools.ui.view.MainScreen;
 
 import io.github.palexdev.materialfx.theming.JavaFXThemes;
 import io.github.palexdev.materialfx.theming.MaterialFXStylesheets;
@@ -17,16 +18,14 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.flywaydb.core.Flyway;
 
 public class NovaSoftwareToolsApplication extends Application {
-
-    private static final String LOGO_PATH = "/view/assets/logo-app.jpg";
-    private static final String LOGIN_SCREEN_PATH = "/view/fxml/login_screen.fxml";
-    private static final String LOADING_SCREEN_PATH = "/view/fxml/loading_screen.fxml";
 
     @Override
     public void start(Stage primaryStage) {
         try {
+            runFlywayMigrations();
             configureGlobalTheme();
             configurePrimaryStage(primaryStage);
             showLoginScreen(primaryStage);
@@ -55,10 +54,10 @@ public class NovaSoftwareToolsApplication extends Application {
      * @param primaryStage the primary stage for the application
      */
     private void configurePrimaryStage(Stage primaryStage) {
-        URL logoResource = getClass().getResource(LOGO_PATH);
+        URL logoResource = getClass().getResource(Routes.LOGO_PATH);
 
         if (logoResource == null) {
-            throw new IllegalArgumentException("Recurso de logo não encontrado em: " + LOGO_PATH);
+            throw new IllegalArgumentException("Recurso de logo não encontrado em: " + Routes.LOGO_PATH);
         }
 
         primaryStage.getIcons().add(new Image(logoResource.toExternalForm()));
@@ -73,10 +72,10 @@ public class NovaSoftwareToolsApplication extends Application {
      * @throws Exception if an error occurs while loading the login screen
      */
     private void showLoginScreen(Stage stage) throws Exception {
-        URL resource = getClass().getResource(LOGIN_SCREEN_PATH);
+        URL resource = getClass().getResource(Routes.LOGIN_SCREEN_PATH);
 
         if (resource == null) {
-            throw new IllegalArgumentException("Arquivo FXML não encontrado: " + LOGIN_SCREEN_PATH);
+            throw new IllegalArgumentException("Arquivo FXML não encontrado: " + Routes.LOGIN_SCREEN_PATH);
         }
 
         FXMLLoader loader = new FXMLLoader(resource);
@@ -102,10 +101,10 @@ public class NovaSoftwareToolsApplication extends Application {
      */
     private void showLoadingScreen(Stage stage) {
         try {
-            URL resource = getClass().getResource(LOADING_SCREEN_PATH);
+            URL resource = getClass().getResource(Routes.LOADING_SCREEN_PATH);
 
             if (resource == null) {
-                throw new IllegalArgumentException("Arquivo FXML não encontrado: " + LOADING_SCREEN_PATH);
+                throw new IllegalArgumentException("Arquivo FXML não encontrado: " + Routes.LOADING_SCREEN_PATH);
             }
 
             FXMLLoader loader = new FXMLLoader(resource);
@@ -155,6 +154,15 @@ public class NovaSoftwareToolsApplication extends Application {
             System.err.println("Erro ao exibir a tela principal: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void runFlywayMigrations() {
+        Flyway flyway = Flyway.configure()
+                .dataSource("jdbc:mysql://localhost:3306/dev", "root", "root")
+                .load();
+
+        flyway.migrate();
+        System.out.println("Migrações aplicadas com sucesso!");
     }
 
     public static void main(String[] args) {

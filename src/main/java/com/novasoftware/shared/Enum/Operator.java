@@ -1,4 +1,4 @@
-package com.novasoftware.tools.infrastructure.Enum;
+package com.novasoftware.shared.Enum;
 
 public enum Operator {
   EQUALS("="),

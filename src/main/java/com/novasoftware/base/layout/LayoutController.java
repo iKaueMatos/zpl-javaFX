@@ -1,11 +1,10 @@
-package com.novasoftware.tools.ui.view;
+package com.novasoftware.base.layout;
 
-import java.io.IOException;
 import java.io.InputStream;
 
+import com.novasoftware.routes.Routes;
+import com.novasoftware.tools.ui.view.NavBarView;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,7 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-public class MainLayoutView {
+public class LayoutController extends NavBarView {
 
     @FXML
     public ScrollPane scrollPane;
@@ -49,7 +48,7 @@ public class MainLayoutView {
 
     @FXML
     public void initialize() {
-        loadDynamicContent("/view/fxml/tool_zpl_tag.fxml");
+        loadDynamicContent(Routes.TOOL_ZPL_TAG_SCREEN);
 
         minimizeLabel.setOnMouseClicked(event -> handleMinimize());
         maximizeLabel.setOnMouseClicked(event -> handleMaximize());
@@ -58,7 +57,7 @@ public class MainLayoutView {
         titleBar.setOnMousePressed(this::handleMousePressed);
         titleBar.setOnMouseDragged(this::handleMouseDragged);
 
-        InputStream logoImageStream = getClass().getResourceAsStream("/view/assets/logo.png");
+        InputStream logoImageStream = getClass().getResourceAsStream(Routes.LOGO_PATH_PNG);
         if (logoImageStream != null) {
             Image logoImage = new Image(logoImageStream);
             logoImageView.setImage(logoImage);
@@ -79,19 +78,6 @@ public class MainLayoutView {
             menuPane.setVisible(true);
         }
         isMenuVisible = !isMenuVisible;
-    }
-
-    private void loadDynamicContent(String fxmlPath) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent content = loader.load();
-
-            contentPane.getChildren().clear();
-            contentPane.getChildren().add(content);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Erro ao carregar o conteúdo dinâmico: " + fxmlPath);
-        }
     }
 
     @FXML
@@ -137,20 +123,5 @@ public class MainLayoutView {
             stage.setX(event.getScreenX() - xOffset);
             stage.setY(event.getScreenY() - yOffset);
         }
-    }
-
-    @FXML
-    private void loadConfig() {
-        loadDynamicContent("/view/fxml/configuration_screen.fxml");
-    }
-
-    @FXML
-    private void loadGenerateZPL() {
-        loadDynamicContent("/view/fxml/tool_zpl_tag.fxml");
-    }
-
-    @FXML
-    private void loadImport() {
-        loadDynamicContent("/view/fxml/tool_import_spreadsheet_screen.fxml");
     }
 }

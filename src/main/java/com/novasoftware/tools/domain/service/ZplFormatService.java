@@ -1,116 +1,257 @@
 package com.novasoftware.tools.domain.service;
 
+import com.novasoftware.tools.domain.Enum.LabelConstants;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
 
 public class ZplFormatService {
 
-    public String generateZpl(List<Map<String, Object>> eansAndSkus, String labelFormat, String labelType, int labelWidth, int labelHeight, int columns, int rows) {
+    private static final Set<String> TYPEBARCODES = Set.of("BEN", "BCN", "B3N", "BU", "FDMA");
+
+    public String generateZpl(String labelFormat, List<Map<String, Object>> eansAndSkus, String labelType) {
+        if (labelType == null || labelType.isEmpty()) {
+            throw new IllegalArgumentException("Tipo de etiqueta não pode ser nulo ou vazio.");
+        }
+
+        Map<String, Function<List<Map<String, Object>>, String>> labelGenerators = new HashMap<>();
+        labelGenerators.put(LabelConstants.LABEL_CODE_128, this::generateZplCode128);
+        labelGenerators.put(LabelConstants.LABEL_CODE_39, this::generateZplCode39);
+        labelGenerators.put(LabelConstants.LABEL_EAN_13, this::generateZplEAN13);
+        labelGenerators.put(LabelConstants.LABEL_UPC_A, this::generateZplUPC_A);
+        labelGenerators.put(LabelConstants.LABEL_QR_CODE, this::generateZplQRCode);
+
+        Function<List<Map<String, Object>>, String> generatorFunction = labelGenerators.getOrDefault(labelType, this::generateZplDefault);
+
         switch (labelFormat) {
-            case "2-Colunas":
-                return generateZpl2Columns(eansAndSkus, labelType, labelWidth, labelHeight, columns);
-            case "1-Coluna":
-                return generateZpl1Column(eansAndSkus, labelType, labelWidth, labelHeight);
-            case "4-etiquetas por página":
-                return generateZpl4LabelsPerPage(eansAndSkus, labelType, labelWidth, labelHeight, columns, rows);
+            case LabelConstants.FORMAT_1_COLUMN:
+                return generateZpl1Column(eansAndSkus, labelType);
+
+            case LabelConstants.FORMAT_2_COLUMNS:
+                return generateZpl2Columns(eansAndSkus, labelType);
+
+            case LabelConstants.FORMAT_4_LABELS:
+                return generateZpl4LabelsPerPage(eansAndSkus, labelType);
+
             default:
                 throw new IllegalArgumentException("Formato de etiqueta desconhecido.");
         }
     }
 
-    private String generateZpl2Columns(List<Map<String, Object>> eansAndSkus, String labelType, int labelWidth, int labelHeight, int columns) {
-        StringBuilder zpl = new StringBuilder("^XA^CI28\n");
-        int xOffset = 0;
-        int yOffset = 0;
-        int columnCount = 0;
+    private String generateZpl2Columns(List<Map<String, Object>> eansAndSkus, String labelType) {
+        StringBuilder zpl = new StringBuilder();
 
         for (Map<String, Object> item : eansAndSkus) {
-            String ean = item.get("EAN").toString();
-            String sku = item.get("SKU").toString();
             int quantity = Integer.parseInt(item.get("Quantidade").toString());
-            for (int i = 0; i < quantity; i++) {
-                zpl.append(generateLabelContent(labelType, xOffset, yOffset, ean, sku));
-                columnCount++;
-                xOffset += labelWidth;
 
-                if (columnCount == columns) {
-                    xOffset = 0;
-                    yOffset += labelHeight;
-                    columnCount = 0;
+            for (int i = 0; i < quantity; i++) {
+                zpl.append("^XA^CI28\n");
+
+                String sku = item.get("SKU") != null ? item.get("SKU").toString() : "";
+                String ean =  item.get("EAN") != null ? item.get("EAN").toString() : "";
+                String typebarcode = sku.equals("") ? "BEN" : "BCN";
+                String value = sku.equals("") ? ean : sku;
+
+                if (TYPEBARCODES.contains(typebarcode)) {
+                    zpl.append(String.format(
+                            "^LH0,0\n" +
+                                    "^FO65,18^BY2,,0^%s,54,N,N^FD%s^FS\n" +
+                                    "^FO145,80^A0N,20,28^FH^FD%s^FS\n" +
+                                    "^FO146,80^A0N,20,28^FH^FD%s^FS\n" +
+                                    "^FS\n" +
+                                    "^CI28\n" +
+                                    "^LH0,0\n" +
+                                    "^FO475,18^BY2,,0^%s,54,N,N^FD%s^FS\n" +
+                                    "^FO555,80^A0N,20,28^FH^FD%s^FS\n" +
+                                    "^FO556,80^A0N,20,28^FH^FD%s^FS\n" +
+                                    "^FS\n" +
+                                    "^XZ",
+                            typebarcode, value, value, value, typebarcode, value, value, value
+                    ));
                 }
             }
         }
 
-        zpl.append("^XZ");
         return zpl.toString();
     }
 
-    private String generateZpl1Column(List<Map<String, Object>> eansAndSkus, String labelType, int labelWidth, int labelHeight) {
-        StringBuilder zpl = new StringBuilder("^XA^CI28\n");
-        int yOffset = 0;
+    private String generateZpl1Column(List<Map<String, Object>> eansAndSkus, String labelType) {
+        StringBuilder zpl = new StringBuilder();
 
         for (Map<String, Object> item : eansAndSkus) {
-            String ean = item.get("EAN").toString();
-            String sku = item.get("SKU").toString();
+            String ean = item.get("EAN") != null ? item.get("EAN").toString() : null;
+            String sku = item.get("SKU") != null ? item.get("SKU").toString() : null;
             int quantity = Integer.parseInt(item.get("Quantidade").toString());
+
             for (int i = 0; i < quantity; i++) {
-                zpl.append(generateLabelContent(labelType, 0, yOffset, ean, sku));
-                yOffset += labelHeight;
-            }
-        }
+                zpl.append("^XA^CI28\n");
 
-        zpl.append("^XZ");
-        return zpl.toString();
-    }
-
-    private String generateZpl4LabelsPerPage(List<Map<String, Object>> eansAndSkus, String labelType, int labelWidth, int labelHeight, int columns, int rows) {
-        StringBuilder zpl = new StringBuilder("^XA^CI28\n");
-        int xOffset = 0;
-        int yOffset = 0;
-        int columnCount = 0;
-        int rowCount = 0;
-
-        for (Map<String, Object> item : eansAndSkus) {
-            String ean = item.get("EAN").toString();
-            String sku = item.get("SKU").toString();
-            int quantity = Integer.parseInt(item.get("Quantidade").toString());
-            for (int i = 0; i < quantity; i++) {
-                zpl.append(generateLabelContent(labelType, xOffset, yOffset, ean, sku));
-                columnCount++;
-                xOffset += labelWidth;
-
-                if (columnCount == columns) {
-                    xOffset = 0;
-                    yOffset += labelHeight;
-                    columnCount = 0;
-                    rowCount++;
+                if (ean != null && !ean.isEmpty()) {
+                    zpl.append(generateBarcode(ean, labelType));
                 }
 
-                if (rowCount == rows) {
-                    xOffset = 0;
-                    yOffset = 0;
-                    rowCount = 0;
+                if (sku != null && !sku.isEmpty()) {
+                    zpl.append(generateBarcode(sku, labelType));
                 }
             }
         }
 
-        zpl.append("^XZ");
         return zpl.toString();
     }
 
-    private String generateLabelContent(String labelType, int xOffset, int yOffset, String ean, String sku) {
+    private String generateZpl4LabelsPerPage(List<Map<String, Object>> data, String labelType) {
+        StringBuilder zpl = new StringBuilder();
+
+        for (Map<String, Object> item : data) {
+            int quantity = Integer.parseInt(item.get("Quantidade").toString());
+            String content = item.get("Dados").toString();
+            for (int i = 0; i < quantity; i++) {
+                zpl.append(String.format("^XA\n" +
+                        "^FO50,50\n" +
+                        "^BQN,2,10\n" +
+                        "^FDMA,%s^FS\n" +
+                        "\n" +
+                        "^FO400,50\n" +
+                        "^BQN,2,10\n" +
+                        "^FDMA,%s^FS\n" +
+                        "\n" +
+                        "^FO50,400\n" +
+                        "^BQN,2,10\n" +
+                        "^FDMA,%s^FS\n" +
+                        "\n" +
+                        "^FO400,400\n" +
+                        "^BQN,2,10\n" +
+                        "^FDMA,%s^FS\n" +
+                        "\n" +
+                        "^XZ\n", content));
+            }
+        }
+
+        return zpl.toString();
+    }
+
+    private String generateBarcode(String data, String labelType) {
         switch (labelType) {
-            case "Code128":
-                return String.format(
-                    "^LH%d,%d\n^FO65,18^BY2,,0^BCN,54,N,N^FD%s^FS\n^FO145,80^A0N,20,25^FH^FD%s^FS\n^FO146,80^A0N,20,25^FH^FD%s^FS\n",
-                    xOffset, yOffset, ean, sku, sku
-                );
-            case "QRCode":
-                return String.format(
-                    "^LH%d,%d\n^FO50,50^BQN,2,10^FDQA,%s^FS\n", xOffset, yOffset, ean
-                );
+            case LabelConstants.LABEL_CODE_128:
+                return String.format("^BY2,,0^BCN,54,N,N^FD%s^FS^XZ", data);
+            case LabelConstants.LABEL_CODE_39:
+                return String.format("^BY2,,0^B3N,50,Y,N^FD%s^FS", data);
+            case LabelConstants.LABEL_EAN_13:
+                return String.format("^BY2,,0^BEN,54,Y,N^FD%s^FS", data);
+            case LabelConstants.LABEL_UPC_A:
+                return String.format("^BY2,,0^BU,54,Y,N^FD%s^FS", data);
+            case LabelConstants.LABEL_QR_CODE:
+                return String.format("^BQN,2,10^FDMA,%s^FS", data);
             default:
-                throw new IllegalArgumentException("Tipo de etiqueta desconhecido.");
+                return "";
         }
+    }
+
+    private String generateZplDefault(List<Map<String, Object>> eansAndSkus) {
+        return "^XA^FO50,50^GB500,500,500^FS^XZ";
+    }
+
+    private String generateZplCode128(List<Map<String, Object>> eansAndSkus) {
+        StringBuilder zpl = new StringBuilder();
+        for (Map<String, Object> item : eansAndSkus) {
+            String sku = item.get("SKU") != null ? item.get("SKU").toString() : "";
+            String ean = item.get("EAN") != null ? item.get("EAN").toString() : "";
+            int quantity = Integer.parseInt(item.get("Quantidade").toString());
+
+            for (int i = 0; i < quantity; i++) {
+                zpl.append("^XA\n");
+
+                if (!sku.isEmpty()) {
+                    zpl.append(String.format("^BY2,,0^BCN,54,N,N^FD%s^FS\n", sku));
+                } else if (!ean.isEmpty()) {
+                    zpl.append(String.format("^BY2,,0^BEN,54,Y,N^FD%s^FS\n", ean));
+                }
+
+                zpl.append("^XZ\n");
+            }
+        }
+        return zpl.toString();
+    }
+
+    private String generateZplCode39(List<Map<String, Object>> eansAndSkus) {
+        StringBuilder zpl = new StringBuilder();
+        for (Map<String, Object> item : eansAndSkus) {
+            String sku = item.get("SKU") != null ? item.get("SKU").toString() : "";
+            String ean = item.get("EAN") != null ? item.get("EAN").toString() : "";
+            int quantity = Integer.parseInt(item.get("Quantidade").toString());
+
+            for (int i = 0; i < quantity; i++) {
+                zpl.append("^XA\n");
+
+                if (!sku.isEmpty()) {
+                    zpl.append(String.format("^BY2,,0^B3N,50,Y,N^FD%s^FS\n", sku));
+                } else if (!ean.isEmpty()) {
+                    zpl.append(String.format("^BY2,,0^BEN,54,Y,N^FD%s^FS\n", ean));
+                }
+
+                zpl.append("^XZ\n");
+            }
+        }
+        return zpl.toString();
+    }
+
+    private String generateZplEAN13(List<Map<String, Object>> eansAndSkus) {
+        StringBuilder zpl = new StringBuilder();
+        for (Map<String, Object> item : eansAndSkus) {
+            String ean = item.get("EAN") != null ? item.get("EAN").toString() : "";
+            int quantity = Integer.parseInt(item.get("Quantidade").toString());
+
+            for (int i = 0; i < quantity; i++) {
+                zpl.append("^XA\n");
+
+                if (!ean.isEmpty()) {
+                    zpl.append(String.format("^BY2,,0^BEN,54,Y,N^FD%s^FS\n", ean));
+                }
+
+                zpl.append("^XZ\n");
+            }
+        }
+        return zpl.toString();
+    }
+
+    private String generateZplUPC_A(List<Map<String, Object>> eansAndSkus) {
+        StringBuilder zpl = new StringBuilder();
+        for (Map<String, Object> item : eansAndSkus) {
+            String sku = item.get("SKU") != null ? item.get("SKU").toString() : "";
+            int quantity = Integer.parseInt(item.get("Quantidade").toString());
+
+            for (int i = 0; i < quantity; i++) {
+                zpl.append("^XA\n");
+
+                if (!sku.isEmpty()) {
+                    zpl.append(String.format("^BY2,,0^BU,54,Y,N^FD%s^FS\n", sku));
+                }
+
+                zpl.append("^XZ\n");
+            }
+        }
+        return zpl.toString();
+    }
+
+    private String generateZplQRCode(List<Map<String, Object>> eansAndSkus) {
+        StringBuilder zpl = new StringBuilder();
+        for (Map<String, Object> item : eansAndSkus) {
+            String content = item.get("Dados") != null ? item.get("Dados").toString() : "";
+            int quantity = Integer.parseInt(item.get("Quantidade").toString());
+
+            for (int i = 0; i < quantity; i++) {
+                zpl.append("^XA\n");
+
+                if (!content.isEmpty()) {
+                    zpl.append(String.format("^BQN,2,10^FDMA,%s^FS\n", content));
+                }
+
+                zpl.append("^XZ\n");
+            }
+        }
+        return zpl.toString();
     }
 }

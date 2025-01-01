@@ -15,8 +15,7 @@ public class LabelGenerator {
         this.zplValidationService = new ZplValidationService();
     }
 
-    public String generateZpl(List<Map<String, Object>> eansAndSkus, String labelFormat, String labelType, int labelWidth, int labelHeight, int columns, int rows) {
-        zplValidationService.validateData(eansAndSkus);
-        return zplFormatService.generateZpl(eansAndSkus, labelFormat, labelType, labelWidth, labelHeight, columns, rows);
+    public String generateZpl(List<Map<String, Object>> eansAndSkus, String labelFormat, String labelType) {
+        return zplFormatService.generateZpl(labelFormat, eansAndSkus, labelType);
     }
 }

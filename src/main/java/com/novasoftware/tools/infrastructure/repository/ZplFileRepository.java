@@ -1,4 +1,4 @@
-package com.novasoftware.tools.infrastructure.persistence.repository;
+package com.novasoftware.tools.infrastructure.repository;
 
 import java.io.File;
 import java.io.FileWriter;

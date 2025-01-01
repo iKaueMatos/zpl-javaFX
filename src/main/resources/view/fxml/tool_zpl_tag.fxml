@@ -1,27 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.*?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<?import javafx.scene.control.TextArea?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.image.ImageView?>
+
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.tools.infrastructure.http.controller.tools.ToolsTagController">
-    <VBox spacing="20" styleClass="container" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+    <VBox spacing="20" style="-fx-padding: 20;" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" stylesheets="@../css/tool-zpl.css">
         <children>
-            <Label text="Gerador de Etiquetas ZPL" styleClass="h1 mfx-title" />
+            <Label text="Gerador de Etiquetas ZPL" style="-fx-font-size: 34; -fx-font-weight: bold; -fx-text-fill: #333333;" />
 
             <VBox spacing="15">
                 <children>
-                    <Label text="Dados da Etiqueta" styleClass="h2 mfx-subtitle" />
+                    <Label text="Configuração da Etiqueta" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #0A0A0A;" />
                     <HBox spacing="20">
                         <children>
-                            <MFXTextField fx:id="eanField" promptText="Digite o EAN" prefWidth="250" />
-                            <MFXTextField fx:id="skuField" promptText="Digite o SKU" prefWidth="250" />
-                            <MFXTextField fx:id="quantityField" promptText="Digite a quantidade por linha" prefWidth="250" />
+                            <MFXComboBox fx:id="formatFieldComboBox" promptText="Formato da Etiqueta" prefWidth="270"
+                                         style="-fx-border-color: #0A0A0A; -fx-border-width: 1px; -fx-background-color: transparent; -fx-effect: none; -fx-color: #0A0A0A;">
+                                <items>
+                                    <FXCollections fx:factory="observableArrayList"></FXCollections>
+                                </items>
+                            </MFXComboBox>
+                            <MFXComboBox fx:id="labelTypeComboBox" promptText="Tipo de Etiqueta" prefWidth="270"
+                                         style="-fx-border-color: #0A0A0A; -fx-border-width: 1px; -fx-background-color: transparent; -fx-effect: none; -fx-color: #0A0A0A;" />
+                            <MFXComboBox fx:id="labelDimension" promptText="Dimensão" prefWidth="250"
+                                         style="-fx-border-color: #0A0A0A; -fx-border-width: 1px; -fx-background-color: transparent; -fx-effect: none;  -fx-color: #0A0A0A;">
+                                <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                        <String fx:value="4x6" />
+                                        <String fx:value="4x25" />
+                                        <String fx:value="2x1" />
+                                        <String fx:value="3x2" />
+                                        <String fx:value="6x4" />
+                                        <String fx:value="8x12" />
+                                        <String fx:value="2x8" />
+                                        <String fx:value="1x1" />
+                                    </FXCollections>
+                                </items>
+                            </MFXComboBox>
                         </children>
                     </HBox>
                 </children>
@@ -29,48 +52,60 @@
 
             <VBox spacing="15">
                 <children>
-                    <Label text="Configuração da Etiqueta" styleClass="h2 mfx-subtitle" />
-                    <HBox spacing="20">
+                    <Label text="Dados da Etiqueta" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #0A0A0A;" />
+                    <HBox spacing="24">
                         <children>
-                            <MFXComboBox fx:id="formatFieldComboBox" promptText="Formato da Etiqueta" prefWidth="250" />
-                            <MFXComboBox fx:id="labelTypeComboBox" promptText="Tipo de Etiqueta" prefWidth="250" />
+                            <MFXTextField fx:id="eanField" floatMode="BORDER" floatingText="Digite o EAN" prefWidth="270"
+                                          style="-fx-border-color: #0A0A0A; -fx-border-width: 1px; -fx-background-color: transparent; -fx-effect: none;" />
+                            <MFXTextField fx:id="skuField" floatMode="BORDER" floatingText="Digite o SKU" prefWidth="270"
+                                          style="-fx-border-color: #0A0A0A; -fx-border-width: 1px; -fx-background-color: transparent; -fx-effect: none;" />
+                            <MFXTextField fx:id="quantityField" floatMode="BORDER" floatingText="Digite a quantidade por linha" prefWidth="270"
+                                          style="-fx-border-color: #0A0A0A; -fx-border-width: 1px; -fx-background-color: transparent; -fx-effect: none;" />
                         </children>
                     </HBox>
+                </children>
+            </VBox>
+
+            <ProgressIndicator fx:id="loadingIndicator" visible="false" />
+
+            <Label text="Imagem da Etiqueta" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #0A0A0A;" fx:id="imageContainerLabel" visible="false"/>
+            <VBox fx:id="imageContainer"
+                  alignment="CENTER"
+                  spacing="10"
+                  style="padding: 5px; fx-background-color: #FFFFFF; fx-border-radius: 5px;" visible="false">
+                <children>
+                    <ImageView fx:id="imageView"
+                               fitWidth="300"
+                               fitHeight="300"
+                               preserveRatio="true"
+                               pickOnBounds="true" />
                 </children>
             </VBox>
 
             <VBox spacing="15">
                 <children>
-                    <Label text="Tamanho da Etiqueta" styleClass="h2 mfx-subtitle" />
-                    <HBox spacing="20">
-                        <children>
-                            <MFXSpinner fx:id="labelWidthSpinner" promptText="Largura" prefWidth="100" />
-                            <MFXSpinner fx:id="labelHeightSpinner" promptText="Altura" prefWidth="100" />
-                            <MFXSpinner fx:id="columnsSpinner" promptText="Colunas" prefWidth="100" />
-                            <MFXSpinner fx:id="rowsSpinner" promptText="Linhas" prefWidth="100" />
-                        </children>
-                    </HBox>
+                    <Label text="ZPL Gerado" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #0A0A0A;" />
+                    <TextArea fx:id="outputArea" promptText="O ZPL gerado aparecerá aqui" prefHeight="150" prefWidth="150" maxWidth="950"
+                              style="
+                             -fx-border-radius: 10px;
+                             -fx-font-size: 14px;
+                             -fx-font-family: 'Arial';
+                             -fx-padding: 5px;"
+                    />
                 </children>
             </VBox>
 
-            <HBox spacing="15" alignment="CENTER">
+            <HBox spacing="15" alignment="CENTER_LEFT">
                 <children>
-                    <MFXButton fx:id="generateButton" text="Gerar Etiqueta" prefWidth="150" onAction="#generateLabel" styleClass="mfx-success" />
-                    <MFXButton fx:id="clearButton" text="Limpar" prefWidth="150" onAction="#clearFields" styleClass="mfx-danger" />
-                    <MFXButton fx:id="printButton" text="Imprimir" prefWidth="150" onAction="#printLabel" styleClass="mfx-warning" />
-                    <MFXButton fx:id="saveButton" text="Salvar ZPL" prefWidth="150" onAction="#saveZplToFile" styleClass="mfx-primary" />
+                    <MFXButton fx:id="generateButton" text="Gerar Etiqueta" prefWidth="150"
+                               onAction="#generateLabel" style="-fx-background-color: #0A0A0A; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 14px;" />
+                    <MFXButton fx:id="saveButton" text="Salvar ZPL" prefWidth="150"
+                               onAction="#saveZplToFile" style="-fx-background-color: #B916F9; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 14px;" />
+                    <MFXButton fx:id="printer" text="Imprimir Etiqueta" prefWidth="150"
+                               onAction="#printLabel" style="-fx-background-color: #B916F9; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 14px;" visible="false" />
+                    <MFXButton fx:id="detectPrintersButton" text="Detectar Impressoras" onAction="#onDetectPrintersButtonClicked" style="-fx-background-color: #B916F9; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 14px;" visible="false"/>
                 </children>
             </HBox>
-
-            <VBox spacing="15">
-                <children>
-                    <Label text="ZPL Gerado" styleClass="h2 mfx-subtitle" />
-                    <TextArea fx:id="outputArea" promptText="O ZPL gerado aparecerá aqui" prefHeight="300" prefWidth="800" />
-                </children>
-            </VBox>
         </children>
-        <padding>
-            <Insets top="20" right="20" bottom="20" left="20" />
-        </padding>
     </VBox>
 </AnchorPane>

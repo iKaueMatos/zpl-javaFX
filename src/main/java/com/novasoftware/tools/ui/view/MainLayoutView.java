@@ -86,12 +86,6 @@ public class MainLayoutView {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent content = loader.load();
 
-            if ("/view/fxml/tool_zpl_tag.fxml".equals(fxmlPath)) {
-                content.getStyleClass().add("tool-zpl");
-                String css = getClass().getResource("/view/css/tool-zpl.css").toExternalForm();
-                content.getStylesheets().add(css);
-            }
-
             contentPane.getChildren().clear();
             contentPane.getChildren().add(content);
         } catch (IOException e) {

@@ -1,5 +1,6 @@
 package com.novasoftware.tools.domain.service;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -14,12 +15,11 @@ public class PrinterService {
     private List<PrintService> availablePrinters;
 
     public PrinterService() {
-        detectPrinters();
+        availablePrinters = new ArrayList<>();
     }
 
     public void detectPrinters() {
         try {
-            availablePrinters = new ArrayList<>();
             DocFlavor df = DocFlavor.BYTE_ARRAY.AUTOSENSE;
 
             PrintService[] printServices = PrintServiceLookup.lookupPrintServices(df, null);
@@ -28,7 +28,7 @@ public class PrinterService {
                 for (Attribute attr : attributes.toArray()) {
                     if (attr instanceof PrinterName) {
                         String printerName = ((PrinterName) attr).getValue();
-                        System.out.println("Impressora encontrada na rede: " + printerName);
+                        System.out.println("Impressora encontrada: " + printerName);
                         availablePrinters.add(printService);
                     }
                 }
@@ -62,82 +62,43 @@ public class PrinterService {
         return "Desconhecido";
     }
 
-    private String getPrinterIp(PrintService printService) {
-        try {
-            InetAddress[] addresses = InetAddress.getAllByName(printService.getName());
-            if (addresses.length > 0) {
-                return addresses[0].getHostAddress();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public synchronized boolean printDocument(String texto) {
-        if (selectedPrinter == null) {
-            System.out.println("Nenhuma impressora foi selecionada.");
-            return false;
+    public void selectPrinterDialog() {
+        if (availablePrinters.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Nenhuma impressora disponível.", "Erro de Impressora", JOptionPane.ERROR_MESSAGE);
         } else {
-            try {
-                DocPrintJob dpj = selectedPrinter.createPrintJob();
-                InputStream stream = new ByteArrayInputStream(texto.getBytes());
-                DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
-                Doc doc = new SimpleDoc(stream, flavor, null);
-                dpj.print(doc, null);
-                return true;
-            } catch (PrintException e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-    }
+            String[] printerNames = availablePrinters.stream()
+                    .map(this::getPrinterName)
+                    .toArray(String[]::new);
 
-    public synchronized boolean printDocument(byte[] bytes) {
-        if (selectedPrinter == null) {
-            System.out.println("Nenhuma impressora foi selecionada.");
-            return false;
-        } else {
-            try {
-                DocPrintJob dpj = selectedPrinter.createPrintJob();
-                InputStream stream = new ByteArrayInputStream(bytes);
-                DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
-                Doc doc = new SimpleDoc(stream, flavor, null);
-                dpj.print(doc, null);
-                return true;
-            } catch (PrintException e) {
-                e.printStackTrace();
-                return false;
+            String printerSelection = (String) JOptionPane.showInputDialog(null, "Selecione uma impressora",
+                    "Seleção de Impressora", JOptionPane.QUESTION_MESSAGE,
+                    null, printerNames, printerNames[0]);
+
+            if (printerSelection != null) {
+                int index = Arrays.asList(printerNames).indexOf(printerSelection);
+                selectPrinter(index);
+            } else {
+                System.out.println("Nenhuma impressora selecionada.");
             }
         }
     }
 
     public synchronized boolean printZplDocument(String zplContent) {
-        if (printerIp != null && printerPort > 0) {
-            try (Socket socket = new Socket(printerIp, printerPort)) {
-                OutputStream outputStream = socket.getOutputStream();
-                outputStream.write(zplContent.getBytes());
-                outputStream.flush();
-                return true;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
+        if (selectedPrinter == null) {
+            System.out.println("Nenhuma impressora foi selecionada.");
+            selectPrinterDialog();  // Exibe a caixa de seleção de impressora
+            return false;
         }
-        else if (selectedPrinter != null) {
-            try {
-                DocPrintJob dpj = selectedPrinter.createPrintJob();
-                InputStream stream = new ByteArrayInputStream(zplContent.getBytes());
-                DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
-                Doc doc = new SimpleDoc(stream, flavor, null);
-                dpj.print(doc, null);
-                return true;
-            } catch (PrintException e) {
-                e.printStackTrace();
-                return false;
-            }
-        } else {
-            System.out.println("Nenhuma impressora Zebra foi encontrada.");
+
+        try {
+            DocPrintJob dpj = selectedPrinter.createPrintJob();
+            InputStream stream = new ByteArrayInputStream(zplContent.getBytes());
+            DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
+            Doc doc = new SimpleDoc(stream, flavor, null);
+            dpj.print(doc, null);
+            return true;
+        } catch (PrintException e) {
+            e.printStackTrace();
             return false;
         }
     }

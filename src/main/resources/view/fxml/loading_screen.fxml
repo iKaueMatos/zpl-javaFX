@@ -8,20 +8,20 @@
 
 <StackPane xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.novasoftware.tools.infrastructure.http.controller.loading.LoadingScreenController"
-           style="-fx-background-color: #f97316; -fx-alignment: center;">
+           style="-fx-background-color: #B916F9; -fx-alignment: center;">
     <VBox spacing="30" style="-fx-alignment: center;">
         <MFXProgressSpinner fx:id="progressIndicator"
-                            style="-fx-stroke-width: 6; -fx-fill: transparent; -fx-stroke: white;">
+                            style="-fx-stroke-width: 6; -fx-fill: transparent; -fx-stroke: #FFFFFF;">
             <effect>
                 <DropShadow radius="10.0" spread="0.3" color="rgba(255, 255, 255, 0.5)" />
             </effect>
         </MFXProgressSpinner>
 
         <Label fx:id="loadingMessage" text="Carregando, por favor aguarde..."
-               style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Roboto'; -fx-font-weight: bold;">
+               style="-fx-text-fill: #FFFFFF; -fx-font-size: 20px; -fx-font-family: 'Roboto'; -fx-font-weight: bold;">
         </Label>
 
         <Label fx:id="footerMessage" text="Estamos preparando tudo para você!"
-               style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-family: 'Roboto'; -fx-font-style: italic;" />
+               style="-fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-font-family: 'Roboto'; -fx-font-style: italic;" />
     </VBox>
 </StackPane>

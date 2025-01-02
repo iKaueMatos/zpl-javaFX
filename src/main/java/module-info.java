@@ -18,6 +18,7 @@ module com.zpl.zpl {
     requires ZSDK.API;
     requires fontawesomefx;
     requires org.flywaydb.core;
+    requires java.prefs;
 
     exports com.novasoftware.tools.domain.model to javafx.fxml;
     exports com.novasoftware.tools.domain.service to javafx.fxml;
@@ -27,8 +28,8 @@ module com.zpl.zpl {
     opens com.novasoftware.tools.infrastructure.http.controller.loading to javafx.fxml;
     exports com.novasoftware.tools.infrastructure.http.controller.tools;
     opens com.novasoftware.tools.infrastructure.http.controller.tools to javafx.fxml;
-    exports com.novasoftware.tools.infrastructure.http.controller.auth;
-    opens com.novasoftware.tools.infrastructure.http.controller.auth to javafx.fxml;
+    exports com.novasoftware.user.infra.http.controller.auth;
+    opens com.novasoftware.user.infra.http.controller.auth to javafx.fxml;
     exports com.novasoftware.tools.infrastructure.http.controller.spreadsheet to javafx.fxml;
     opens com.novasoftware.tools.infrastructure.http.controller.spreadsheet to javafx.fxml;
     exports com.novasoftware.base.layout to javafx.fxml;

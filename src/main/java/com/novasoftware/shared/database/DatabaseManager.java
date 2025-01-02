@@ -1,30 +1,45 @@
 package com.novasoftware.shared.database;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.Properties;
 
 public class DatabaseManager {
-    private static final String URL = "jdbc:sqlite:zpl.db";
 
-    public static Connection connect() throws SQLException {
-        return DriverManager.getConnection(URL);
-    }
+    private static Properties properties = new Properties();
+    private static String dbUrl;
+    private static String dbUsername;
+    private static String dbPassword;
 
-    public static void createTables() {
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS labels (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "ean TEXT NOT NULL," +
-                "sku TEXT NOT NULL," +
-                "quantity INTEGER NOT NULL" +
-                ");";
+    static {
+        try (InputStream input = DatabaseManager.class.getClassLoader().getResourceAsStream("application.properties")) {
+            if (input == null) {
+                System.err.println("Não foi possível encontrar o arquivo de propriedades.");
+            }
+            properties.load(input);
 
-        try (Connection conn = connect();
-             Statement stmt = conn.createStatement()) {
-            stmt.execute(createTableSQL);
-        } catch (SQLException e) {
+            dbUrl = properties.getProperty("db.url");
+            dbUsername = properties.getProperty("db.username");
+            dbPassword = properties.getProperty("db.password");
+
+            if (dbUrl == null || dbUsername == null || dbPassword == null) {
+                throw new IllegalArgumentException("Propriedades de banco de dados ausentes.");
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Connection connect() throws SQLException {
+        if (dbUrl == null || dbUsername == null || dbPassword == null) {
+            throw new SQLException("Propriedades de conexão não configuradas corretamente.");
+        }
+        return DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
     }
 }

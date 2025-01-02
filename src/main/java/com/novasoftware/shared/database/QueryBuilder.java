@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.novasoftware.shared.Enum.Column;
+import com.novasoftware.shared.Enum.TableColumnUser;
 import com.novasoftware.shared.Enum.Operator;
 
 public class QueryBuilder<T> {
@@ -24,19 +24,23 @@ public class QueryBuilder<T> {
       this.table = modelClass.getSimpleName().toLowerCase();
   }
 
-  public QueryBuilder<T> select(Column... columns) {
-      for (Column column : columns) {
-          columnsToSelect.add(column.getName());
-      }
-      return this;
-  }
+    public QueryBuilder<T> select(TableColumnUser... columns) {
+        for (TableColumnUser column : columns) {
+            if (column == TableColumnUser.ALL_COLUMN) {
+                columnsToSelect.add("*");
+                return this;
+            }
+            columnsToSelect.add(column.getValue());
+        }
+        return this;
+    }
 
-  public QueryBuilder<T> where(Column column, Operator operator, Object value) {
+  public QueryBuilder<T> where(TableColumnUser column, Operator operator, Object value) {
       conditions.add(new Condition(column, operator, value));
       return this;
   }
 
-  public QueryBuilder<T> orderBy(Column column, boolean ascending) {
+  public QueryBuilder<T> orderBy(TableColumnUser column, boolean ascending) {
       orderByClauses.add(new OrderByClause(column, ascending));
       return this;
   }
@@ -65,9 +69,9 @@ public class QueryBuilder<T> {
           List<String> conditionStrings = new ArrayList<>();
           for (Condition condition : conditions) {
               if (condition.getOperator() == Operator.IN) {
-                  conditionStrings.add(condition.getColumn().getName() + " " + condition.getOperator().getSymbol() + " (?)");
+                  conditionStrings.add(condition.getColumn().getValue() + " " + condition.getOperator().getSymbol() + " (?)");
               } else {
-                  conditionStrings.add(condition.getColumn().getName() + " " + condition.getOperator().getSymbol() + " ?");
+                  conditionStrings.add(condition.getColumn().getValue() + " " + condition.getOperator().getSymbol() + " ?");
               }
           }
           query.append(String.join(" AND ", conditionStrings));
@@ -77,7 +81,7 @@ public class QueryBuilder<T> {
           query.append(" ORDER BY ");
           List<String> orderByStrings = new ArrayList<>();
           for (OrderByClause orderBy : orderByClauses) {
-              orderByStrings.add(orderBy.getColumn().getName() + (orderBy.isAscending() ? " ASC" : " DESC"));
+              orderByStrings.add(orderBy.getColumn().getValue() + (orderBy.isAscending() ? " ASC" : " DESC"));
           }
           query.append(String.join(", ", orderByStrings));
       }

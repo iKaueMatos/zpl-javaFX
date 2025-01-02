@@ -1,17 +1,17 @@
 package com.novasoftware.shared.database;
 
-import com.novasoftware.shared.Enum.Column;
+import com.novasoftware.shared.Enum.TableColumnUser;
 
 public class OrderByClause {
-  private final Column column;
+  private final TableColumnUser column;
   private final boolean ascending;
 
-  public OrderByClause(Column column, boolean ascending) {
+  public OrderByClause(TableColumnUser column, boolean ascending) {
       this.column = column;
       this.ascending = ascending;
   }
 
-  public Column getColumn() {
+  public TableColumnUser getColumn() {
       return column;
   }
 

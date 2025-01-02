@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="500.0" prefWidth="400.0" spacing="20" style="-fx-background-color: #ffffff; -fx-padding: 30; -fx-border-color: #1A508B; -fx-border-width: 2; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.tools.infrastructure.http.controller.auth.LoginController">
+<VBox alignment="CENTER" prefHeight="500.0" prefWidth="400.0" spacing="20" style="-fx-background-color: #ffffff; -fx-padding: 30; -fx-border-color: #1A508B; -fx-border-width: 2; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.user.infra.http.controller.auth.LoginController">
 
     <Label text="Bem-vindo ao Novo Software!" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1A508B;" />
     <Label text="Faça login para acessar seus resultados." style="-fx-font-size: 14px; -fx-text-fill: #555555;" />

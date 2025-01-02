@@ -1,11 +1,15 @@
 package com.novasoftware;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.Properties;
 
 import com.novasoftware.base.ui.view.MainScreen;
 import com.novasoftware.routes.Routes;
 import com.novasoftware.shared.database.DatabaseInitializer;
-import com.novasoftware.tools.infrastructure.http.controller.auth.LoginController;
+import com.novasoftware.shared.database.DatabaseManager;
+import com.novasoftware.user.infra.http.controller.auth.LoginController;
 
 import io.github.palexdev.materialfx.theming.JavaFXThemes;
 import io.github.palexdev.materialfx.theming.MaterialFXStylesheets;
@@ -21,11 +25,12 @@ import javafx.stage.StageStyle;
 import org.flywaydb.core.Flyway;
 
 public class NovaSoftwareToolsApplication extends Application {
+    private Properties properties = new Properties();
 
     @Override
     public void start(Stage primaryStage) {
         try {
-            runFlywayMigrations();
+            DatabaseInitializer.initialize();
             configureGlobalTheme();
             configurePrimaryStage(primaryStage);
             showLoginScreen(primaryStage);
@@ -154,15 +159,6 @@ public class NovaSoftwareToolsApplication extends Application {
             System.err.println("Erro ao exibir a tela principal: " + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    private void runFlywayMigrations() {
-        Flyway flyway = Flyway.configure()
-                .dataSource("jdbc:mysql://localhost:3306/dev", "root", "root")
-                .load();
-
-        flyway.migrate();
-        System.out.println("Migrações aplicadas com sucesso!");
     }
 
     public static void main(String[] args) {

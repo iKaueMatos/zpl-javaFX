@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ZebraPrinterConfigurationService {
-
     private static List<String> printersFound = new ArrayList<>();
 
     public void detectZebraPrinters() {

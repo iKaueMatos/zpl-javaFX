@@ -8,8 +8,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.CheckBox?>
 <StackPane prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/auth.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.novasoftware.tools.infrastructure.http.controller.auth.LoginController">
+           fx:controller="com.novasoftware.user.infra.http.controller.auth.LoginController">
 
     <VBox>
         <HBox fx:id="titleBar" alignment="CENTER_RIGHT" styleClass="title-bar" maxHeight="30.0"
@@ -34,13 +35,14 @@
                 </VBox>
 
                 <VBox alignment="CENTER" spacing="24">
-                    <MFXTextField fx:id="usernameField" prefWidth="350.0" floatMode="BORDER" floatingText="E-mail" />
-                    <MFXPasswordField fx:id="passwordField" prefWidth="350.0" floatMode="BORDER" floatingText="Senha" />
-                </VBox>
+                    <MFXTextField fx:id="usernameField" prefWidth="350.0" floatMode="BORDER" floatingText="E-mail" onKeyPressed="#handleKeyEvents" />
+                    <MFXPasswordField fx:id="passwordField" prefWidth="350.0" floatMode="BORDER" floatingText="Senha" onKeyPressed="#handleKeyEvents" />
+                    <CheckBox fx:id="rememberEmailCheckBox" text="Lembrar e-mail" style="-fx-text-fill: white;" />
 
-                <VBox alignment="CENTER" spacing="20">
-                    <MFXButton onAction="#handleLogin" prefHeight="50.0" prefWidth="250.0" styleClass="primary-button" text="Entrar" />
-                    <Label onMouseClicked="#handleForgotPassword" styleClass="link-text" text="Esqueceu sua senha?" />
+                    <VBox alignment="CENTER" spacing="20">
+                        <MFXButton onAction="#handleLogin" prefHeight="50.0" prefWidth="250.0" styleClass="primary-button" text="Entrar" />
+                        <Label onMouseClicked="#handleForgotPassword" styleClass="link-text" text="Esqueceu sua senha?" />
+                    </VBox>
                 </VBox>
 
                 <HBox alignment="CENTER" spacing="5">

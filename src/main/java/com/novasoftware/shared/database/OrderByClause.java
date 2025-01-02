@@ -1,6 +1,6 @@
-package com.novasoftware.tools.infrastructure.database;
+package com.novasoftware.shared.database;
 
-import com.novasoftware.tools.infrastructure.Enum.Column;
+import com.novasoftware.shared.Enum.Column;
 
 public class OrderByClause {
   private final Column column;

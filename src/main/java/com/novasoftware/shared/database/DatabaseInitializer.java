@@ -1,4 +1,4 @@
-package com.novasoftware.tools.infrastructure.database;
+package com.novasoftware.shared.database;
 
 
 public class DatabaseInitializer {

@@ -5,7 +5,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.Toolkit;
 
-import com.novasoftware.routes.Routes;
+import com.novasoftware.core.path.ResourcePaths;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,7 +19,7 @@ public class MainScreen extends Application {
     }
 
     public void showMainScreen(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(Routes.LAYOUT_DEFAULT));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(ResourcePaths.LAYOUT_DEFAULT));
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         

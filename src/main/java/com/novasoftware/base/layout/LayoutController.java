@@ -3,7 +3,7 @@ package com.novasoftware.base.layout;
 import java.io.InputStream;
 
 import com.novasoftware.base.ui.view.NavBarView;
-import com.novasoftware.routes.Routes;
+import com.novasoftware.core.path.ResourcePaths;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -49,7 +49,11 @@ public class LayoutController extends NavBarView {
 
     @FXML
     public void initialize() {
-        loadDynamicContent(Routes.TOOL_ZPL_TAG_SCREEN);
+        menuPane.setManaged(false);
+        menuPane.setVisible(false);
+        isMenuVisible = false;
+
+        loadDynamicContent(ResourcePaths.TOOL_ZPL_TAG_SCREEN);
 
         minimizeLabel.setOnMouseClicked(event -> handleMinimize());
         maximizeLabel.setOnMouseClicked(event -> handleMaximize());
@@ -58,7 +62,8 @@ public class LayoutController extends NavBarView {
         titleBar.setOnMousePressed(this::handleMousePressed);
         titleBar.setOnMouseDragged(this::handleMouseDragged);
 
-        InputStream logoImageStream = getClass().getResourceAsStream(Routes.LOGO_PATH_PNG);
+        titleBar.setOnMouseClicked(this::handleTitleBarDoubleClick);
+        InputStream logoImageStream = getClass().getResourceAsStream(ResourcePaths.LOGO_PATH_PNG);
         if (logoImageStream != null) {
             Image logoImage = new Image(logoImageStream);
             logoImageView.setImage(logoImage);
@@ -123,6 +128,12 @@ public class LayoutController extends NavBarView {
             Stage stage = (Stage) window;
             stage.setX(event.getScreenX() - xOffset);
             stage.setY(event.getScreenY() - yOffset);
+        }
+    }
+
+    private void handleTitleBarDoubleClick(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            handleMaximize();
         }
     }
 }

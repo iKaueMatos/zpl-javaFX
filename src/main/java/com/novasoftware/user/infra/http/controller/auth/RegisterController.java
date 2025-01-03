@@ -41,7 +41,9 @@ public class RegisterController extends BaseController {
     private Stage stage;
     private UserRepository userRepository = new UserRepositoryImpl();
 
-    public RegisterController() {}
+    public RegisterController(Stage stage) {
+        this.stage = stage;
+    }
 
     @FXML
     private void handleRegister(ActionEvent event) {
@@ -116,5 +118,13 @@ public class RegisterController extends BaseController {
             System.err.println("Erro ao carregar a tela de login: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

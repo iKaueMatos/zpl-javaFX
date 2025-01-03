@@ -5,10 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad99ba91-effb-41a9-a6c1-7cc6e4f52db4" name="Changes" comment="feature: concluded login and register">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config/AppInitializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config/SystemTrayManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev-database.sqlite" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/dev/DatabaseManagerDev.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/view/assets/logo-system.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/NovaSoftwareToolsApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/NovaSoftwareToolsApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/base/layout/LayoutController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/base/layout/LayoutController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/base/ui/view/MainScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/base/ui/view/MainScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/base/ui/view/NavBarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/base/ui/view/NavBarView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config/AppInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config/AppInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config/SystemTrayManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config/SystemTrayManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/routes/Routes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/path/ResourcePaths.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/database/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/database/DatabaseManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/RegisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/repository/UserRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/repository/UserRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/V1__create_labels_table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db/V1__create_labels_table.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_import_spreadsheet_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_import_spreadsheet_screen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zpl.db" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,38 +97,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Application.NovaSoftwareToolsApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;v1&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/kaue1/zpl-javaFX/lib&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.48965517&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.NovaSoftwareToolsApplication.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "true",
+    "JAR Application.ZSDK_API.jar.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "v1",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/kaue1/nova-tools-javaFX",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.48965517",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\kaue1\zpl-javaFX\src\main\resources\view" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\kaue1\nova-tools-javaFX\src\main\resources\view\assets" />
       <recent name="C:\Users\kaue1\zpl-javaFX\lib" />
       <recent name="C:\Users\kaue1\zpl-javaFX\src\main\resources\view\assets" />
       <recent name="C:\Users\kaue1\zpl-javaFX\src\main\resources\view" />
       <recent name="C:\Users\kaue1\zpl-javaFX\src\main\resources" />
-      <recent name="C:\Users\kaue1\zpl-javaFX\src\main\resources\view\fxml\assets" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.NovaSoftwareToolsApplication">
     <configuration name="NovaSoftwareToolsApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.novasoftware.NovaSoftwareToolsApplication" />
       <module name="nova-javafx" />
@@ -137,6 +153,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ZSDK_API.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/lib/ZSDK_API.jar" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
         <settings />
@@ -146,6 +166,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.NovaSoftwareToolsApplication" />
+        <item itemvalue="JAR Application.ZSDK_API.jar" />
       </list>
     </recent_temporary>
   </component>
@@ -187,9 +208,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/repository/UserRepositoryImpl.java</url>
-          <line>73</line>
-          <option name="timeStamp" value="4" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/novasoftware/shared/dev/DatabaseManagerDev.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 import com.novasoftware.base.layout.BaseController;
+import com.novasoftware.core.path.ResourcePaths;
 import com.novasoftware.shared.util.NotificationUtil;
 import com.novasoftware.tools.application.repository.UserRepository;
 import com.novasoftware.user.domain.model.Users;
@@ -145,15 +146,18 @@ public class LoginController extends BaseController {
     @FXML
     public void handleSignUp() {
         try {
-            URL resource = getClass().getResource("/view/fxml/register_screen.fxml");
+            URL resource = getClass().getResource(ResourcePaths.REGISTER_SCREEN_PATH);
 
             if (resource == null) {
-                throw new IllegalArgumentException("Arquivo FXML não encontrado: /view/fxml/register_screen.fxml");
+                throw new IllegalArgumentException("Arquivo FXML não encontrado: " + ResourcePaths.REGISTER_SCREEN_PATH);
             }
 
             FXMLLoader loader = new FXMLLoader(resource);
             Parent root = loader.load();
             Scene scene = new Scene(root);
+
+            RegisterController registerController = loader.getController();
+            registerController.setStage(stage);
 
             stage.setScene(scene);
             stage.setWidth(1200);

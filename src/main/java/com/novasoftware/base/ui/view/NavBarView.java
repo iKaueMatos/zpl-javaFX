@@ -1,6 +1,6 @@
 package com.novasoftware.base.ui.view;
 
-import com.novasoftware.routes.Routes;
+import com.novasoftware.core.path.ResourcePaths;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,16 +27,16 @@ public class NavBarView {
 
     @FXML
     public void loadConfig() {
-        loadDynamicContent(Routes.CONFIGURATION_SCREEN);
+        loadDynamicContent(ResourcePaths.CONFIGURATION_SCREEN);
     }
 
     @FXML
     public void loadGenerateZPL() {
-        loadDynamicContent(Routes.TOOL_ZPL_TAG_SCREEN);
+        loadDynamicContent(ResourcePaths.TOOL_ZPL_TAG_SCREEN);
     }
 
     @FXML
     public void loadImport() {
-        loadDynamicContent(Routes.TOOL_IMPORT_SPREADSHEET);
+        loadDynamicContent(ResourcePaths.TOOL_IMPORT_SPREADSHEET);
     }
 }

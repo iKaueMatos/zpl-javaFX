@@ -72,7 +72,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     private static Users executeQuery(QueryBuilder<Users> queryBuilder) {
         String sql = queryBuilder.build();
-        System.out.println("Consulta SQL gerada: " + sql);
 
         try (Connection conn = DatabaseManager.connect();
              PreparedStatement pstmt = queryBuilder.buildPreparedStatement(conn)) {

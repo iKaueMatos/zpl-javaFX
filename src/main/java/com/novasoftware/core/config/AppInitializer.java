@@ -3,7 +3,7 @@ package com.novasoftware.core.config;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import com.novasoftware.base.ui.view.MainScreen;
-import com.novasoftware.routes.Routes;
+import com.novasoftware.core.path.ResourcePaths;
 import com.novasoftware.shared.database.DatabaseInitializer;
 import com.novasoftware.user.infra.http.controller.auth.LoginController;
 import javafx.fxml.FXMLLoader;
@@ -44,19 +44,19 @@ public class AppInitializer {
     }
 
     private static void configurePrimaryStage(Stage primaryStage) {
-        URL logoResource = AppInitializer.class.getResource(Routes.LOGO_PATH);
+        URL logoResource = AppInitializer.class.getResource(ResourcePaths.LOGO_PATH);
         if (logoResource == null) {
-            throw new IllegalArgumentException("Recurso de logo não encontrado em: " + Routes.LOGO_PATH);
+            throw new IllegalArgumentException("Recurso de logo não encontrado em: " + ResourcePaths.LOGO_PATH);
         }
         primaryStage.getIcons().add(new Image(logoResource.toExternalForm()));
         primaryStage.setTitle("Ferramentas - Nova Software");
         primaryStage.initStyle(StageStyle.UNDECORATED);
     }
 
-    private static void showLoginScreen(Stage stage) throws Exception {
-        URL resource = AppInitializer.class.getResource(Routes.LOGIN_SCREEN_PATH);
+    public static void showLoginScreen(Stage stage) throws Exception {
+        URL resource = AppInitializer.class.getResource(ResourcePaths.LOGIN_SCREEN_PATH);
         if (resource == null) {
-            throw new IllegalArgumentException("Arquivo FXML não encontrado: " + Routes.LOGIN_SCREEN_PATH);
+            throw new IllegalArgumentException("Arquivo FXML não encontrado: " + ResourcePaths.LOGIN_SCREEN_PATH);
         }
 
         FXMLLoader loader = new FXMLLoader(resource);
@@ -77,9 +77,9 @@ public class AppInitializer {
 
     private static void showLoadingScreen(Stage stage) {
         try {
-            URL resource = AppInitializer.class.getResource(Routes.LOADING_SCREEN_PATH);
+            URL resource = AppInitializer.class.getResource(ResourcePaths.LOADING_SCREEN_PATH);
             if (resource == null) {
-                throw new IllegalArgumentException("Arquivo FXML não encontrado: " + Routes.LOADING_SCREEN_PATH);
+                throw new IllegalArgumentException("Arquivo FXML não encontrado: " + ResourcePaths.LOADING_SCREEN_PATH);
             }
 
             FXMLLoader loader = new FXMLLoader(resource);

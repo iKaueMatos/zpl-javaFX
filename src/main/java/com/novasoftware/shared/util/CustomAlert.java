@@ -1,4 +1,4 @@
-package com.novasoftware.tools.ui.util;
+package com.novasoftware.shared.util;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
 

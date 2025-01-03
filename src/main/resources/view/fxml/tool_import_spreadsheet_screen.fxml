@@ -9,22 +9,22 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="822.0" prefWidth="1346.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.tools.infrastructure.http.controller.spreadsheet.SpreadsheetController">
-    <VBox spacing="15" styleClass="container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <VBox spacing="15" VBox.vgrow="ALWAYS" styleClass="container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <children>
-            <Label styleClass="h1 mfx-title" text="Importar e Analisar Planilha" />
+            <Label style="-fx-font-size: 34; -fx-font-weight: bold; -fx-text-fill: #333333;"  text="Importar Dados" />
 
             <HBox alignment="CENTER_LEFT" spacing="15">
                 <children>
-                    <MFXButton onAction="#importSpreadsheet" styleClass="mfx-button mfx-primary" text="Importar Planilha" />
-                    <MFXButton onAction="#downloadTemplate" styleClass="mfx-button mfx-secondary" text="Baixar Modelo de Planilha" />
+                    <MFXButton onAction="#importSpreadsheet" prefWidth="150" style="-fx-background-color: #0A0A0A; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 14px;" text="Importar Planilha" />
+                    <MFXButton onAction="#downloadTemplate" prefWidth="150" style="-fx-background-color: #0A0A0A; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 14px;" text="Baixar Modelo de Planilha" />
                 </children>
             </HBox>
 
-            <MFXTableView fx:id="dataTable" prefHeight="674.0" prefWidth="1306.0" styleClass="mfx-table-view" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+            <MFXTableView VBox.vgrow="ALWAYS" fx:id="dataTable" prefHeight="674.0" prefWidth="1306.0" styleClass="mfx-table-view" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
 
             <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="737.0" spacing="10">
                 <children>
-                    <MFXButton fx:id="printButton" onAction="#printData" prefWidth="150" styleClass="mfx-button mfx-warning" text="Imprimir Dados" />
+                    <MFXButton fx:id="printButton" onAction="#printData" prefWidth="150" style="-fx-background-color: #0A0A0A; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 14px;" text="Imprimir Dados" />
                 </children>
             </HBox>
             <HBox spacing="15">

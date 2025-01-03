@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import com.novasoftware.shared.util.CustomAlert;
 import com.novasoftware.tools.application.usecase.SpreadsheetReader;
-import com.novasoftware.tools.ui.util.CustomAlert;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;

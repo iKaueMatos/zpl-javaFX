@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import io.github.palexdev.materialfx.controls.MFXPaginatedTableView?>
 <AnchorPane prefHeight="822.0" prefWidth="1346.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.tools.infrastructure.http.controller.spreadsheet.SpreadsheetController">
     <VBox spacing="15" VBox.vgrow="ALWAYS" styleClass="container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <children>
@@ -15,18 +16,14 @@
 
             <HBox alignment="CENTER_LEFT" spacing="15">
                 <children>
-                    <MFXButton onAction="#importSpreadsheet" prefWidth="150" style="-fx-background-color: #0A0A0A; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 14px;" text="Importar Planilha" />
-                    <MFXButton onAction="#downloadTemplate" prefWidth="150" style="-fx-background-color: #0A0A0A; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 14px;" text="Baixar Modelo de Planilha" />
+                    <MFXButton onAction="#importSpreadsheet" prefWidth="140" style="-fx-background-color: #0A0A0A; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12px;" text="Importar Planilha" />
+                    <MFXButton onAction="#downloadTemplate" prefWidth="140" style="-fx-background-color: #0A0A0A; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12px;" text="Baixar Modelo" />
                 </children>
             </HBox>
 
-            <MFXTableView VBox.vgrow="ALWAYS" fx:id="dataTable" prefHeight="674.0" prefWidth="1306.0" styleClass="mfx-table-view" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+            <MFXTableView VBox.vgrow="ALWAYS" fx:id="table" prefHeight="674.0" prefWidth="1306.0" styleClass="mfx-table-view" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+            <MFXPaginatedTableView VBox.vgrow="ALWAYS" fx:id="paginated" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="1306.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
 
-            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="737.0" spacing="10">
-                <children>
-                    <MFXButton fx:id="printButton" onAction="#printData" prefWidth="150" style="-fx-background-color: #0A0A0A; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 14px;" text="Imprimir Dados" />
-                </children>
-            </HBox>
             <HBox spacing="15">
                 <children>
                     <VBox spacing="10" />

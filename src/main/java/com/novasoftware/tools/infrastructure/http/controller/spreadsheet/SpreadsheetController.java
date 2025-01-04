@@ -1,7 +1,6 @@
 package com.novasoftware.tools.infrastructure.http.controller.spreadsheet;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Comparator;
@@ -9,26 +8,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import com.novasoftware.shared.util.CustomAlert;
+import com.novasoftware.shared.util.alert.CustomAlert;
 import com.novasoftware.tools.application.usecase.SpreadsheetReader;
+import com.novasoftware.tools.infrastructure.service.TemplateDownloadSpreendsheetService;
+import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
+import io.github.palexdev.materialfx.filter.IntegerFilter;
+import io.github.palexdev.materialfx.filter.StringFilter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.print.PrinterJob;
-import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class SpreadsheetController implements Initializable {
     @FXML
-    private MFXTableView<Map<String, Object>> dataTable;
+    private MFXTableView<Map<String, Object>> table;
 
     @FXML
-    private TextArea outputArea;
+    private MFXPaginatedTableView<Map<String, Object>> paginated;
 
     private final SpreadsheetReader spreadsheetReader;
     private final ObservableList<Map<String, Object>> data;
@@ -42,24 +43,44 @@ public class SpreadsheetController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Inicialize as colunas da tabela
-        MFXTableColumn<Map<String, Object>> eanColumn = new MFXTableColumn<>("EAN", true, Comparator.comparing(map -> map.get("EAN").toString()));
-        MFXTableColumn<Map<String, Object>> skuColumn = new MFXTableColumn<>("SKU", true, Comparator.comparing(map -> map.get("SKU").toString()));
-        MFXTableColumn<Map<String, Object>> quantityColumn = new MFXTableColumn<>("Quantidade", true, Comparator.comparing(map -> map.get("Quantidade").toString()));
-
-        eanColumn.setRowCellFactory(data -> new MFXTableRowCell<>(map -> map.get("EAN").toString()));
-        skuColumn.setRowCellFactory(data -> new MFXTableRowCell<>(map -> map.get("SKU").toString()));
-        quantityColumn.setRowCellFactory(data -> new MFXTableRowCell<>(map -> map.get("Quantidade").toString()));
-
-        dataTable.getTableColumns().addAll(eanColumn, skuColumn, quantityColumn);
-        dataTable.setItems(data);
+        setupTable();
+        setupFilter();
     }
 
-    /**
-     * Define o Stage principal para exibição de diálogos.
-     */
-    public void setOwnerStage(Stage stage) {
-        this.ownerStage = stage;
+    private void setupTable() {
+        MFXTableColumn<Map<String, Object>> id = new MFXTableColumn<>("Id", true,
+                Comparator.comparing(map -> String.valueOf(map.getOrDefault("Id", ""))));
+        MFXTableColumn<Map<String, Object>> name = new MFXTableColumn<>("Nome", true,
+                Comparator.comparing(map -> String.valueOf(map.getOrDefault("Nome", ""))));
+        MFXTableColumn<Map<String, Object>> skuColumn = new MFXTableColumn<>("Sku", true,
+                Comparator.comparing(map -> String.valueOf(map.getOrDefault("Sku", ""))));
+        MFXTableColumn<Map<String, Object>> skuVariation = new MFXTableColumn<>("Sku variação", true,
+                Comparator.comparing(map -> String.valueOf(map.getOrDefault("Sku variação", ""))));
+        MFXTableColumn<Map<String, Object>> eanColumn = new MFXTableColumn<>("GTIN", true,
+                Comparator.comparing(map -> String.valueOf(map.getOrDefault("GTIN", ""))));
+        MFXTableColumn<Map<String, Object>> quantityColumn = new MFXTableColumn<>("Quantidade", true,
+                Comparator.comparing(map -> String.valueOf(map.getOrDefault("Quantidade", ""))));
+
+        id.setRowCellFactory(data -> new MFXTableRowCell<>(map -> String.valueOf(map.getOrDefault("Id", "0"))));
+        name.setRowCellFactory(data -> new MFXTableRowCell<>(map -> String.valueOf(map.getOrDefault("Nome", "N/A"))));
+        eanColumn.setRowCellFactory(data -> new MFXTableRowCell<>(map -> String.valueOf(map.getOrDefault("GTIN", "N/A"))));
+        skuColumn.setRowCellFactory(data -> new MFXTableRowCell<>(map -> String.valueOf(map.getOrDefault("Sku", "N/A"))));
+        skuVariation.setRowCellFactory(data -> new MFXTableRowCell<>(map -> String.valueOf(map.getOrDefault("Sku variação", "N/A"))));
+        quantityColumn.setRowCellFactory(data -> new MFXTableRowCell<>(map -> String.valueOf(map.getOrDefault("Quantidade", "0"))));
+
+        table.getTableColumns().addAll(id, name, eanColumn, skuColumn, skuVariation, quantityColumn);
+    }
+
+
+    private void setupFilter() {
+        table.getFilters().addAll(
+                new IntegerFilter<>("Id", map -> Integer.valueOf(String.valueOf(map.getOrDefault("Id", "0")))),
+                new StringFilter<>("Nome", map -> String.valueOf(map.getOrDefault("Nome", ""))),
+                new StringFilter<>("Sku", map -> String.valueOf(map.getOrDefault("Sku", ""))),
+                new StringFilter<>("Sku variação", map -> String.valueOf(map.getOrDefault("Sku variação", ""))),
+                new StringFilter<>("GTIN", map -> String.valueOf(map.getOrDefault("GTIN", ""))),
+                new StringFilter<>("Quantidade", map -> String.valueOf(map.getOrDefault("Quantidade", "0")))
+        );
     }
 
     @FXML
@@ -67,13 +88,25 @@ public class SpreadsheetController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx", "*.xls"));
         File file = fileChooser.showOpenDialog(ownerStage);
+
         if (file != null) {
             try {
                 List<Map<String, Object>> importedData = spreadsheetReader.readSpreadsheet(file);
-                data.clear();
-                data.addAll(importedData);
-                dataTable.setItems(data);
-                CustomAlert.showInfoAlert(ownerStage, "Importação bem-sucedida", "Planilha importada com sucesso!");
+                if (!importedData.isEmpty()) {
+                    data.addAll(importedData);
+                    int idCounter = 1;  // Start the ID counter at 1
+
+                    for (Map<String, Object> row : importedData) {
+                        row.put("Id", idCounter);
+                        idCounter++;
+                    }
+
+                    table.setItems(data);
+                    table.setCache(true);
+                    CustomAlert.showInfoAlert(ownerStage, "Importação bem-sucedida", "Planilha importada com sucesso!");
+                } else {
+                    CustomAlert.showWarningAlert(ownerStage, "Dados Vazios", "A planilha não contém dados válidos.");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
                 CustomAlert.showErrorAlert(ownerStage, "Erro de Importação", "Ocorreu um erro ao importar a planilha.");
@@ -83,59 +116,12 @@ public class SpreadsheetController implements Initializable {
 
     @FXML
     public void downloadTemplate() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
-        fileChooser.setInitialFileName("template.xlsx");
-        File file = fileChooser.showSaveDialog(ownerStage);
-
-        if (file != null) {
-            try (FileWriter writer = new FileWriter(file)) {
-                writer.write("EAN\tSKU\tQuantidade\n");
-                writer.write("1234567890123\tSKU123\t10\n");
-                writer.write("9876543210987\tSKU987\t20\n");
-
-                CustomAlert.showInfoAlert(ownerStage, "Salvar Modelo de Planilha", "Modelo de planilha salvo com sucesso!");
-            } catch (IOException e) {
-                e.printStackTrace();
-                CustomAlert.showErrorAlert(ownerStage, "Erro ao Salvar", "Ocorreu um erro ao salvar o modelo de planilha.");
-            }
-        }
-    }
-
-    @FXML
-    public void analyzeData() {
-        if (data.isEmpty()) {
-            CustomAlert.showWarningAlert(ownerStage, "Dados Ausentes", "Nenhum dado foi importado para análise.");
+        if (ownerStage == null) {
+            CustomAlert.showErrorAlert(ownerStage, "Erro de Configuração", "OwnerStage não foi configurado.");
             return;
         }
 
-        StringBuilder analyzedData = new StringBuilder();
-        for (Map<String, Object> row : data) {
-            analyzedData.append("EAN: ").append(row.get("EAN"))
-                    .append(", SKU: ").append(row.get("SKU"))
-                    .append(", Quantidade: ").append(row.get("Quantidade"))
-                    .append("\n");
-        }
-        outputArea.setText(analyzedData.toString());
-    }
-
-    @FXML
-    public void printData() {
-        String dataToPrint = outputArea.getText();
-        if (dataToPrint.isEmpty()) {
-            CustomAlert.showWarningAlert(ownerStage, "Sem Dados", "Nenhum dado analisado para impressão.");
-            return;
-        }
-
-        PrinterJob job = PrinterJob.createPrinterJob();
-        if (job != null && job.showPrintDialog(ownerStage)) {
-            boolean success = job.printPage(outputArea);
-            if (success) {
-                job.endJob();
-                CustomAlert.showInfoAlert(ownerStage, "Impressão", "Dados impressos com sucesso!");
-            } else {
-                CustomAlert.showErrorAlert(ownerStage, "Erro de Impressão", "Ocorreu um erro ao imprimir os dados.");
-            }
-        }
+        TemplateDownloadSpreendsheetService templateService = new TemplateDownloadSpreendsheetService();
+        templateService.downloadTemplate(ownerStage);
     }
 }

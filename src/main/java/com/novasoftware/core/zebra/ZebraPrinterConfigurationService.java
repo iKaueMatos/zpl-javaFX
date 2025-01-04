@@ -1,4 +1,4 @@
-package com.novasoftware.tools.infrastructure.service;
+package com.novasoftware.core.zebra;
 
 import com.zebra.sdk.comm.ConnectionException;
 import com.zebra.sdk.comm.TcpConnection;
@@ -9,6 +9,7 @@ import com.zebra.sdk.printer.discovery.DiscoveredPrinter;
 import com.zebra.sdk.printer.discovery.DiscoveryException;
 import com.zebra.sdk.printer.discovery.DiscoveryHandler;
 import com.zebra.sdk.printer.discovery.NetworkDiscoverer;
+import com.novasoftware.shared.util.alert.CustomAlert;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -29,15 +30,16 @@ public class ZebraPrinterConfigurationService {
                 @Override
                 public void discoveryFinished() {
                     if (printersFound.isEmpty()) {
-                        System.out.println("Nenhuma impressora Zebra encontrada.");
+                        CustomAlert.showWarningAlert(null, "Nenhuma Impressora Encontrada", "Nenhuma impressora Zebra foi detectada.");
                     } else {
-                        System.out.println("Descoberta de impressoras concluída.");
+                        CustomAlert.showInfoAlert(null, "Impressoras Encontradas", "Impressoras Zebra detectadas com sucesso.");
                     }
                 }
 
                 @Override
                 public void discoveryError(String errorMessage) {
                     System.out.println("Erro ao descobrir impressoras: " + errorMessage);
+                    CustomAlert.showErrorAlert(null, "Erro ao Descobrir Impressoras", "Ocorreu um erro ao tentar descobrir impressoras Zebra.");
                 }
             };
 
@@ -45,12 +47,13 @@ public class ZebraPrinterConfigurationService {
         } catch (DiscoveryException e) {
             e.printStackTrace();
             System.out.println("Erro ao detectar impressoras.");
+            CustomAlert.showErrorAlert(null, "Erro de Conexão", "Erro ao detectar as impressoras Zebra.");
         }
     }
 
     public static String selectPrinter() {
         if (printersFound.isEmpty()) {
-            System.out.println("Nenhuma impressora Zebra encontrada.");
+            CustomAlert.showWarningAlert(null, "Nenhuma Impressora Encontrada", "Nenhuma impressora Zebra foi encontrada.");
             return null;
         }
 
@@ -75,10 +78,11 @@ public class ZebraPrinterConfigurationService {
             printer.sendCommand(zplCommand);
 
             connection.close();
-            System.out.println("Etiqueta enviada para a impressora: " + printerIp);
+            CustomAlert.showInfoAlert(null, "Impressão Concluída", "Etiqueta enviada para a impressora com sucesso.");
         } catch (ConnectionException | ZebraPrinterLanguageUnknownException e) {
             e.printStackTrace();
             System.out.println("Erro ao imprimir na impressora.");
+            CustomAlert.showErrorAlert(null, "Erro de Impressão", "Ocorreu um erro ao tentar imprimir na impressora.");
         }
     }
 }

@@ -1,0 +1,32 @@
+.alert {
+    -fx-background-color: #333333;
+    -fx-text-fill: white;
+    -fx-font-family:
+    -fx-font-size: 14px;
+}
+
+.alert .header {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.alert .content {
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+}
+
+.alert .button {
+    -fx-background-color: #FF5722;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.alert .button:hover {
+    -fx-background-color: #E64A19;
+}
+
+.alert .button:pressed {
+    -fx-background-color: #D32F2F;
+}

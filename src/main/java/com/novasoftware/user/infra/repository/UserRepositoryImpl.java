@@ -1,11 +1,10 @@
 package com.novasoftware.user.infra.repository;
 
-import com.novasoftware.shared.Enum.TableColumnUser;
+import com.novasoftware.shared.Enum.user.Users;
 import com.novasoftware.shared.Enum.Operator;
-import com.novasoftware.shared.database.DatabaseManager;
-import com.novasoftware.shared.database.QueryBuilder;
+import com.novasoftware.shared.database.environment.DatabaseManager;
+import com.novasoftware.shared.database.queryBuilder.QueryBuilder;
 import com.novasoftware.tools.application.repository.UserRepository;
-import com.novasoftware.user.domain.model.Users;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,19 +15,22 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserRepositoryImpl implements UserRepository {
-    public Optional<Users> findUserByEmail(String email) {
+
+    @Override
+    public Optional<com.novasoftware.user.domain.model.Users> findUserByEmail(String email) {
         QueryBuilder<Users> queryBuilder = new QueryBuilder<>(Users.class);
-        queryBuilder.select(TableColumnUser.ALL_COLUMN);
-        queryBuilder.where(TableColumnUser.EMAIL, Operator.EQUALS, email);
+        queryBuilder.select(Users.ALL_COLUMN)
+                .where(Users.EMAIL, Operator.EQUALS, email);
 
         return Optional.ofNullable(executeQuery(queryBuilder));
     }
 
-    public boolean insertUser(Users user) {
+    @Override
+    public boolean insertUser(com.novasoftware.user.domain.model.Users user) {
         QueryBuilder<Users> queryBuilder = new QueryBuilder<>(Users.class);
-        queryBuilder.select(TableColumnUser.USERNAME, TableColumnUser.PASSWORD, TableColumnUser.EMAIL,
-                TableColumnUser.CREATED_AT, TableColumnUser.UPDATED_AT, TableColumnUser.IS_ACTIVE,
-                TableColumnUser.TOKEN);
+        queryBuilder.select(Users.USERNAME, Users.PASSWORD, Users.EMAIL,
+                Users.CREATED_AT, Users.UPDATED_AT, Users.IS_ACTIVE,
+                Users.TOKEN);
 
         List<Object> values = new ArrayList<>();
         values.add(user.getUsername());
@@ -40,6 +42,7 @@ public class UserRepositoryImpl implements UserRepository {
         values.add(user.getToken());
 
         String sql = buildInsertQuery(values);
+
         System.out.println("Consulta SQL gerada: " + sql);
 
         try (Connection conn = DatabaseManager.connect();
@@ -50,7 +53,6 @@ public class UserRepositoryImpl implements UserRepository {
                 pstmt.setObject(paramIndex++, value);
             }
 
-            // Executando a inserção
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
@@ -60,17 +62,17 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     private String buildInsertQuery(List<Object> values) {
-        StringBuilder query = new StringBuilder("INSERT INTO ");
-        query.append("users (username, password, email, created_at, updated_at, is_active, token) ");
+        StringBuilder query = new StringBuilder("INSERT INTO users (username, password, email, created_at, updated_at, is_active, token) ");
         query.append("VALUES (");
 
         query.append("?,".repeat(values.size() - 1));
         query.append("?");
+
         query.append(")");
         return query.toString();
     }
 
-    private static Users executeQuery(QueryBuilder<Users> queryBuilder) {
+    private com.novasoftware.user.domain.model.Users executeQuery(QueryBuilder<Users> queryBuilder) {
         String sql = queryBuilder.build();
 
         try (Connection conn = DatabaseManager.connect();
@@ -78,7 +80,7 @@ public class UserRepositoryImpl implements UserRepository {
 
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                Users user = new Users();
+                com.novasoftware.user.domain.model.Users user = new com.novasoftware.user.domain.model.Users();
                 user.setId(rs.getInt("id"));
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));

@@ -1,6 +1,6 @@
-package com.novasoftware.shared.Enum;
+package com.novasoftware.shared.Enum.user;
 
-public enum TableColumnUser {
+public enum Users implements TableColumn {
     ID("id"),
     USERNAME("username"),
     PASSWORD("password"),
@@ -13,11 +13,16 @@ public enum TableColumnUser {
 
     private final String value;
 
-    TableColumnUser(String value) {
+    Users(String value) {
         this.value = value;
     }
 
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public String getOperatorSymbol() {
+        return "";
     }
 }

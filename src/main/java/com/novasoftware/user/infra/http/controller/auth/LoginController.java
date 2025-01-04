@@ -3,12 +3,11 @@ package com.novasoftware.user.infra.http.controller.auth;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 import com.novasoftware.base.layout.BaseController;
 import com.novasoftware.core.path.ResourcePaths;
-import com.novasoftware.shared.util.NotificationUtil;
+import com.novasoftware.shared.util.notification.NotificationUtil;
 import com.novasoftware.tools.application.repository.UserRepository;
 import com.novasoftware.user.domain.model.Users;
 import com.novasoftware.user.infra.repository.UserRepositoryImpl;
@@ -28,8 +27,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.controlsfx.control.Notifications;
-import javafx.util.Duration;
-import javafx.geometry.Pos;
 
 public class LoginController extends BaseController {
 

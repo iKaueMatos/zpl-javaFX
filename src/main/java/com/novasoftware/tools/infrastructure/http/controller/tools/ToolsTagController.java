@@ -20,9 +20,8 @@ import com.novasoftware.tools.domain.Enum.LabelType;
 import com.novasoftware.tools.domain.service.ImageZoomService;
 import com.novasoftware.tools.domain.service.ZplFileService;
 
-import com.novasoftware.tools.infrastructure.service.ZebraPrinterConfigurationService;
-import com.novasoftware.tools.infrastructure.service.ZebraPrinterService;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import com.novasoftware.core.zebra.ZebraPrinterConfigurationService;
+import com.novasoftware.core.zebra.ZebraPrinterService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;

@@ -26,7 +26,6 @@ public class LabelaryClient {
      * @throws InterruptedException Se a requisição for interrompida.
      */
     public static byte[] sendZplToLabelary(String zpl, String printerDensity, String labelDimensions, String labelIndex, String outputFormat) throws IOException, InterruptedException {
-        // Valida argumentos
         if (zpl == null || zpl.isEmpty()) {
             throw new IllegalArgumentException("O conteúdo ZPL não pode ser nulo ou vazio.");
         }

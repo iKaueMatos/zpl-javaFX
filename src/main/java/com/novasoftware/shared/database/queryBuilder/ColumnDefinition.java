@@ -1,4 +1,4 @@
-package com.novasoftware.shared.database;
+package com.novasoftware.shared.database.queryBuilder;
 
 public class ColumnDefinition {
   private final String name;

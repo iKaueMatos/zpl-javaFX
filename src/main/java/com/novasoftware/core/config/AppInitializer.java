@@ -4,7 +4,7 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 import com.novasoftware.base.ui.view.MainScreen;
 import com.novasoftware.core.path.ResourcePaths;
-import com.novasoftware.shared.database.DatabaseInitializer;
+import com.novasoftware.shared.database.environment.DatabaseInitializer;
 import com.novasoftware.user.infra.http.controller.auth.LoginController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

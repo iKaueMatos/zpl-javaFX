@@ -1,6 +1,7 @@
 package com.novasoftware.user.infra.http.controller.auth;
 
-import com.novasoftware.shared.util.NotificationUtil;
+import com.novasoftware.core.path.ResourcePaths;
+import com.novasoftware.shared.util.notification.NotificationUtil;
 import com.novasoftware.user.domain.model.Users;
 import com.novasoftware.user.infra.repository.UserRepositoryImpl;
 import com.novasoftware.tools.application.repository.UserRepository;
@@ -10,12 +11,10 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
 import java.net.URL;
@@ -100,7 +99,7 @@ public class RegisterController extends BaseController {
     @FXML
     private void handleBackToLogin() {
         try {
-            URL resource = getClass().getResource("/view/fxml/login_screen.fxml");
+            URL resource = getClass().getResource(ResourcePaths.LOADING_SCREEN_PATH);
             if (resource == null) {
                 throw new IllegalArgumentException("Arquivo FXML não encontrado: /view/fxml/login_screen.fxml");
             }

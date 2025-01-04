@@ -1,6 +1,4 @@
-package com.novasoftware.shared.database;
-
-import com.novasoftware.shared.dev.DatabaseManagerDev;
+package com.novasoftware.shared.database.environment;
 
 import java.io.IOException;
 import java.io.InputStream;

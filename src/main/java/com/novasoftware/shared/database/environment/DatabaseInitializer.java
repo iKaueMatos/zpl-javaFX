@@ -1,4 +1,4 @@
-package com.novasoftware.shared.database;
+package com.novasoftware.shared.database.environment;
 
 
 import java.sql.SQLException;

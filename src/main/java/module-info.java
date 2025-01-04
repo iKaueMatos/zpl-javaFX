@@ -19,6 +19,8 @@ module com.zpl.zpl {
     requires fontawesomefx;
     requires org.flywaydb.core;
     requires java.prefs;
+    requires com.google.protobuf;
+    requires org.apache.logging.log4j;
 
     exports com.novasoftware.tools.domain.model to javafx.fxml;
     exports com.novasoftware.tools.domain.service to javafx.fxml;
@@ -36,7 +38,8 @@ module com.zpl.zpl {
     opens com.novasoftware.base.layout to javafx.fxml;
     exports com.novasoftware.base.ui.view to javafx.fxml;
     opens com.novasoftware.base.ui.view to javafx.fxml;
-    exports com.novasoftware.shared.database to javafx.fxml;
     exports com.novasoftware;
     opens com.novasoftware to javafx.fxml;
+    exports com.novasoftware.shared.database.queryBuilder to javafx.fxml;
+    exports com.novasoftware.shared.database.environment to javafx.fxml;
 }

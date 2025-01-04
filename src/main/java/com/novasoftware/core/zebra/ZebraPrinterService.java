@@ -1,4 +1,4 @@
-package com.novasoftware.tools.infrastructure.service;
+package com.novasoftware.core.zebra;
 
 public class ZebraPrinterService {
     private final ZebraPrinterConfigurationService zebraPrinterConfiguration;

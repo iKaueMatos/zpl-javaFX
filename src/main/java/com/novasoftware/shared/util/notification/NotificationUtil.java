@@ -1,4 +1,4 @@
-package com.novasoftware.shared.util;
+package com.novasoftware.shared.util.notification;
 
 import javafx.geometry.Pos;
 import javafx.util.Duration;

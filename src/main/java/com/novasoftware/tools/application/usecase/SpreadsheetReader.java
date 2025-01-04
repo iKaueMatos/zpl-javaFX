@@ -7,13 +7,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Arrays;
 
 public class SpreadsheetReader {
-    private static final List<String> MANDATORY_COLUMNS = Arrays.asList("EAN", "SKU", "Quantidade");
+    private static final List<String> MANDATORY_COLUMNS = Arrays.asList("Nome", "SKU_VARIACAO", "EAN", "SKU", "Quantidade");
 
     public List<Map<String, Object>> readSpreadsheet(File file) throws IOException {
         if (file == null || !file.exists()) {
@@ -34,23 +34,14 @@ public class SpreadsheetReader {
                 throw new IOException("The spreadsheet is empty or does not have a header row.");
             }
 
-            List<String> columns = new ArrayList<>();
-            for (Cell cell : headerRow) {
-                columns.add(cell.getStringCellValue().trim());
-            }
-
+            List<String> columns = extractColumnHeaders(headerRow);
             validateMandatoryColumns(columns);
 
             for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
                 Row row = sheet.getRow(rowIndex);
-                if (row == null) continue;
+                if (row == null || isRowEmpty(row)) continue;
 
-                Map<String, Object> rowData = new HashMap<>();
-                for (int colIndex = 0; colIndex < columns.size(); colIndex++) {
-                    String columnName = columns.get(colIndex);
-                    Cell cell = row.getCell(colIndex);
-                    rowData.put(columnName, getCellValue(cell));
-                }
+                Map<String, Object> rowData = extractRowData(columns, row);
                 data.add(rowData);
             }
         } catch (IOException e) {
@@ -59,12 +50,39 @@ public class SpreadsheetReader {
         return data;
     }
 
+    private List<String> extractColumnHeaders(Row headerRow) {
+        List<String> columns = new ArrayList<>();
+        for (Cell cell : headerRow) {
+            columns.add(cell.getStringCellValue().trim());
+        }
+        return columns;
+    }
+
     private void validateMandatoryColumns(List<String> columns) throws IOException {
         for (String mandatoryColumn : MANDATORY_COLUMNS) {
             if (!columns.contains(mandatoryColumn)) {
                 throw new IOException("Missing mandatory column: " + mandatoryColumn);
             }
         }
+    }
+
+    private Map<String, Object> extractRowData(List<String> columns, Row row) {
+        Map<String, Object> rowData = new HashMap<>();
+        for (int colIndex = 0; colIndex < columns.size(); colIndex++) {
+            String columnName = columns.get(colIndex);
+            Cell cell = row.getCell(colIndex);
+            rowData.put(columnName, getCellValue(cell));
+        }
+        return rowData;
+    }
+
+    private boolean isRowEmpty(Row row) {
+        for (Cell cell : row) {
+            if (cell != null && cell.getCellType() != CellType.BLANK) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private Object getCellValue(Cell cell) {
@@ -88,15 +106,19 @@ public class SpreadsheetReader {
             case BOOLEAN:
                 return cell.getBooleanCellValue();
             case FORMULA:
-                try {
-                    return cell.getStringCellValue();
-                } catch (IllegalStateException e) {
-                    return cell.getNumericCellValue();
-                }
+                return evaluateFormulaCell(cell);
             case BLANK:
                 return "";
             default:
                 return cell.toString();
+        }
+    }
+
+    private Object evaluateFormulaCell(Cell cell) {
+        try {
+            return cell.getStringCellValue();
+        } catch (IllegalStateException e) {
+            return cell.getNumericCellValue();
         }
     }
 }

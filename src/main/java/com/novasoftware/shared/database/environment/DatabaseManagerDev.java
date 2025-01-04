@@ -1,6 +1,4 @@
-package com.novasoftware.shared.dev;
-
-import com.novasoftware.shared.database.DatabaseManager;
+package com.novasoftware.shared.database.environment;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

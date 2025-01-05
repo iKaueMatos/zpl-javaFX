@@ -83,26 +83,6 @@ public class PrinterService {
         }
     }
 
-    public synchronized boolean printZplDocument(String zplContent) {
-        if (selectedPrinter == null) {
-            System.out.println("Nenhuma impressora foi selecionada.");
-            selectPrinterDialog();  // Exibe a caixa de seleção de impressora
-            return false;
-        }
-
-        try {
-            DocPrintJob dpj = selectedPrinter.createPrintJob();
-            InputStream stream = new ByteArrayInputStream(zplContent.getBytes());
-            DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
-            Doc doc = new SimpleDoc(stream, flavor, null);
-            dpj.print(doc, null);
-            return true;
-        } catch (PrintException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     public PrintService getSelectedPrinter() {
         return selectedPrinter;
     }

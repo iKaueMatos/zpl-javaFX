@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Label?>
 
 <?import javafx.scene.image.ImageView?>
-<?import io.github.palexdev.mfxresources.fonts.MFXFontIcon?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.base.layout.LayoutController">
     <top>
@@ -41,7 +40,7 @@
 
     <center>
         <ScrollPane fx:id="scrollPane" fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent;">
-            <VBox fx:id="contentPane" style="-fx-background-color: #E9E9E9; -fx-padding: 15;" />
+            <VBox fx:id="contentPane" style="-fx-background-color: #F9F9F9; -fx-padding: 15;" />
         </ScrollPane>
     </center>
 </BorderPane>

@@ -4,31 +4,29 @@
 <?import io.github.palexdev.materialfx.controls.MFXTableView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<?import io.github.palexdev.materialfx.controls.MFXPaginatedTableView?>
-<AnchorPane prefHeight="822.0" prefWidth="1346.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.tools.infrastructure.http.controller.spreadsheet.SpreadsheetController">
+<AnchorPane prefHeight="900.0" prefWidth="1346.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.tools.infrastructure.http.controller.spreadsheet.SpreadsheetController">
     <VBox spacing="15" VBox.vgrow="ALWAYS" styleClass="container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <children>
-            <Label style="-fx-font-size: 34; -fx-font-weight: bold; -fx-text-fill: #333333;"  text="Importar Dados" />
+            <Label style="-fx-font-size: 34; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Importar Dados" />
 
             <HBox alignment="CENTER_LEFT" spacing="15">
                 <children>
-                    <MFXButton onAction="#importSpreadsheet" prefWidth="140" style="-fx-background-color: #0A0A0A; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12px;" text="Importar Planilha" />
-                    <MFXButton onAction="#downloadTemplate" prefWidth="140" style="-fx-background-color: #0A0A0A; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12px;" text="Baixar Modelo" />
+                    <MFXButton onAction="#importSpreadsheet" prefWidth="160" style="-fx-background-color: #3A3A3A; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-font-weight: bold; -fx-border-radius: 10px;" text="Importar Planilha" />
+                    <MFXButton onAction="#downloadTemplate" prefWidth="160" style="-fx-background-color: #3A3A3A; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-font-weight: bold; -fx-border-radius: 10px;" text="Baixar Modelo" />
                 </children>
             </HBox>
 
-            <MFXTableView VBox.vgrow="ALWAYS" fx:id="table" prefHeight="674.0" prefWidth="1306.0" styleClass="mfx-table-view" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+            <MFXTableView VBox.vgrow="ALWAYS" fx:id="table" prefHeight="400.0" prefWidth="1306.0" styleClass="mfx-table-view" AnchorPane.bottomAnchor="230.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
 
-            <HBox spacing="15">
-                <children>
-                    <VBox spacing="10" />
-                    <VBox spacing="10" />
-                </children>
-            </HBox>
+            <Label style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Histórico de Importações" />
+            <MFXTableView VBox.vgrow="ALWAYS" fx:id="historyTable" prefHeight="200.0" prefWidth="1306.0" styleClass="mfx-table-view" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+
         </children>
         <padding>
             <Insets bottom="20" left="20" right="20" top="20" />

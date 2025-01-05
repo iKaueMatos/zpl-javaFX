@@ -1,4 +1,4 @@
-package com.novasoftware.tools.infrastructure.http.controller.loading;
+package com.novasoftware.shared.loading;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

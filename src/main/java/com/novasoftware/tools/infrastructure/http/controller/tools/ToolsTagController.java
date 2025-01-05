@@ -1,10 +1,8 @@
 package com.novasoftware.tools.infrastructure.http.controller.tools;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -23,20 +21,23 @@ import com.novasoftware.tools.domain.service.ZplFileService;
 
 import com.novasoftware.core.zebra.ZebraPrinterConfigurationService;
 import com.novasoftware.core.zebra.ZebraPrinterService;
+import com.novasoftware.tools.infrastructure.service.PDFViewerService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 
 import javax.imageio.ImageIO;
 
@@ -56,6 +57,12 @@ public class ToolsTagController extends BaseController implements Initializable 
 
     @FXML
     public MFXComboBox<String> labelDpmm;
+
+    @FXML
+    public MFXButton downloadLabelPDF;
+
+    @FXML
+    public MFXButton downloadImageButton;
 
     @FXML
     private MFXTextField eanField;
@@ -84,6 +91,11 @@ public class ToolsTagController extends BaseController implements Initializable 
     @FXML
     private MFXComboBox<String> labelDimension;
 
+    @FXML
+    private VBox imageContainer;
+
+    private Canvas pdfCanvas;
+
     private final LabelGenerator labelGenerator = new LabelGenerator();
     private final ZplFileService zplFileService = new ZplFileService();
 
@@ -93,8 +105,7 @@ public class ToolsTagController extends BaseController implements Initializable 
 
     private final ZebraPrinterService zebraPrinterService = new ZebraPrinterService();
 
-    @FXML
-    private VBox imageContainer;
+    private final PDFViewerService pdfViewerService = new PDFViewerService();
 
     public ToolsTagController() {}
 
@@ -129,6 +140,8 @@ public class ToolsTagController extends BaseController implements Initializable 
         eanField.textProperty().addListener((obs, oldVal, newVal) -> validateFields());
         quantityField.textProperty().addListener((obs, oldVal, newVal) -> validateFields());
         formatFieldComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> validateFields());
+        downloadLabelPDF.setVisible(false);
+        downloadImageButton.setVisible(false);
 
         try {
             showExampleForFormat(LabelConstants.LABEL_CODE_128);
@@ -291,8 +304,11 @@ public class ToolsTagController extends BaseController implements Initializable 
 
                 imageViewContainer.getChildren().clear();
                 imageZoomService.setupImageZoom(imageViewContainer, imageView);
+                downloadImageButton.setVisible(true);
+                downloadImageButton.setOnAction(event -> downloadImage(image));
 
                 printer.setVisible(true);
+                downloadLabelPDF.setVisible(true);
                 detectPrintersButton.setVisible(true);
             }
 
@@ -322,6 +338,61 @@ public class ToolsTagController extends BaseController implements Initializable 
     }
 
     @FXML
+    private void downloadLabelPDF() throws IOException {
+        String zpl = outputArea.getText();
+
+        byte[] pdfBytes = pdfViewerService.pdfTag(
+                zpl,
+                LabelFormat.PRINTER_DENSITY_8DPMM.getValue(),
+                LabelFormat.LABEL_DIMENSIONS_3X2.getValue(),
+                LabelFormat.LABEL_INDEX_0.getValue(),
+                LabelFormat.OUTPUT_FORMAT_PDF.getValue()
+        );
+
+        File tempPdf = File.createTempFile("label", ".pdf");
+        try (FileOutputStream fos = new FileOutputStream(tempPdf)) {
+            fos.write(pdfBytes);
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        fileChooser.setInitialFileName("label.pdf");
+
+        File chosenFile = fileChooser.showSaveDialog(stage);
+        if (chosenFile != null) {
+            try (FileOutputStream fos = new FileOutputStream(chosenFile)) {
+                fos.write(pdfBytes);
+            } catch (IOException e) {
+                CustomAlert.showErrorAlert(stage, "Erro ao salvar", "Não foi possivel salvar o pdf");
+            }
+        }
+    }
+
+    @FXML
+    private void downloadImage(Image image) {
+        try {
+            BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Salvar Imagem");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG Files", "*.png"));
+
+            File defaultDirectory = new File(System.getProperty("user.home"));
+            fileChooser.setInitialDirectory(defaultDirectory);
+
+            File file = fileChooser.showSaveDialog(downloadImageButton.getScene().getWindow());
+            if (file != null) {
+                ImageIO.write(bufferedImage, "png", file);
+                CustomAlert.showConfirmationAlert(stage, "Sucesso", "Imagem salva com sucesso.", () -> {
+                    System.out.println("Imagem salva com sucesso!");
+                });
+            }
+        } catch (IOException e) {
+            CustomAlert.showErrorAlert(stage, "Erro ao salvar", "Ocorreu um erro interno do servidor");
+        }
+    }
+
+    @FXML
     private void printLabel() {
         zebraPrinterService.printLabel(outputArea.getText());
     }
@@ -330,5 +401,4 @@ public class ToolsTagController extends BaseController implements Initializable 
     private void onDetectPrintersButtonClicked(ActionEvent event) {
         zebraPrinterConfiguration.detectZebraPrinters();
     }
-
 }

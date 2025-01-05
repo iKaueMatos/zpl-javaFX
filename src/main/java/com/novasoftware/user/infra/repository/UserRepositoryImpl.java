@@ -43,8 +43,6 @@ public class UserRepositoryImpl implements UserRepository {
 
         String sql = buildInsertQuery(values);
 
-        System.out.println("Consulta SQL gerada: " + sql);
-
         try (Connection conn = DatabaseManager.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 

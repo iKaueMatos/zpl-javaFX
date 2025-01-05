@@ -21,13 +21,15 @@ module com.zpl.zpl {
     requires java.prefs;
     requires com.google.protobuf;
     requires org.apache.logging.log4j;
+    requires org.apache.pdfbox;
+    requires javafx.swing;
 
     exports com.novasoftware.tools.domain.model to javafx.fxml;
     exports com.novasoftware.tools.domain.service to javafx.fxml;
     exports com.novasoftware.tools.infrastructure.http.controller.config;
     opens com.novasoftware.tools.infrastructure.http.controller.config to javafx.fxml;
-    exports com.novasoftware.tools.infrastructure.http.controller.loading;
-    opens com.novasoftware.tools.infrastructure.http.controller.loading to javafx.fxml;
+    exports com.novasoftware.shared.loading;
+    opens com.novasoftware.shared.loading to javafx.fxml;
     exports com.novasoftware.tools.infrastructure.http.controller.tools;
     opens com.novasoftware.tools.infrastructure.http.controller.tools to javafx.fxml;
     exports com.novasoftware.user.infra.http.controller.auth;

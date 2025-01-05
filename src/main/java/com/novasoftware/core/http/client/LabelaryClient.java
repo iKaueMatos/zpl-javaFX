@@ -1,5 +1,8 @@
 package com.novasoftware.core.http.client;
 
+import com.novasoftware.core.Enum.LabelFormat;
+import com.novasoftware.tools.domain.Enum.LabelType;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -37,7 +40,7 @@ public class LabelaryClient {
         URI uri = URI.create(uriString);
 
         HttpRequest request = HttpRequest.newBuilder(uri)
-                .header("Accept", outputFormat)
+                .headers("Accept", outputFormat)
                 .POST(HttpRequest.BodyPublishers.ofString(zpl))
                 .build();
 

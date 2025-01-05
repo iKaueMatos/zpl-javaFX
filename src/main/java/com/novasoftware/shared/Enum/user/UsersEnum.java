@@ -1,6 +1,6 @@
 package com.novasoftware.shared.Enum.user;
 
-public enum Users implements TableColumn {
+public enum UsersEnum implements TableColumn {
     ID("id"),
     USERNAME("username"),
     PASSWORD("password"),
@@ -9,11 +9,12 @@ public enum Users implements TableColumn {
     UPDATED_AT("updated_at"),
     IS_ACTIVE("is_active"),
     TOKEN("token"),
+    COMPANY_ID("company_id"),
     ALL_COLUMN("*");
 
     private final String value;
 
-    Users(String value) {
+    UsersEnum(String value) {
         this.value = value;
     }
 

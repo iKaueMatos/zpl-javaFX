@@ -108,7 +108,7 @@ public class SpreadsheetReader {
             case FORMULA:
                 return evaluateFormulaCell(cell);
             case BLANK:
-                return "";
+                return "-";
             default:
                 return cell.toString();
         }

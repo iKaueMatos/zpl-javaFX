@@ -1,5 +1,6 @@
 package com.novasoftware.shared.util.log;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,27 +16,16 @@ public class DiscordLogger {
         try {
 
             String payload = "{ "
+                    + "\"title\": \"" + title + "\", "
                     + "\"content\": \"" + message + "\", "
                     + "\"embeds\": [{"
-                    + "\"title\": \"" + title + "\", "
-                    + "\"description\": \"" + description + "\", "
-                    + "\"classe\": \"" + classRegister + "\", "
+                    + "\"description\": \"" + description.toString() + "\", "
+                    + "\"classe\": \"" + classRegister.toString() + "\", "
                     + "\"color\": " + Integer.parseInt(color.replace("#", ""), 16)
                     + "}] "
                     + "}";
 
-            URL url = new URL(WEBHOOK_URL);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoOutput(true);
-            connection.setRequestProperty("Content-Type", "application/json");
-
-            try (OutputStream os = connection.getOutputStream()) {
-                byte[] input = payload.getBytes("utf-8");
-                os.write(input, 0, input.length);
-            }
-
-            int responseCode = connection.getResponseCode();
+            int responseCode = getResponseCode(payload);
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 System.out.println("Log enviado para o Discord com sucesso!");
             } else {
@@ -46,6 +36,22 @@ public class DiscordLogger {
             System.err.println("Erro ao enviar log para o Discord: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private static int getResponseCode(String payload) throws IOException {
+        URL url = new URL(WEBHOOK_URL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+        connection.setRequestProperty("Content-Type", "application/json");
+
+        try (OutputStream os = connection.getOutputStream()) {
+            byte[] input = payload.getBytes("utf-8");
+            os.write(input, 0, input.length);
+        }
+
+        int responseCode = connection.getResponseCode();
+        return responseCode;
     }
 }
 

@@ -6,7 +6,8 @@ public enum Operator {
   GREATER_THAN(">"),
   LESS_THAN("<"),
   NOT_EQUALS("!="),
-  IN("IN");
+  IN("IN"),
+  IS_NULL("IS NULL");
 
   private final String symbol;
 

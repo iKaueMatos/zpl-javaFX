@@ -1,4 +1,4 @@
-module com.zpl.zpl {
+module com.novasoftware {
     requires javafx.web;
     requires org.apache.poi.poi;
     requires org.apache.poi.ooxml;
@@ -23,6 +23,9 @@ module com.zpl.zpl {
     requires org.apache.logging.log4j;
     requires org.apache.pdfbox;
     requires javafx.swing;
+    requires freemarker;
+    requires spring.context.support;
+    requires jakarta.mail;
 
     exports com.novasoftware.tools.domain.model to javafx.fxml;
     exports com.novasoftware.tools.domain.service to javafx.fxml;

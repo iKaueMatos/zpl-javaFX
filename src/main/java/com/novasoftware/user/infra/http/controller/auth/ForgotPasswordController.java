@@ -2,12 +2,25 @@ package com.novasoftware.user.infra.http.controller.auth;
 
 import com.novasoftware.base.layout.BaseController;
 import com.novasoftware.core.config.AppInitializer;
+import com.novasoftware.token.application.repository.TokenRepository;
+import com.novasoftware.token.domain.model.Tokens;
+import com.novasoftware.token.domain.service.TokenService;
+import com.novasoftware.token.infra.repository.TokenRepositoryImpl;
+import com.novasoftware.user.application.dto.ForgotUserPassword;
+import com.novasoftware.user.domain.model.Users;
+import com.novasoftware.user.domain.service.UserService;
+import com.novasoftware.user.infra.email.service.EmailService;
+import com.novasoftware.user.infra.email.strategy.PasswordResetEmailStrategy;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 public class ForgotPasswordController extends BaseController {
     @FXML
@@ -32,6 +45,8 @@ public class ForgotPasswordController extends BaseController {
     private Label titleLabel;
 
     private static Stage stage;
+
+    private UserService userService = new UserService();
 
     public ForgotPasswordController() {}
 
@@ -78,8 +93,7 @@ public class ForgotPasswordController extends BaseController {
             return;
         }
 
-        boolean isPasswordReset = resetUserPassword(token, newPassword);
-
+        boolean isPasswordReset = userService.resetUserPassword(new ForgotUserPassword(token, newPassword));
         if (isPasswordReset) {
             titleLabel.setText("Senha redefinida com sucesso. Volte ao login.");
             resetPasswordStep.setVisible(false);
@@ -92,12 +106,11 @@ public class ForgotPasswordController extends BaseController {
     }
 
     private boolean sendTokenToEmail(String email) {
-        System.out.println("Simulating sending token to: " + email);
-        return true;
-    }
+        CompletableFuture.runAsync(() -> {
+            TokenService tokenService = new TokenService(new EmailService());
+            tokenService.sendTokenToEmail(email);
+        });
 
-    private boolean resetUserPassword(String token, String newPassword) {
-        System.out.println("Simulating password reset with token: " + token + " and newPassword: " + newPassword);
         return true;
     }
 

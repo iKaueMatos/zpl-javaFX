@@ -3,7 +3,7 @@ package com.novasoftware.user.domain.model;
 import java.util.Date;
 
 public class Users {
-    private int Id;
+    private int id;
     private String username;
     private String password;
     private String email;
@@ -11,13 +11,14 @@ public class Users {
     private Date updated_at;
     private int isActive;
     private String token;
+    private int companyId;
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getUsername() {
@@ -74,5 +75,13 @@ public class Users {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
     }
 }

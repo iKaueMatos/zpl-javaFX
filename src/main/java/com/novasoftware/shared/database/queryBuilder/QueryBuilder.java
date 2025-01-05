@@ -14,30 +14,31 @@ public class QueryBuilder<T extends Enum<T> & TableColumn> {
     private final List<Condition> conditions = new ArrayList<>();
     private final List<String> columnsToSelect = new ArrayList<>();
     private final List<OrderByClause> orderByClauses = new ArrayList<>();
+    private final List<String> joins = new ArrayList<>();
+    private final List<InsertColumnValue> insertColumns = new ArrayList<>();
     private int limit = -1;
 
-    private final Class<T> modelClass;
-    private final List<ColumnDefinition> columnsToCreate = new ArrayList<>();
+    private final Class<?> modelClass;
 
-    public QueryBuilder(Class<T> modelClass) {
+    public QueryBuilder(Class<?> modelClass) {
         this.modelClass = modelClass;
         this.table = modelClass.getSimpleName().toLowerCase();
     }
 
-    public QueryBuilder<T> select(T... columns) {
-        for (T column : columns) {
-            if (column.getValue().equals("*")) {
-                columnsToSelect.add("*");
-                return this;
-            }
-            columnsToSelect.add(column.getValue());
+    public QueryBuilder<T> select(String... columns) {
+        for (String column : columns) {
+            columnsToSelect.add(column.toLowerCase());
         }
         return this;
     }
 
     public QueryBuilder<T> where(T column, Operator operator, Object value) {
-        conditions.add(new Condition(column, operator, value));
+        conditions.add(new Condition(column.toString().toLowerCase(), operator, value));
         return this;
+    }
+
+    public QueryBuilder<T> and(T column, Operator operator, Object value) {
+        return where(column, operator, value);
     }
 
     public QueryBuilder<T> orderBy(T column, boolean ascending) {
@@ -50,9 +51,41 @@ public class QueryBuilder<T extends Enum<T> & TableColumn> {
         return this;
     }
 
+    public QueryBuilder<T> join(Class<?> joinTable, String baseColumn, String joinColumn) {
+        String joinTableName = joinTable.getSimpleName().toLowerCase();
+        joins.add("INNER JOIN " + joinTableName + " ON " + baseColumn + " = " + joinColumn);
+        return this;
+    }
+
+    public QueryBuilder<T> insertInto(String table) {
+        this.table = table;
+        return this;
+    }
+
+    public QueryBuilder<T> set(String column, Object value) {
+        insertColumns.add(new InsertColumnValue(column, value));
+        return this;
+    }
+
     public String build() {
         if (table == null) {
             throw new IllegalStateException("Table name must be specified.");
+        }
+
+        if (!insertColumns.isEmpty()) {
+            StringBuilder query = new StringBuilder("INSERT INTO ").append(table).append(" (");
+
+            List<String> columnNames = new ArrayList<>();
+            List<String> placeholders = new ArrayList<>();
+            for (InsertColumnValue columnValue : insertColumns) {
+                columnNames.add(columnValue.getColumn());
+                placeholders.add("?");
+            }
+
+            query.append(String.join(", ", columnNames)).append(") ");
+            query.append("VALUES (").append(String.join(", ", placeholders)).append(")");
+
+            return query.toString();
         }
 
         StringBuilder query = new StringBuilder("SELECT ");
@@ -64,12 +97,15 @@ public class QueryBuilder<T extends Enum<T> & TableColumn> {
 
         query.append(" FROM ").append(table);
 
+        if (!joins.isEmpty()) {
+            query.append(" ").append(String.join(" ", joins));
+        }
+
         if (!conditions.isEmpty()) {
             query.append(" WHERE ");
             List<String> conditionStrings = new ArrayList<>();
             for (Condition condition : conditions) {
-                String columnValue = condition.getColumn().toString(); // Adjust this if needed to get the column's actual value
-
+                String columnValue = condition.getColumn().toString();
                 if (condition.getOperator() == Operator.IN) {
                     conditionStrings.add(columnValue + " " + condition.getOperator().getSymbol() + " (?)");
                 } else {
@@ -83,7 +119,7 @@ public class QueryBuilder<T extends Enum<T> & TableColumn> {
             query.append(" ORDER BY ");
             List<String> orderByStrings = new ArrayList<>();
             for (OrderByClause orderBy : orderByClauses) {
-                orderByStrings.add(orderBy.getColumn().getClass() + (orderBy.isAscending() ? " ASC" : " DESC"));
+                orderByStrings.add(orderBy.getColumn().toString() + (orderBy.isAscending() ? " ASC" : " DESC"));
             }
             query.append(String.join(", ", orderByStrings));
         }
@@ -102,7 +138,7 @@ public class QueryBuilder<T extends Enum<T> & TableColumn> {
         int paramIndex = 1;
         for (Condition condition : conditions) {
             if (condition.getOperator() == Operator.IN) {
-                pstmt.setString(paramIndex++, String.valueOf(condition.getValue()));
+                pstmt.setObject(paramIndex++, condition.getValue());
             } else {
                 pstmt.setObject(paramIndex++, condition.getValue());
             }
@@ -117,7 +153,6 @@ public class QueryBuilder<T extends Enum<T> & TableColumn> {
         }
 
         StringBuilder query = new StringBuilder("CREATE TABLE ").append(table).append(" (");
-
         var fields = modelClass.getDeclaredFields();
         List<String> columnDefinitions = new ArrayList<>();
         for (var field : fields) {
@@ -144,7 +179,85 @@ public class QueryBuilder<T extends Enum<T> & TableColumn> {
             return "DOUBLE";
         } else if (fieldType == float.class || fieldType == Float.class) {
             return "FLOAT";
+        } else if (fieldType == java.util.Date.class) {
+            return "DATE";
+        } else if (fieldType == Long.class) {
+            return "BIGINT";
         }
         return "VARCHAR(255)";
+    }
+
+    public QueryBuilder<T> update(T column, Object value) {
+        insertColumns.add(new InsertColumnValue(column.toString().toLowerCase(), value));
+        return this;
+    }
+
+    public String buildUpdateQuery(Object objectToUpdate, Object originalObject) {
+        StringBuilder query = new StringBuilder("UPDATE ").append(table).append(" SET ");
+
+        List<String> updatedColumns = new ArrayList<>();
+        List<Object> updatedValues = new ArrayList<>();
+
+        for (var field : objectToUpdate.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                Object newValue = field.get(objectToUpdate);
+                Object originalValue = field.get(originalObject);
+                if (newValue != null && !newValue.equals(originalValue)) {
+                    updatedColumns.add(field.getName().toLowerCase() + " = ?");
+                    updatedValues.add(newValue);
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (updatedColumns.isEmpty()) {
+            throw new IllegalStateException("No fields have been updated.");
+        }
+
+        query.append(String.join(", ", updatedColumns));
+        query.append(" WHERE id = ?");
+        updatedValues.add(getId(objectToUpdate));
+
+        return query.toString();
+    }
+
+    private Object getId(Object object) {
+        try {
+            var field = object.getClass().getDeclaredField("id");
+            field.setAccessible(true);
+            return field.get(object);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new IllegalStateException("ID field not found or inaccessible.", e);
+        }
+    }
+
+    public PreparedStatement buildUpdatePreparedStatement(Connection conn, Object objectToUpdate, Object originalObject) throws SQLException {
+        String sql = buildUpdateQuery(objectToUpdate, originalObject);
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        List<Object> updatedValues = new ArrayList<>();
+        for (var field : objectToUpdate.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                Object newValue = field.get(objectToUpdate);
+                Object originalValue = field.get(originalObject);
+                if (newValue != null && !newValue.equals(originalValue)) {
+                    updatedValues.add(newValue);
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        updatedValues.add(getId(objectToUpdate));
+
+        int paramIndex = 1;
+        for (Object value : updatedValues) {
+            pstmt.setObject(paramIndex++, value);
+        }
+
+        return pstmt;
     }
 }

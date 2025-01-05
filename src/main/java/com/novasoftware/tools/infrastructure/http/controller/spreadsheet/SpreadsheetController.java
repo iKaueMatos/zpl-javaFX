@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.novasoftware.shared.util.alert.CustomAlert;
+import com.novasoftware.shared.util.log.DiscordLogger;
 import com.novasoftware.tools.application.usecase.SpreadsheetReader;
 import com.novasoftware.tools.infrastructure.service.TemplateDownloadSpreendsheetService;
 import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
@@ -24,12 +25,11 @@ import javafx.fxml.Initializable;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import static com.novasoftware.shared.util.log.DiscordLogger.COLOR_RED;
+
 public class SpreadsheetController implements Initializable {
     @FXML
     private MFXTableView<Map<String, Object>> table;
-
-    @FXML
-    private MFXPaginatedTableView<Map<String, Object>> paginated;
 
     private final SpreadsheetReader spreadsheetReader;
     private final ObservableList<Map<String, Object>> data;
@@ -109,6 +109,7 @@ public class SpreadsheetController implements Initializable {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                DiscordLogger.sendLogToDiscord("Erro", "Ocorreu um erro critico ao processar a requisição", e.toString(), SpreadsheetController.class, COLOR_RED);
                 CustomAlert.showErrorAlert(ownerStage, "Erro de Importação", "Ocorreu um erro ao importar a planilha.");
             }
         }

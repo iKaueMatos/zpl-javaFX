@@ -7,7 +7,6 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 public class CustomAlert {
-
     public static void showInfoAlert(Stage owner, String title, String message) {
         createAndShowDialog(owner, title, message, AlertType.INFORMATION, null);
     }

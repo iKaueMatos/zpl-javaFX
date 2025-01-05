@@ -14,6 +14,7 @@ import com.novasoftware.base.layout.BaseController;
 import com.novasoftware.core.Enum.LabelFormat;
 import com.novasoftware.core.example.ZPLGenerateExample;
 import com.novasoftware.core.http.client.LabelaryClient;
+import com.novasoftware.shared.util.alert.CustomAlert;
 import com.novasoftware.tools.application.usecase.LabelGenerator;
 import com.novasoftware.tools.domain.Enum.LabelConstants;
 import com.novasoftware.tools.domain.Enum.LabelType;
@@ -302,7 +303,7 @@ public class ToolsTagController extends BaseController implements Initializable 
                 saveButton.setDisable(false);
             }
         } catch (IllegalArgumentException e) {
-            showAlert(Alert.AlertType.ERROR, "Erro de Validação", e.getMessage());
+            CustomAlert.showErrorAlert(stage, "Ocorreu um erro", "Erro de validação");
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
@@ -314,9 +315,9 @@ public class ToolsTagController extends BaseController implements Initializable 
     private void saveZplToFile() {
         try {
             zplFileService.saveZplToFile(outputArea.getText());
-            showAlert(Alert.AlertType.INFORMATION, "Arquivo Salvo", "ZPL salvo com sucesso.");
+            CustomAlert.showInfoAlert(stage, "Arquivo Salvo", "ZPL salvo com sucesso.");
         } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Erro ao Salvar", "Não foi possível salvar o arquivo.");
+            CustomAlert.showErrorAlert(stage, "Erro ao Salvar","Não foi possível salvar o arquivo.");
         }
     }
 

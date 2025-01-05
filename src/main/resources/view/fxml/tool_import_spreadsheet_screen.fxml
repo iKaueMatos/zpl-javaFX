@@ -22,7 +22,6 @@
             </HBox>
 
             <MFXTableView VBox.vgrow="ALWAYS" fx:id="table" prefHeight="674.0" prefWidth="1306.0" styleClass="mfx-table-view" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
-            <MFXPaginatedTableView VBox.vgrow="ALWAYS" fx:id="paginated" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="1306.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
 
             <HBox spacing="15">
                 <children>

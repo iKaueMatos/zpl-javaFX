@@ -13,4 +13,6 @@ public class ResourcePaths {
     public static final String LAYOUT_DEFAULT = "/view/fxml/main_layout_screen.fxml";
 
     public static final String REGISTER_SCREEN_PATH = "/view/fxml/register_screen.fxml";
+
+    public static final String FORGOT_PASSWORD_SCREEN_PATH = "/view/fxml/forgot_password_screen.fxml";
 }

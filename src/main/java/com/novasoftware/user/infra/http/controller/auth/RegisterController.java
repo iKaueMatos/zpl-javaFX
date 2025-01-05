@@ -1,6 +1,6 @@
 package com.novasoftware.user.infra.http.controller.auth;
 
-import com.novasoftware.core.path.ResourcePaths;
+import com.novasoftware.core.config.AppInitializer;
 import com.novasoftware.shared.util.notification.NotificationUtil;
 import com.novasoftware.user.domain.model.Users;
 import com.novasoftware.user.infra.repository.UserRepositoryImpl;
@@ -10,9 +10,6 @@ import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.controlsfx.control.Notifications;
@@ -34,15 +31,14 @@ public class RegisterController extends BaseController {
     @FXML
     private MFXPasswordField confirmPasswordField;
 
+    private static Stage stage;
+
     @FXML
     private Label titleLabel;
 
-    private Stage stage;
     private UserRepository userRepository = new UserRepositoryImpl();
 
-    public RegisterController(Stage stage) {
-        this.stage = stage;
-    }
+    public RegisterController() {}
 
     @FXML
     private void handleRegister(ActionEvent event) {
@@ -98,32 +94,7 @@ public class RegisterController extends BaseController {
 
     @FXML
     private void handleBackToLogin() {
-        try {
-            URL resource = getClass().getResource(ResourcePaths.LOADING_SCREEN_PATH);
-            if (resource == null) {
-                throw new IllegalArgumentException("Arquivo FXML não encontrado: /view/fxml/login_screen.fxml");
-            }
-
-            FXMLLoader loader = new FXMLLoader(resource);
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-
-            stage.setScene(scene);
-            stage.setWidth(1200);
-            stage.setHeight(600);
-            stage.setResizable(false);
-            stage.show();
-        } catch (Exception e) {
-            System.err.println("Erro ao carregar a tela de login: " + e.getMessage());
-            e.printStackTrace();
-        }
+        AppInitializer.showLoginScreen();
     }
 
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
 }

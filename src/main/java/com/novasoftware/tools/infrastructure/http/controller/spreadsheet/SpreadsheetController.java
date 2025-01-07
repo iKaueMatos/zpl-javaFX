@@ -10,6 +10,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 import com.novasoftware.shared.util.alert.CustomAlert;
 import com.novasoftware.shared.util.log.DiscordLogger;
@@ -20,13 +21,11 @@ import com.novasoftware.tools.domain.Enum.LabelType;
 import com.novasoftware.tools.domain.model.ZplFile;
 import com.novasoftware.tools.domain.service.ZplFileService;
 import com.novasoftware.tools.infrastructure.service.TemplateDownloadSpreendsheetService;
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXTableColumn;
-import io.github.palexdev.materialfx.controls.MFXTableView;
+import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.IntegerFilter;
 import io.github.palexdev.materialfx.filter.StringFilter;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,6 +34,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -49,6 +49,12 @@ import static com.novasoftware.shared.util.log.DiscordLogger.COLOR_RED;
 public class SpreadsheetController implements Initializable {
     @FXML
     public MFXButton downloadErrorButton;
+
+    @FXML
+    public MFXButton saveButton;
+
+    @FXML
+    public MFXProgressSpinner loadingIndicator;
 
     @FXML
     private MFXTableView<Map<String, Object>> table;
@@ -83,6 +89,7 @@ public class SpreadsheetController implements Initializable {
         setupFilter();
         setupHistoryTable();
         downloadErrorButton.setVisible(false);
+        saveButton.setVisible(false);
     }
 
     private void setupTable() {
@@ -139,105 +146,119 @@ public class SpreadsheetController implements Initializable {
         File file = fileChooser.showOpenDialog(ownerStage);
 
         if (file != null) {
-            try {
-                List<Map<String, Object>> importedData = spreadsheetReader.readSpreadsheet(file);
-                List<Map<String, Object>> errorData = new ArrayList<>();
-                boolean hasError = false;
+            loadingIndicator.setVisible(true);
 
-                if (!importedData.isEmpty()) {
-                    int idCounter = 1;
+            CompletableFuture.runAsync(() -> {
+                try {
+                    List<Map<String, Object>> importedData = spreadsheetReader.readSpreadsheet(file);
+                    List<Map<String, Object>> errorData = new ArrayList<>();
+                    boolean hasError = false;
 
-                    for (Map<String, Object> row : importedData) {
-                        boolean rowHasError = false;
+                    if (!importedData.isEmpty()) {
+                        int idCounter = 1;
 
-                        String sku = String.valueOf(row.getOrDefault("SKU", ""));
-                        if (sku.isEmpty()) {
-                            row.put("SKU", "Valor Padrão");
-                            rowHasError = true;
+                        for (Map<String, Object> row : importedData) {
+                            boolean rowHasError = false;
+
+                            String sku = String.valueOf(row.getOrDefault("SKU", ""));
+                            if (sku.isEmpty()) {
+                                row.put("SKU", "Valor Padrão");
+                                rowHasError = true;
+                            }
+
+                            String quantity = String.valueOf(row.getOrDefault("Quantidade", "0"));
+                            if (Integer.parseInt(quantity) < 1) {
+                                row.put("Quantidade", "valor invalido");
+                                rowHasError = true;
+                            }
+
+                            if (rowHasError) {
+                                errorData.add(row);
+                                hasError = true;
+                            }
+
+                            row.put("Id", idCounter);
+                            idCounter++;
                         }
 
-                        String quantity = String.valueOf(row.getOrDefault("Quantidade", "0"));
-                        if (Integer.parseInt(quantity) < 1) {
-                            row.put("Quantidade", "valor invalido");
-                            rowHasError = true;
-                        }
+                        boolean finalHasError = hasError;
+                        Platform.runLater(() -> {
+                            if (finalHasError) {
+                                generateErrorSpreadsheetAsync(errorData);
+                                ZonedDateTime nowInBrazil = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                                String formattedDate = nowInBrazil.format(formatter);
+                                historyData.add(Map.of("Data", formattedDate, "Status", "Importação com erros"));
+                                CustomAlert.showWarningAlert(ownerStage, "Importação com erros", "Alguns dados foram corrigidos. Um relatório de erros foi gerado.");
+                            } else {
+                                data.addAll(importedData);
+                                table.setItems(data);
+                                table.setCache(true);
 
-                        if (rowHasError) {
-                            errorData.add(row);
-                            hasError = true;
-                        }
+                                ZonedDateTime nowInBrazil = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                                String formattedDate = nowInBrazil.format(formatter);
+                                historyData.add(Map.of("Data", formattedDate, "Status", "Importação bem-sucedida"));
+                                CustomAlert.showInfoAlert(ownerStage, "Importação bem-sucedida", "Planilha importada com sucesso!");
+                            }
 
-                        row.put("Id", idCounter);
-                        idCounter++;
-                    }
+                            historyTable.setItems(historyData);
+                        });
 
-                    if (hasError) {
-                        generateErrorSpreadsheet(errorData);  // Gera o arquivo de erro
-                        ZonedDateTime nowInBrazil = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-                        String formattedDate = nowInBrazil.format(formatter);
-                        historyData.add(Map.of("Data", formattedDate, "Status", "Importação com erros"));
-                        CustomAlert.showWarningAlert(ownerStage, "Importação com erros", "Alguns dados foram corrigidos. Um relatório de erros foi gerado.");
-                        downloadErrorButton.setVisible(true);
                     } else {
-                        data.addAll(importedData);
-                        table.setItems(data);
-                        table.setCache(true);
-
-                        ZonedDateTime nowInBrazil = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-                        String formattedDate = nowInBrazil.format(formatter);
-                        historyData.add(Map.of("Data", formattedDate, "Status", "Importação bem-sucedida"));
-                        CustomAlert.showInfoAlert(ownerStage, "Importação bem-sucedida", "Planilha importada com sucesso!");
+                        Platform.runLater(() -> CustomAlert.showWarningAlert(ownerStage, "Dados Vazios", "A planilha não contém dados válidos."));
                     }
 
-                    historyTable.setItems(historyData);
-
-                } else {
-                    CustomAlert.showWarningAlert(ownerStage, "Dados Vazios", "A planilha não contém dados válidos.");
+                } catch (IOException e) {
+                    Platform.runLater(() -> {
+                        e.printStackTrace();
+                        DiscordLogger.sendLogToDiscord("Erro", "Ocorreu um erro crítico ao processar a requisição", e.toString(), SpreadsheetController.class, COLOR_RED);
+                        CustomAlert.showErrorAlert(ownerStage, "Erro de Importação", "Ocorreu um erro ao importar a planilha.");
+                    });
+                } finally {
+                    Platform.runLater(() -> loadingIndicator.setVisible(false));
                 }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                DiscordLogger.sendLogToDiscord("Erro", "Ocorreu um erro crítico ao processar a requisição", e.toString(), SpreadsheetController.class, COLOR_RED);
-                CustomAlert.showErrorAlert(ownerStage, "Erro de Importação", "Ocorreu um erro ao importar a planilha.");
-            }
+            });
         }
     }
 
+    private void generateErrorSpreadsheetAsync(List<Map<String, Object>> errorData) {
+        CompletableFuture.runAsync(() -> {
+            try (Workbook workbook = new XSSFWorkbook()) {
+                Sheet sheet = workbook.createSheet("Erros");
 
+                Row headerRow = sheet.createRow(0);
+                headerRow.createCell(0).setCellValue("Id");
+                headerRow.createCell(1).setCellValue("Nome");
+                headerRow.createCell(2).setCellValue("SKU");
+                headerRow.createCell(3).setCellValue("Quantidade");
+                headerRow.createCell(4).setCellValue("Erro");
 
-    private void generateErrorSpreadsheet(List<Map<String, Object>> errorData) {
-        try (Workbook workbook = new XSSFWorkbook()) {
-            Sheet sheet = workbook.createSheet("Erros");
+                int rowIndex = 1;
+                for (Map<String, Object> row : errorData) {
+                    Row excelRow = sheet.createRow(rowIndex++);
+                    excelRow.createCell(0).setCellValue(String.valueOf(row.getOrDefault("Id", "")));
+                    excelRow.createCell(1).setCellValue(String.valueOf(row.getOrDefault("Nome", "")));
+                    excelRow.createCell(2).setCellValue(String.valueOf(row.getOrDefault("SKU", "")));
+                    excelRow.createCell(3).setCellValue(String.valueOf(row.getOrDefault("Quantidade", "")));
+                    excelRow.createCell(4).setCellValue("Erro encontrado (SKU vazio ou Quantidade inválida)");
+                }
 
-            Row headerRow = sheet.createRow(0);
-            headerRow.createCell(0).setCellValue("Id");
-            headerRow.createCell(1).setCellValue("Nome");
-            headerRow.createCell(2).setCellValue("SKU");
-            headerRow.createCell(3).setCellValue("Quantidade");
-            headerRow.createCell(4).setCellValue("Erro");
+                File errorFile = new File("Planilha_Erros.xlsx");
+                try (FileOutputStream fileOut = new FileOutputStream(errorFile)) {
+                    workbook.write(fileOut);
+                }
 
-            int rowIndex = 1;
-            for (Map<String, Object> row : errorData) {
-                Row excelRow = sheet.createRow(rowIndex++);
-                excelRow.createCell(0).setCellValue(String.valueOf(row.getOrDefault("Id", "")));
-                excelRow.createCell(1).setCellValue(String.valueOf(row.getOrDefault("Nome", "")));
-                excelRow.createCell(2).setCellValue(String.valueOf(row.getOrDefault("SKU", "")));
-                excelRow.createCell(3).setCellValue(String.valueOf(row.getOrDefault("Quantidade", "")));
-                excelRow.createCell(4).setCellValue("Erro encontrado (SKU vazio ou Quantidade inválida)");
+                downloadErrorButton.setVisible(true);
+                Platform.runLater(() -> {
+                    CustomAlert.showInfoAlert(ownerStage, "Sucesso", "Planilha de erros gerada com sucesso!");
+                    downloadErrorButton.setVisible(true);
+                });
+
+            } catch (IOException e) {
+                Platform.runLater(() -> CustomAlert.showErrorAlert(ownerStage, "Erro", "Erro ao gerar planilha de erros."));
             }
-
-            File errorFile = new File("Planilha_Erros.xlsx");
-            try (FileOutputStream fileOut = new FileOutputStream(errorFile)) {
-                workbook.write(fileOut);
-            }
-
-            CustomAlert.showInfoAlert(ownerStage, "Erros Encontrados", "A planilha com os erros foi gerada com sucesso!.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            CustomAlert.showErrorAlert(ownerStage, "Erro ao Gerar Planilha de Erros", "Ocorreu um erro ao gerar a planilha de erros.");
-        }
+        });
     }
 
     @FXML
@@ -272,7 +293,6 @@ public class SpreadsheetController implements Initializable {
 
         labelFormatComboBox.setItems(formats);
         labelFormatComboBox.setMaxWidth(Double.MAX_VALUE);
-
         MFXComboBox<String> labelTypeComboBox = new MFXComboBox<>();
         ObservableList<String> labelTypes = FXCollections.observableArrayList(
                 LabelConstants.LABEL_CODE_128,
@@ -284,7 +304,6 @@ public class SpreadsheetController implements Initializable {
 
         labelTypeComboBox.setItems(labelTypes);
         labelTypeComboBox.setMaxWidth(Double.MAX_VALUE);
-
         MFXComboBox<String> labelDataChoiceComboBox = new MFXComboBox<>();
         ObservableList<String> dataChoices = FXCollections.observableArrayList("SKU", "EAN");
         labelDataChoiceComboBox.setItems(dataChoices);
@@ -292,6 +311,7 @@ public class SpreadsheetController implements Initializable {
 
         MFXButton generateLabelsButton = new MFXButton("Gerar Etiquetas");
         generateLabelsButton.setMaxWidth(Double.MAX_VALUE);
+        generateLabelsButton.setStyle("-fx-background-color: #B916F9;  -fx-text-fill: #FFFFFF;");
 
         generateLabelsButton.setOnAction(event -> {
             try {
@@ -305,6 +325,7 @@ public class SpreadsheetController implements Initializable {
         MFXButton closeButton = new MFXButton("Fechar");
         closeButton.setMaxWidth(Double.MAX_VALUE);
         closeButton.setOnAction(event -> modalStage.close());
+        closeButton.setStyle("-fx-background-color: #D32F2F;  -fx-text-fill: #FFFFFF;");
 
         modalLayout.getChildren().addAll(
                 new Label("Escolha o Formato de Etiqueta:"),
@@ -348,6 +369,8 @@ public class SpreadsheetController implements Initializable {
         zpl = labelGeneratorService.generateZpl(labelsData, labelFormat, labelType);
         ZplFileService ZplFile = new ZplFileService();
         ZplFile.saveZplToFile(zpl);
+        saveButton.setVisible(true);
+
         CustomAlert.showInfoAlert(ownerStage, "Etiquetas Geradas", "As etiquetas foram geradas com sucesso!");
     }
 

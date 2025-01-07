@@ -66,7 +66,7 @@ public class LoginController extends BaseController {
         String password = passwordField.getText();
         UserService userService = new UserService();
 
-        Optional<Users> optionalUser = userService.autheticate(email, password, rememberEmailCheckBox, onLoginSuccess);
+        Optional<Users> optionalUser = userService.login(email, password, rememberEmailCheckBox, onLoginSuccess);
         if (optionalUser.isEmpty()) {
             Notifications notification = NotificationUtil.pushNotify("Falha no Login", "Credenciais inválidas ou usuário não encontrado.");
             notification.showError();

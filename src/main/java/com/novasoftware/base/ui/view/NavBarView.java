@@ -1,6 +1,7 @@
 package com.novasoftware.base.ui.view;
 
 import com.novasoftware.core.path.ResourcePaths;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,5 +39,11 @@ public class NavBarView {
     @FXML
     public void loadImport() {
         loadDynamicContent(ResourcePaths.TOOL_IMPORT_SPREADSHEET);
+    }
+
+    @FXML
+    private void exitApplication() {
+        Platform.exit();
+        System.exit(0);
     }
 }

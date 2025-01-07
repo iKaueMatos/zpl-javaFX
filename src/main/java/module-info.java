@@ -26,6 +26,7 @@ module com.novasoftware {
     requires freemarker;
     requires spring.context.support;
     requires jakarta.mail;
+    requires spring.security.crypto;
 
     exports com.novasoftware.tools.domain.model to javafx.fxml;
     exports com.novasoftware.tools.domain.service to javafx.fxml;

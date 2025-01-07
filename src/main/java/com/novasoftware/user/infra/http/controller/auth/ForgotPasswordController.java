@@ -93,7 +93,9 @@ public class ForgotPasswordController extends BaseController {
             resetPasswordStep.setManaged(false);
             emailStep.setVisible(true);
             emailStep.setManaged(true);
-            CompletableFuture.runAsync(() -> {});
+            CompletableFuture.runAsync(() -> {
+
+            });
         } else {
             titleLabel.setText("Erro ao redefinir a senha. Verifique o token.");
         }

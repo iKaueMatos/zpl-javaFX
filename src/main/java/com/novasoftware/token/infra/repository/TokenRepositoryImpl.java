@@ -25,7 +25,6 @@ public class TokenRepositoryImpl implements TokenRepository {
     @Override
     public Optional<Users> findUserByToken(String tokenValue) {
         QueryBuilder<TokensEnum> queryBuilder = buildUserByTokenQuery(tokenValue);
-        System.out.println(queryBuilder.build());
         return executeQuery(queryBuilder, this::mapResultSetToUser).map(users -> users.get(0));
     }
 

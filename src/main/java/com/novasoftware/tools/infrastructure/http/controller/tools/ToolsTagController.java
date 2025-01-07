@@ -303,9 +303,9 @@ public class ToolsTagController extends BaseController implements Initializable 
                 downloadImageButton.setVisible(true);
                 downloadImageButton.setOnAction(event -> downloadImage(image));
 
-                printer.setVisible(true);
+//                printer.setVisible(true);
                 downloadLabelPDF.setVisible(true);
-                detectPrintersButton.setVisible(true);
+//                detectPrintersButton.setVisible(true);
             }
 
             if (zplFileService.validateZplContent(zpl)) {

@@ -10,6 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.ProgressIndicator?>
+<?import io.github.palexdev.materialfx.controls.MFXProgressSpinner?>
+<?import javafx.scene.effect.DropShadow?>
 <AnchorPane prefHeight="900.0" prefWidth="1346.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.tools.infrastructure.http.controller.spreadsheet.SpreadsheetController">
     <VBox spacing="15" VBox.vgrow="ALWAYS" styleClass="container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <children>
@@ -23,6 +26,15 @@
                 </children>
             </HBox>
 
+            <MFXProgressSpinner fx:id="loadingIndicator"
+                                style="-fx-stroke-width: 6; -fx-fill: transparent; -fx-stroke: #FFFFFF;"
+                                visible="false"
+                                AnchorPane.leftAnchor="600.0"
+                                AnchorPane.topAnchor="400.0">
+                <effect>
+                    <DropShadow radius="10.0" spread="0.3" color="rgba(255, 255, 255, 0.5)" />
+                </effect>
+            </MFXProgressSpinner>
             <MFXTableView VBox.vgrow="ALWAYS" fx:id="table" prefHeight="400.0" prefWidth="1306.0" styleClass="mfx-table-view" AnchorPane.bottomAnchor="230.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
             <MFXButton fx:id="saveButton" onAction="#saveZplToFile" prefWidth="150" style="-fx-background-color: #B916F9; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-font-weight: bold; -fx-border-radius: 10px;" text="Salvar ZPL" HBox.hgrow="ALWAYS" />
 

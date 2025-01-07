@@ -11,8 +11,7 @@ public class NotificationUtil {
                 .text(message)
                 .hideAfter(Duration.seconds(5))
                 .position(Pos.TOP_RIGHT)
-                .graphic(null)
-                .darkStyle();
+                .graphic(null);
 
         return notification;
     }

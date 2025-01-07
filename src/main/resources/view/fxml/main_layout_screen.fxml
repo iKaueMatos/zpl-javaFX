@@ -32,7 +32,7 @@
             <MFXButton text="Configurações" style="-fx-background-color: transparent; -fx-text-fill: #FFFFFF; -fx-font-size: 18px; -fx-alignment: center-left; -fx-cursor: hand; -fx-font-weigh: bold;" onAction="#loadConfig" />
 
             <VBox style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS" />
-            <MFXButton text="Sair" style="-fx-background-color: transparent; -fx-text-fill: #FFFFFF; -fx-font-size: 16px; -fx-alignment: center-left; -fx-cursor: hand; -fx-padding: 10 0;" />
+            <MFXButton text="Sair" style="-fx-background-color: transparent; -fx-text-fill: #FFFFFF; -fx-font-size: 16px; -fx-alignment: center-left; -fx-cursor: hand; -fx-padding: 10 0;" onAction="#exitApplication"/>
             <Label text="Nova Software Hub" style="-fx-text-fill: #E9E9E9; -fx-font-size: 12px;" />
             <Label text="© 2023 Powered by Nova Software" style="-fx-text-fill: #E9E9E9; -fx-font-size: 12px;" />
         </VBox>

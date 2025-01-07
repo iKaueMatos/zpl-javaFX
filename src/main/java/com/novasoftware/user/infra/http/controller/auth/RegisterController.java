@@ -3,8 +3,12 @@ package com.novasoftware.user.infra.http.controller.auth;
 import com.novasoftware.core.config.AppInitializer;
 import com.novasoftware.shared.util.notification.NotificationUtil;
 import com.novasoftware.user.domain.model.Users;
+import com.novasoftware.user.infra.email.service.EmailService;
+import com.novasoftware.user.infra.email.strategy.EmailTemplateStrategy;
+import com.novasoftware.user.infra.email.strategy.PasswordResetEmailStrategy;
+import com.novasoftware.user.infra.email.strategy.WelcomeEmailStrategy;
 import com.novasoftware.user.infra.repository.UserRepositoryImpl;
-import com.novasoftware.tools.application.repository.UserRepository;
+import com.novasoftware.user.application.repository.UserRepository;
 import com.novasoftware.base.layout.BaseController;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -14,8 +18,9 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.controlsfx.control.Notifications;
 
-import java.net.URL;
 import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class RegisterController extends BaseController {
 
@@ -37,6 +42,8 @@ public class RegisterController extends BaseController {
     private Label titleLabel;
 
     private UserRepository userRepository = new UserRepositoryImpl();
+
+    private EmailService emailService = new EmailService();
 
     public RegisterController() {}
 
@@ -75,10 +82,21 @@ public class RegisterController extends BaseController {
         newUser.setToken("token_gerado");
 
         boolean isRegistered = userRepository.insertUser(newUser);
+
+
         if (isRegistered) {
             Notifications notification = NotificationUtil.pushNotify("Sucesso", "Registro realizado com sucesso!");
             notification.showInformation();
             clearFields();
+
+            CompletableFuture.runAsync(() -> {
+                Map<String, Object> data = Map.of(
+                        "name", newUser.getUsername()
+                );
+
+                EmailTemplateStrategy strategy = new WelcomeEmailStrategy();
+                emailService.sendEmail(email, strategy, data);
+            });
         } else {
             Notifications notification = NotificationUtil.pushNotify("Erro", "Erro ao registrar o usuário.");
             notification.showError();

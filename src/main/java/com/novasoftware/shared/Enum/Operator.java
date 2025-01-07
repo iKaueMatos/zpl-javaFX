@@ -7,7 +7,8 @@ public enum Operator {
   LESS_THAN("<"),
   NOT_EQUALS("!="),
   IN("IN"),
-  IS_NULL("IS NULL");
+  IS_NULL("IS NULL"),
+  IS_NOT_NULL("IS NOT NULL");
 
   private final String symbol;
 

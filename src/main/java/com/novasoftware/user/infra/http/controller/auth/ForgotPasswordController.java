@@ -2,15 +2,10 @@ package com.novasoftware.user.infra.http.controller.auth;
 
 import com.novasoftware.base.layout.BaseController;
 import com.novasoftware.core.config.AppInitializer;
-import com.novasoftware.token.application.repository.TokenRepository;
-import com.novasoftware.token.domain.model.Tokens;
 import com.novasoftware.token.domain.service.TokenService;
-import com.novasoftware.token.infra.repository.TokenRepositoryImpl;
 import com.novasoftware.user.application.dto.ForgotUserPassword;
-import com.novasoftware.user.domain.model.Users;
 import com.novasoftware.user.domain.service.UserService;
 import com.novasoftware.user.infra.email.service.EmailService;
-import com.novasoftware.user.infra.email.strategy.PasswordResetEmailStrategy;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
@@ -18,8 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class ForgotPasswordController extends BaseController {
@@ -100,6 +93,7 @@ public class ForgotPasswordController extends BaseController {
             resetPasswordStep.setManaged(false);
             emailStep.setVisible(true);
             emailStep.setManaged(true);
+            CompletableFuture.runAsync(() -> {});
         } else {
             titleLabel.setText("Erro ao redefinir a senha. Verifique o token.");
         }

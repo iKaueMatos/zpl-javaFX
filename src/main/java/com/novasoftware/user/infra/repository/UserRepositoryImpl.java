@@ -5,7 +5,7 @@ import com.novasoftware.shared.Enum.Operator;
 import com.novasoftware.shared.database.environment.DatabaseManager;
 import com.novasoftware.shared.database.queryBuilder.QueryBuilder;
 import com.novasoftware.shared.util.log.DiscordLogger;
-import com.novasoftware.tools.application.repository.UserRepository;
+import com.novasoftware.user.application.repository.UserRepository;
 import com.novasoftware.user.domain.model.Users;
 
 import java.sql.*;
@@ -18,7 +18,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Optional<Users> findUserByEmail(String email) {
         QueryBuilder<UsersEnum> queryBuilder = new QueryBuilder<>(Users.class);
-        queryBuilder.select(UsersEnum.ALL_COLUMN.getValue()).where(UsersEnum.EMAIL, Operator.EQUALS, email);
+        queryBuilder.select(UsersEnum.ALL_COLUMN.getValue()).where(UsersEnum.EMAIL.getValue(), Operator.EQUALS, email);
 
         Users user = executeQuery(queryBuilder);
         return Optional.ofNullable(user);
@@ -50,7 +50,7 @@ public class UserRepositoryImpl implements UserRepository {
             }
 
             int rowsAffected = pstmt.executeUpdate();
-            return true;
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             DiscordLogger.sendLogToDiscord("Erro","Ocorreu um erro critico ao processar a requisição", e.toString(), UserRepository.class, DiscordLogger.COLOR_RED);
@@ -67,19 +67,26 @@ public class UserRepositoryImpl implements UserRepository {
             throw new IllegalArgumentException("User not found for update.");
         }
 
-        String updateQuery = queryBuilder.buildUpdateQuery(user, originalUser);
+        String updateQuery = buildUpdateQuery(user, originalUser);
         try (Connection conn = DatabaseManager.connect();
              PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
-            queryBuilder.buildUpdatePreparedStatement(conn, user, originalUser);
+
+            int paramIndex = 1;
+            pstmt.setString(paramIndex++, user.getUsername());
+            pstmt.setString(paramIndex++, user.getPassword());
+            pstmt.setString(paramIndex++, user.getEmail());
+            pstmt.setDate(paramIndex++, new java.sql.Date(user.getCreated_at().getTime()));
+            pstmt.setDate(paramIndex++, new java.sql.Date(user.getUpdated_at().getTime()));
+            pstmt.setInt(paramIndex++, user.getIsActive());
+            pstmt.setString(paramIndex++, user.getToken());
+
+            pstmt.setString(paramIndex++, user.getEmail());
 
             int rowsAffected = pstmt.executeUpdate();
-            if (rowsAffected > 0) {
-                return true;
-            }
-
-            return false;
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            DiscordLogger.sendLogToDiscord("Erro", "Ocorreu um erro crítico ao processar a atualização", e.toString(), UserRepository.class, DiscordLogger.COLOR_RED);
             return false;
         }
     }
@@ -92,6 +99,11 @@ public class UserRepositoryImpl implements UserRepository {
         query.append("?");
 
         query.append(")");
+        return query.toString();
+    }
+
+    private String buildUpdateQuery(Users user, Users originalUser) {
+        StringBuilder query = new StringBuilder("UPDATE users SET username = ?, password = ?, email = ?, created_at = ?, updated_at = ?, is_active = ?, token = ? WHERE email = ?");
         return query.toString();
     }
 

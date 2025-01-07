@@ -1,6 +1,5 @@
 package com.novasoftware.tools.infrastructure.http.controller.tools;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
@@ -13,7 +12,7 @@ import com.novasoftware.core.Enum.LabelFormat;
 import com.novasoftware.core.example.ZPLGenerateExample;
 import com.novasoftware.core.http.client.LabelaryClient;
 import com.novasoftware.shared.util.alert.CustomAlert;
-import com.novasoftware.tools.application.usecase.LabelGenerator;
+import com.novasoftware.tools.application.usecase.LabelGeneratorService;
 import com.novasoftware.tools.domain.Enum.LabelConstants;
 import com.novasoftware.tools.domain.Enum.LabelType;
 import com.novasoftware.tools.domain.service.ImageZoomService;
@@ -31,7 +30,6 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -94,9 +92,7 @@ public class ToolsTagController extends BaseController implements Initializable 
     @FXML
     private VBox imageContainer;
 
-    private Canvas pdfCanvas;
-
-    private final LabelGenerator labelGenerator = new LabelGenerator();
+    private final LabelGeneratorService labelGenerator = new LabelGeneratorService();
     private final ZplFileService zplFileService = new ZplFileService();
 
     private final ImageZoomService imageZoomService = new ImageZoomService();
@@ -313,9 +309,9 @@ public class ToolsTagController extends BaseController implements Initializable 
             }
 
             if (zplFileService.validateZplContent(zpl)) {
-                printer.setVisible(true);
+//                printer.setVisible(true);
                 outputArea.setText(zpl);
-                detectPrintersButton.setVisible(true);
+//                detectPrintersButton.setVisible(true);
                 saveButton.setDisable(false);
             }
         } catch (IllegalArgumentException e) {
@@ -343,20 +339,20 @@ public class ToolsTagController extends BaseController implements Initializable 
 
         byte[] pdfBytes = pdfViewerService.pdfTag(
                 zpl,
-                LabelFormat.PRINTER_DENSITY_8DPMM.getValue(),
-                LabelFormat.LABEL_DIMENSIONS_3X2.getValue(),
+                labelDpmm.getValue(),
+                labelDimension.getValue(),
                 LabelFormat.LABEL_INDEX_0.getValue(),
                 LabelFormat.OUTPUT_FORMAT_PDF.getValue()
         );
 
-        File tempPdf = File.createTempFile("label", ".pdf");
+        File tempPdf = File.createTempFile("etiqueta", ".pdf");
         try (FileOutputStream fos = new FileOutputStream(tempPdf)) {
             fos.write(pdfBytes);
         }
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-        fileChooser.setInitialFileName("label.pdf");
+        fileChooser.setInitialFileName("etiqueta.pdf");
 
         File chosenFile = fileChooser.showSaveDialog(stage);
         if (chosenFile != null) {

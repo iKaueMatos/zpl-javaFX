@@ -32,17 +32,22 @@ public class QueryBuilder<T extends Enum<T> & TableColumn> {
         return this;
     }
 
-    public QueryBuilder<T> where(T column, Operator operator, Object value) {
-        conditions.add(new Condition(column.toString().toLowerCase(), operator, value));
+    public QueryBuilder<T> where(String column, Operator operator, Object value) {
+        conditions.add(new Condition(column, operator, value));
         return this;
     }
 
-    public QueryBuilder<T> and(T column, Operator operator, Object value) {
+    public QueryBuilder<T> and(String column, Operator operator, Object value) {
         return where(column, operator, value);
     }
 
     public QueryBuilder<T> orderBy(T column, boolean ascending) {
         orderByClauses.add(new OrderByClause(column, ascending));
+        return this;
+    }
+
+    public QueryBuilder<T> is_null(T column) {
+        conditions.add(new Condition(column.toString().toLowerCase(), Operator.IS_NULL, null));
         return this;
     }
 

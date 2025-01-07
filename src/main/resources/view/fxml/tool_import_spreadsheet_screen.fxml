@@ -19,13 +19,16 @@
                 <children>
                     <MFXButton onAction="#importSpreadsheet" prefWidth="160" style="-fx-background-color: #3A3A3A; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-font-weight: bold; -fx-border-radius: 10px;" text="Importar Planilha" />
                     <MFXButton onAction="#downloadTemplate" prefWidth="160" style="-fx-background-color: #3A3A3A; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-font-weight: bold; -fx-border-radius: 10px;" text="Baixar Modelo" />
+                    <MFXButton onAction="#showLabelFormatsModal" prefWidth="160" style="-fx-background-color: #3A3A3A; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-font-weight: bold; -fx-border-radius: 10px;" text="Configurar Etiquetas" />
                 </children>
             </HBox>
 
             <MFXTableView VBox.vgrow="ALWAYS" fx:id="table" prefHeight="400.0" prefWidth="1306.0" styleClass="mfx-table-view" AnchorPane.bottomAnchor="230.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+            <MFXButton fx:id="saveButton" onAction="#saveZplToFile" prefWidth="150" style="-fx-background-color: #B916F9; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-font-weight: bold; -fx-border-radius: 10px;" text="Salvar ZPL" HBox.hgrow="ALWAYS" />
 
             <Label style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Histórico de Importações" />
             <MFXTableView VBox.vgrow="ALWAYS" fx:id="historyTable" prefHeight="200.0" prefWidth="1306.0" styleClass="mfx-table-view" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <MFXButton fx:id="downloadErrorButton" onAction="#downloadErrorFile" prefWidth="160" style="-fx-background-color: #D32F2F; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-font-weight: bold; -fx-border-radius: 10px;" text="Baixar Erros" />
 
         </children>
         <padding>

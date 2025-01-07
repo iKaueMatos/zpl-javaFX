@@ -18,7 +18,8 @@ import java.util.List;
 public class ZebraPrinterConfigurationService {
     private static List<String> printersFound = new ArrayList<>();
 
-    public void detectZebraPrinters() {
+    public List<String> detectZebraPrinters() {
+        printersFound.clear();
         try {
             DiscoveryHandler discoveryHandler = new DiscoveryHandler() {
                 @Override
@@ -49,6 +50,8 @@ public class ZebraPrinterConfigurationService {
             System.out.println("Erro ao detectar impressoras.");
             CustomAlert.showErrorAlert(null, "Erro de Conexão", "Erro ao detectar as impressoras Zebra.");
         }
+
+        return printersFound;
     }
 
     public static String selectPrinter() {

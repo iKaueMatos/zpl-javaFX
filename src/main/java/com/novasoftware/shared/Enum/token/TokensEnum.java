@@ -3,13 +3,13 @@ package com.novasoftware.shared.Enum.token;
 import com.novasoftware.shared.Enum.user.TableColumn;
 
 public enum TokensEnum implements TableColumn {
-    ID("id"),
-    TOKEN("token"),
-    USER_ID("user_id"),
-    TYPE("type"),
-    CREATED_AT("created_at"),
-    EXPIRES_AT("expires_at"),
-    USED_AT("used_at"),
+    ID("tokens.id"),
+    TOKEN("tokens.token"),
+    USER_ID("tokens.user_id"),
+    TYPE("tokens.type"),
+    CREATED_AT("tokens.created_at"),
+    EXPIRES_AT("tokens.expires_at"),
+    USED_AT("tokens.used_at"),
     ALL_COLUMN("*");
 
     private final String value;

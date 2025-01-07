@@ -3,7 +3,7 @@ package com.novasoftware.token.domain.service;
 import com.novasoftware.token.application.repository.TokenRepository;
 import com.novasoftware.token.domain.model.Tokens;
 import com.novasoftware.token.infra.repository.TokenRepositoryImpl;
-import com.novasoftware.tools.application.repository.UserRepository;
+import com.novasoftware.user.application.repository.UserRepository;
 import com.novasoftware.user.domain.model.Users;
 import com.novasoftware.user.infra.email.service.EmailService;
 import com.novasoftware.user.infra.email.strategy.EmailTemplateStrategy;
@@ -37,7 +37,6 @@ public class TokenService {
             tokenEntity.setUsedAt(null);
 
             tokenRepository.saveToken(tokenEntity);
-
             Map<String, Object> data = Map.of(
                     "name", user.getUsername(),
                     "token", token

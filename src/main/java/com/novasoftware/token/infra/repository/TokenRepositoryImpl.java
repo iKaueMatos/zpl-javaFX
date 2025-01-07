@@ -32,21 +32,20 @@ public class TokenRepositoryImpl implements TokenRepository {
     private QueryBuilder<TokensEnum> buildTokensByUserIdQuery(int userId) {
         QueryBuilder<TokensEnum> queryBuilder = new QueryBuilder<>(Tokens.class);
         queryBuilder
-                .select(String.valueOf(TokensEnum.ALL_COLUMN))
-                .where(TokensEnum.USER_ID, Operator.EQUALS, userId)
-                .and(TokensEnum.USED_AT, Operator.IS_NULL, null)
-                .and(TokensEnum.EXPIRES_AT, Operator.GREATER_THAN, new Timestamp(System.currentTimeMillis()));
+                .select(String.valueOf(TokensEnum.ALL_COLUMN.getValue()))
+                .where(TokensEnum.USER_ID.getValue(), Operator.EQUALS, userId)
+                .and(TokensEnum.USED_AT.getValue(), Operator.IS_NULL, "")
+                .and(TokensEnum.EXPIRES_AT.getValue(), Operator.GREATER_THAN, new Timestamp(System.currentTimeMillis()));
         return queryBuilder;
     }
 
     private QueryBuilder<TokensEnum> buildUserByTokenQuery(String tokenValue) {
         QueryBuilder<TokensEnum> queryBuilder = new QueryBuilder<>(Tokens.class);
         queryBuilder
-                .select(String.valueOf(UsersEnum.ALL_COLUMN))
+                .select(UsersEnum.ALL_COLUMN.getValue())
                 .join(Users.class, "tokens.user_id", "users.id")
-                .where(TokensEnum.TOKEN, Operator.EQUALS, tokenValue)
-                .and(TokensEnum.EXPIRES_AT, Operator.GREATER_THAN, new Timestamp(System.currentTimeMillis()))
-                .and(TokensEnum.USED_AT, Operator.IS_NULL, null);
+                .where(TokensEnum.TOKEN.getValue(), Operator.EQUALS, tokenValue)
+                .and(TokensEnum.EXPIRES_AT.getValue(), Operator.GREATER_THAN, new Timestamp(System.currentTimeMillis()));
         return queryBuilder;
     }
 

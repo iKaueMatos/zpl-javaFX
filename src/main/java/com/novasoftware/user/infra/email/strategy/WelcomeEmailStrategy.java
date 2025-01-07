@@ -1,20 +1,19 @@
 package com.novasoftware.user.infra.email.strategy;
 
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
 
-import freemarker.template.TemplateException;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-
-public class PasswordResetEmailSucessStrategy implements EmailTemplateStrategy {
+public class WelcomeEmailStrategy implements EmailTemplateStrategy {
     private final Configuration configuration;
 
-    public PasswordResetEmailSucessStrategy() {
+    public WelcomeEmailStrategy() {
         this.configuration = new Configuration(Configuration.VERSION_2_3_31);
         try {
             configuration.setDirectoryForTemplateLoading(new File("src/main/resources/templates"));
@@ -26,13 +25,13 @@ public class PasswordResetEmailSucessStrategy implements EmailTemplateStrategy {
 
     @Override
     public String getSubject() {
-        return "Senha alterada com sucesso!";
+        return "Seja bem vindo!";
     }
 
     @Override
     public EmailTemplateData generateEmailContent(Map<String, Object> data) {
         try {
-            String templateName = "password-redefine-success-email.html";
+            String templateName = "welcome.html";
             Template template = configuration.getTemplate(templateName);
 
             StringWriter stringWriter = new StringWriter();
@@ -42,7 +41,7 @@ public class PasswordResetEmailSucessStrategy implements EmailTemplateStrategy {
             Map<String, Object> templateData = Map.of("htmlContent", htmlContent);
             return new EmailTemplateData(templateName, templateData);
         } catch (IOException | TemplateException e) {
-            throw new RuntimeException("Erro ao gerar e-mail de senha alterada com sucesso!", e);
+            throw new RuntimeException("Erro ao gerar e-mail de seja bem vindo", e);
         }
     }
 }

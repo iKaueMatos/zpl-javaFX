@@ -5,20 +5,32 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <StackPane xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.tools.infrastructure.http.controller.config.ConfigPrinterController">
-    <VBox spacing="20" alignment="TOP_CENTER" style="-fx-background-color: #FFFFFF; -fx-padding: 20;">
-        <Label text="Configurações Globais" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
-        <Label text="As configurações alteradas serão gravadas automaticamente" style="-fx-font-size: 12px; -fx-text-fill: #666;" />
+    <VBox spacing="20" alignment="TOP_CENTER" style="-fx-background-color: #f4f4f9; -fx-padding: 20;">
+        <Label text="Configurações Globais" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+        <Label text="As configurações alteradas serão gravadas automaticamente" style="-fx-font-size: 14px; -fx-text-fill: #666;" />
 
-        <VBox spacing="15" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #ddd; -fx-border-width: 1;">
-            <Label text="Configurações de Impressão" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+        <VBox spacing="20" style="-fx-background-color: #ffffff; -fx-padding: 25; -fx-border-radius: 12; -fx-background-radius: 12; -fx-border-color: #e0e0e0; -fx-border-width: 2;">
+            <Label text="Configurações de Impressão" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
 
-            <Label text="Impressora padrão para etiquetas (ZPL):" style="-fx-font-size: 14px;" />
-            <ComboBox fx:id="zplPrinterComboBox" style="-fx-font-size: 14px;" />
+            <VBox spacing="10">
+                <Label text="Impressora padrão para etiquetas (ZPL):" style="-fx-font-size: 14px;" />
+                <MFXComboBox fx:id="zebraPrinterComboBox" style="-fx-font-size: 14px; -fx-pref-width: 250px;" />
+            </VBox>
 
-            <Label text="Impressora padrão para (Modelo A4):" style="-fx-font-size: 14px;" />
-            <ComboBox fx:id="danfePrinterComboBox" style="-fx-font-size: 14px;" />
+            <VBox spacing="10">
+                <Label text="Impressora padrão para (Modelo A4):" style="-fx-font-size: 14px;" />
+                <MFXComboBox fx:id="printA4" style="-fx-font-size: 14px; -fx-pref-width: 250px;" />
+            </VBox>
+
+            <HBox spacing="10" alignment="CENTER">
+                <MFXButton text="Salvar Configurações" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10 20;" fx:id="saveButton" onAction="#handleSave" />
+            </HBox>
         </VBox>
     </VBox>
 </StackPane>

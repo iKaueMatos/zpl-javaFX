@@ -1,27 +1,60 @@
 package com.novasoftware.tools.domain.service;
 
-import javax.swing.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import com.novasoftware.core.zebra.ZebraPrinterConfigurationService;
+import com.novasoftware.tools.application.repository.ConfigRepository;
+import com.novasoftware.tools.domain.model.Config;
+import com.novasoftware.tools.infrastructure.repository.ConfigRepositoryImpl;
+
 import javax.print.*;
 import javax.print.attribute.*;
 import javax.print.attribute.standard.PrinterName;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PrinterService {
-    private PrintService selectedPrinter;
-    private String printerIp;
-    private int printerPort;
     private List<PrintService> availablePrinters;
+    private List<String> zebraPrinters;
+
+    private ConfigRepository configRepository;
+    private ZebraPrinterConfigurationService zebraPrinterConfigurationService;
 
     public PrinterService() {
         availablePrinters = new ArrayList<>();
+        zebraPrinters = new ArrayList<>();
+        configRepository = new ConfigRepositoryImpl();
+        zebraPrinterConfigurationService = new ZebraPrinterConfigurationService();
+    }
+
+    public List<PrintService> getAvailablePrinters() {
+        return availablePrinters;
+    }
+
+    public List<String> getPrinterNames() {
+        List<String> printerNames = new ArrayList<>();
+        for (PrintService printService : availablePrinters) {
+            PrintServiceAttributeSet attributes = printService.getAttributes();
+            for (Attribute attr : attributes.toArray()) {
+                if (attr instanceof PrinterName) {
+                    printerNames.add(((PrinterName) attr).getValue());
+                }
+            }
+        }
+        return printerNames;
+    }
+
+    public void detectZebraPrinters() {
+        zebraPrinters.clear();
+        zebraPrinters = zebraPrinterConfigurationService.detectZebraPrinters();
+    }
+
+    public List<String> getZebraPrinters() {
+        return zebraPrinters;
     }
 
     public void detectPrinters() {
+        availablePrinters.clear();
         try {
             DocFlavor df = DocFlavor.BYTE_ARRAY.AUTOSENSE;
-
             PrintService[] printServices = PrintServiceLookup.lookupPrintServices(df, null);
             for (PrintService printService : printServices) {
                 PrintServiceAttributeSet attributes = printService.getAttributes();
@@ -38,56 +71,12 @@ public class PrinterService {
         }
     }
 
-    public List<PrintService> getAvailablePrinters() {
-        return availablePrinters;
-    }
+    public void savePrinterConfigurations(String type, String printerName) {
+        Config config = new Config();
+        config.setType(type);
+        config.setValue(printerName);
 
-    public void selectPrinter(int index) {
-        if (index >= 0 && index < availablePrinters.size()) {
-            selectedPrinter = availablePrinters.get(index);
-            String selectedPrinterName = getPrinterName(selectedPrinter);
-            System.out.println("Impressora selecionada: " + selectedPrinterName);
-        } else {
-            System.out.println("Seleção inválida.");
-        }
-    }
-
-    private String getPrinterName(PrintService printService) {
-        PrintServiceAttributeSet attributes = printService.getAttributes();
-        for (Attribute attr : attributes.toArray()) {
-            if (attr instanceof PrinterName) {
-                return ((PrinterName) attr).getValue();
-            }
-        }
-        return "Desconhecido";
-    }
-
-    public void selectPrinterDialog() {
-        if (availablePrinters.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nenhuma impressora disponível.", "Erro de Impressora", JOptionPane.ERROR_MESSAGE);
-        } else {
-            String[] printerNames = availablePrinters.stream()
-                    .map(this::getPrinterName)
-                    .toArray(String[]::new);
-
-            String printerSelection = (String) JOptionPane.showInputDialog(null, "Selecione uma impressora",
-                    "Seleção de Impressora", JOptionPane.QUESTION_MESSAGE,
-                    null, printerNames, printerNames[0]);
-
-            if (printerSelection != null) {
-                int index = Arrays.asList(printerNames).indexOf(printerSelection);
-                selectPrinter(index);
-            } else {
-                System.out.println("Nenhuma impressora selecionada.");
-            }
-        }
-    }
-
-    public PrintService getSelectedPrinter() {
-        return selectedPrinter;
-    }
-
-    public String getPrinterIp() {
-        return printerIp;
+        configRepository.saveConfig(config);
+        System.out.println("Configuração salva para " + type + ": " + printerName);
     }
 }

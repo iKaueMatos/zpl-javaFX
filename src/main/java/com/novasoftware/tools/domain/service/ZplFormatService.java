@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.function.Function;
 
 public class ZplFormatService {
-
     private static final Set<String> TYPEBARCODES = Set.of("BEN", "BCN", "B3N", "BU", "FDMA");
 
     public String generateZpl(String labelFormat, List<Map<String, Object>> eansAndSkus, String labelType) {

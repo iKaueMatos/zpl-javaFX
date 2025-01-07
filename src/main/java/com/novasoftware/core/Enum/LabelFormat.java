@@ -16,7 +16,8 @@ public enum LabelFormat {
     LABEL_DIMENSIONS_6X4("6x4"),       // 6 polegadas x 4 polegadas
     LABEL_DIMENSIONS_8X12("8x12"),     // 8 polegadas x 12 polegadas
     LABEL_DIMENSIONS_2X8("2x8"),       // 2 polegadas x 8 polegadas
-    LABEL_DIMENSIONS_1X1("1x1"),       // 1 polegada x 1 polegada (exemplo de etiqueta pequena)
+    LABEL_DIMENSIONS_1X1("1x1"),      // 1 polegada x 1 polegada (exemplo de etiqueta pequena)
+    LABEL_DIMENSIONS_5X25("5X2.5"),
 
     // Índice da etiqueta
     LABEL_INDEX_0("0"), // Primeira etiqueta

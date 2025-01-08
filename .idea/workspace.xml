@@ -4,18 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad99ba91-effb-41a9-a6c1-7cc6e4f52db4" name="Changes" comment="feature: adding application to production environment for testing">
+    <list default="true" id="ad99ba91-effb-41a9-a6c1-7cc6e4f52db4" name="Changes" comment="feature: adding ZEBRA.API">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/util/notification/NotificationUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/util/notification/NotificationUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/http/controller/spreadsheet/SpreadsheetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/http/controller/spreadsheet/SpreadsheetController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/http/controller/tools/ToolsTagController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/http/controller/tools/ToolsTagController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/domain/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/domain/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/ForgotPasswordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/ForgotPasswordController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/RegisterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_import_spreadsheet_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_import_spreadsheet_screen.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,15 +95,18 @@
     &quot;Application.NovaSoftwareToolsApplication.executor&quot;: &quot;Run&quot;,
     &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
     &quot;JAR Application.ZSDK_API.jar.executor&quot;: &quot;Run&quot;,
+    &quot;JAR Application.nova-javafx-1.0-SNAPSHOT.jar.executor&quot;: &quot;Run&quot;,
+    &quot;JAR Application.nova-javafx.jar.executor&quot;: &quot;Run&quot;,
     &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
     &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
     &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;v1&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/ikaue/workspace/nova-tools-javaFX/src/main/resources/templates&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/ikaue/workspace/nova-tools-javaFX/lib&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.48965517&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
@@ -121,18 +114,18 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib" />
       <recent name="$PROJECT_DIR$/src/main/resources/templates" />
       <recent name="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config" />
       <recent name="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra" />
       <recent name="C:\Users\kaue1\nova-tools-javaFX\src\main\java\com\novasoftware\tools\application\service" />
-      <recent name="C:\Users\kaue1\zpl-javaFX\src\main\resources\view" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="C:\Users\kaue1\nova-tools-javaFX\src\main\resources\view\assets" />
       <recent name="C:\Users\kaue1\zpl-javaFX\lib" />
       <recent name="C:\Users\kaue1\zpl-javaFX\src\main\resources\view\assets" />
       <recent name="C:\Users\kaue1\zpl-javaFX\src\main\resources\view" />
-      <recent name="C:\Users\kaue1\zpl-javaFX\src\main\resources" />
     </key>
   </component>
   <component name="RunManager" selected="Application.NovaSoftwareToolsApplication">
@@ -163,6 +156,14 @@
       <option name="JAR_PATH" value="$PROJECT_DIR$/lib/ZSDK_API.jar" />
       <method v="2" />
     </configuration>
+    <configuration name="nova-javafx-1.0-SNAPSHOT.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/target/nova-javafx-1.0-SNAPSHOT.jar" />
+      <method v="2" />
+    </configuration>
+    <configuration name="nova-javafx.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/nova_javafx_jar/nova-javafx.jar" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
         <settings />
@@ -172,6 +173,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.NovaSoftwareToolsApplication" />
+        <item itemvalue="JAR Application.nova-javafx-1.0-SNAPSHOT.jar" />
+        <item itemvalue="JAR Application.nova-javafx.jar" />
         <item itemvalue="JAR Application.ZSDK_API.jar" />
       </list>
     </recent_temporary>
@@ -241,7 +244,23 @@
       <option name="project" value="LOCAL" />
       <updated>1736216136925</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="feature: adding password encryption with password hide">
+      <option name="closed" value="true" />
+      <created>1736244922113</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1736244922113</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feature: adding ZEBRA.API">
+      <option name="closed" value="true" />
+      <created>1736299004878</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1736299004878</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -253,7 +272,9 @@
     <MESSAGE value="fix: login screen" />
     <MESSAGE value="feature: adjusting reset Password" />
     <MESSAGE value="feature: adding application to production environment for testing" />
-    <option name="LAST_COMMIT_MESSAGE" value="feature: adding application to production environment for testing" />
+    <MESSAGE value="feature: adding password encryption with password hide" />
+    <MESSAGE value="feature: adding ZEBRA.API" />
+    <option name="LAST_COMMIT_MESSAGE" value="feature: adding ZEBRA.API" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -265,13 +286,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/novasoftware/token/infra/repository/TokenRepositoryImpl.java</url>
-          <line>118</line>
+          <line>117</line>
           <option name="timeStamp" value="50" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/novasoftware/token/infra/repository/TokenRepositoryImpl.java</url>
-          <line>52</line>
-          <option name="timeStamp" value="54" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

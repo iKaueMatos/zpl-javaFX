@@ -15,7 +15,6 @@ module com.novasoftware {
     requires javafx.fxml;
     requires org.kordamp.ikonli.materialdesign2;
     requires java.net.http;
-    requires ZSDK.API;
     requires fontawesomefx;
     requires org.flywaydb.core;
     requires java.prefs;
@@ -27,6 +26,7 @@ module com.novasoftware {
     requires spring.context.support;
     requires jakarta.mail;
     requires spring.security.crypto;
+    requires ZSDK.API;
 
     exports com.novasoftware.tools.domain.model to javafx.fxml;
     exports com.novasoftware.tools.domain.service to javafx.fxml;

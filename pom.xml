@@ -207,6 +207,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>com.zpl</groupId>
+            <artifactId>ZSDK_API</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/ZSDK_API.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
@@ -231,7 +238,6 @@
                 <version>0.0.8</version>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>com.zpl.zpl/com.novasoftware.NovaSoftwareToolsApplication</mainClass>

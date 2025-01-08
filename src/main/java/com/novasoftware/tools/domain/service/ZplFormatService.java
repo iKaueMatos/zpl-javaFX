@@ -2,10 +2,7 @@ package com.novasoftware.tools.domain.service;
 
 import com.novasoftware.tools.domain.Enum.LabelConstants;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
 public class ZplFormatService {
@@ -49,32 +46,51 @@ public class ZplFormatService {
             for (int i = 0; i < quantity; i++) {
                 zpl.append("^XA^CI28\n");
 
-                String sku = item.get("SKU") != null ? item.get("SKU").toString() : "";
-                String ean =  item.get("EAN") != null ? item.get("EAN").toString() : "";
-                String typebarcode = sku.equals("") ? "BEN" : "BCN";
-                String value = sku.equals("") ? ean : sku;
+                String sku = Optional.ofNullable(item.get("SKU")).map(Object::toString).orElse("");
+                String ean = Optional.ofNullable(item.get("EAN")).map(Object::toString).orElse("");
 
-                if (TYPEBARCODES.contains(typebarcode)) {
-                    zpl.append(String.format(
-                            "^LH0,0\n" +
-                                    "^FO65,18^BY2,,0^%s,54,N,N^FD%s^FS\n" +
-                                    "^FO145,80^A0N,20,28^FH^FD%s^FS\n" +
-                                    "^FO146,80^A0N,20,28^FH^FD%s^FS\n" +
-                                    "^FS\n" +
-                                    "^CI28\n" +
-                                    "^LH0,0\n" +
-                                    "^FO475,18^BY2,,0^%s,54,N,N^FD%s^FS\n" +
-                                    "^FO555,80^A0N,20,28^FH^FD%s^FS\n" +
-                                    "^FO556,80^A0N,20,28^FH^FD%s^FS\n" +
-                                    "^FS\n" +
-                                    "^XZ",
-                            typebarcode, value, value, value, typebarcode, value, value, value
-                    ));
-                }
+                Optional.of(sku.isEmpty() ? ean : sku)
+                        .ifPresent(value -> {
+                            if (value.equals(ean)) {
+                                generateEAN(zpl, ean);
+                            } else {
+                                generateSKU(zpl, sku);
+                            }
+                        });
+
+                zpl.append("^XZ\n");
             }
         }
 
         return zpl.toString();
+    }
+
+    private void generateEAN(StringBuilder zpl, String ean) {
+        zpl.append("^PW800\n");
+        zpl.append("^LL200\n");
+        zpl.append("^CI28\n");
+        zpl.append("^LH0,0\n");
+        zpl.append(String.format("^FO80,35^BY3,80,Y^BEN,100,Y^FD%s^FS\n", ean));
+        zpl.append(String.format("^FO475,35^BY3,80,Y^BEN,100,Y^FD%s^FS\n", ean));
+    }
+
+    private void generateSKU(StringBuilder zpl, String sku) {
+        String typebarcode = "BCN";
+
+        zpl.append(String.format(
+                "^LH0,0\n" +
+                        "^FO65,18^BY2,,0^%s,54,N,N^FD%s^FS\n" +
+                        "^FO145,80^A0N,20,28^FH^FD%s^FS\n" +
+                        "^FO146,80^A0N,20,28^FH^FD%s^FS\n" +
+                        "^FS\n" +
+                        "^CI28\n" +
+                        "^LH0,0\n" +
+                        "^FO475,18^BY2,,0^%s,54,N,N^FD%s^FS\n" +
+                        "^FO555,80^A0N,20,28^FH^FD%s^FS\n" +
+                        "^FO556,80^A0N,20,28^FH^FD%s^FS\n" +
+                        "^FS\n",
+                typebarcode, sku, sku, sku, typebarcode, sku, sku, sku
+        ));
     }
 
     private String generateZpl1Column(List<Map<String, Object>> eansAndSkus, String labelType) {

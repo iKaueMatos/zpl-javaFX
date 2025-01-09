@@ -1,7 +1,3 @@
-Claro! Vou adicionar ícones ao README para tornar as instruções mais visuais e agradáveis. Aqui está o README atualizado com os ícones:
-
----
-
 # Nova Tools
 
 ![Nova Tools Logo](https://i.postimg.cc/mg85mFxf/logo.png) <!-- Exemplo de ícone, altere conforme necessário -->

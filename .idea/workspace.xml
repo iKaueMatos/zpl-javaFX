@@ -4,11 +4,40 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad99ba91-effb-41a9-a6c1-7cc6e4f52db4" name="Changes" comment="feature: adding application to production environment for testing">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/nova_javafx_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
+    <list default="true" id="ad99ba91-effb-41a9-a6c1-7cc6e4f52db4" name="Changes" comment="feature: adding ZEBRA.API">
+      <change afterPath="$PROJECT_DIR$/out/artifacts/nova_javafx_jar/nova-javafx.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/Supplier/domain/model/Supplier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/category/domain/model/Category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/application/dto/ProductData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/application/repository/ProductRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/domain/service/ProductServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/infrastructure/mapper/ProductMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/infrastructure/repository/ProductRepositoryImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/Enum/product/ProductEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/spreadsheet/infrastructure/service/ImportSpreadsheetService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/application/service/TokenService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/V3__create__table__product.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/domain/service/ZplFormatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/domain/service/ZplFormatService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Planilha_Erros.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/main/resources/view/configuration_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/bin/main/resources/view/configuration_screen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/view/configuration_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/bin/view/configuration_screen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/label.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config/AppInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config/AppInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/path/ResourcePaths.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/path/ResourcePaths.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/zebra/ZebraPrinterConfigurationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/zebra/ZebraPrinterConfigurationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/domain/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/domain/model/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/database/queryBuilder/QueryBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/database/queryBuilder/QueryBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/domain/service/TokenService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/http/controller/config/ConfigPrinterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/config/infrastructure/http/controller/config/ConfigPrinterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/http/controller/spreadsheet/SpreadsheetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/spreadsheet/infrastructure/http/controller/spreadsheet/SpreadsheetController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/domain/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/domain/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/ForgotPasswordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/ForgotPasswordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/repository/UserRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/repository/UserRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/configuration_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/configuration_screen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_import_spreadsheet_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_import_spreadsheet_screen.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +57,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="NOVA-2-auth-users" />
+        <entry key="$PROJECT_DIR$" value="v1" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -98,6 +127,8 @@
     "Application.NovaSoftwareToolsApplication.executor": "Run",
     "Downloaded.Files.Path.Enabled": "true",
     "JAR Application.ZSDK_API.jar.executor": "Run",
+    "JAR Application.nova-javafx-1.0-SNAPSHOT.jar.executor": "Run",
+    "JAR Application.nova-javafx.jar.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
@@ -105,38 +136,31 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "v2",
-    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/W1021H2/Desktop/nova-tools-javaFX",
+    "last_opened_file_path": "/home/ikaue/workspace/nova-tools-javaFX/lib",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.14367816",
+    "project.structure.side.proportion": "0.48965517",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib" />
       <recent name="$PROJECT_DIR$/src/main/resources/templates" />
       <recent name="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config" />
       <recent name="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra" />
       <recent name="C:\Users\kaue1\nova-tools-javaFX\src\main\java\com\novasoftware\tools\application\service" />
-      <recent name="C:\Users\kaue1\zpl-javaFX\src\main\resources\view" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="C:\Users\kaue1\nova-tools-javaFX\src\main\resources\view\assets" />
       <recent name="C:\Users\kaue1\zpl-javaFX\lib" />
       <recent name="C:\Users\kaue1\zpl-javaFX\src\main\resources\view\assets" />
       <recent name="C:\Users\kaue1\zpl-javaFX\src\main\resources\view" />
-      <recent name="C:\Users\kaue1\zpl-javaFX\src\main\resources" />
     </key>
   </component>
   <component name="RunManager" selected="Application.NovaSoftwareToolsApplication">
-    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
-      <deployment type="docker-compose.yml">
-        <settings />
-      </deployment>
-      <method v="2" />
-    </configuration>
     <configuration name="NovaSoftwareToolsApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.novasoftware.NovaSoftwareToolsApplication" />
       <module name="nova-javafx" />
@@ -164,9 +188,25 @@
       <option name="JAR_PATH" value="$PROJECT_DIR$/lib/ZSDK_API.jar" />
       <method v="2" />
     </configuration>
+    <configuration name="nova-javafx-1.0-SNAPSHOT.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/target/nova-javafx-1.0-SNAPSHOT.jar" />
+      <method v="2" />
+    </configuration>
+    <configuration name="nova-javafx.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/nova_javafx_jar/nova-javafx.jar" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.NovaSoftwareToolsApplication" />
+        <item itemvalue="JAR Application.nova-javafx-1.0-SNAPSHOT.jar" />
+        <item itemvalue="JAR Application.nova-javafx.jar" />
         <item itemvalue="JAR Application.ZSDK_API.jar" />
       </list>
     </recent_temporary>
@@ -236,15 +276,23 @@
       <option name="project" value="LOCAL" />
       <updated>1736216136925</updated>
     </task>
-    <task id="LOCAL-00008" summary="feature: adding application to production environment for testing">
+    <task id="LOCAL-00008" summary="feature: adding password encryption with password hide">
       <option name="closed" value="true" />
-      <created>1736355650861</created>
+      <created>1736244922113</created>
       <option name="number" value="00008" />
       <option name="presentableId" value="LOCAL-00008" />
       <option name="project" value="LOCAL" />
-      <updated>1736355650861</updated>
+      <updated>1736244922113</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="feature: adding ZEBRA.API">
+      <option name="closed" value="true" />
+      <created>1736299004878</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1736299004878</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -256,7 +304,9 @@
     <MESSAGE value="fix: login screen" />
     <MESSAGE value="feature: adjusting reset Password" />
     <MESSAGE value="feature: adding application to production environment for testing" />
-    <option name="LAST_COMMIT_MESSAGE" value="feature: adding application to production environment for testing" />
+    <MESSAGE value="feature: adding password encryption with password hide" />
+    <MESSAGE value="feature: adding ZEBRA.API" />
+    <option name="LAST_COMMIT_MESSAGE" value="feature: adding ZEBRA.API" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -268,13 +318,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/novasoftware/token/infra/repository/TokenRepositoryImpl.java</url>
-          <line>118</line>
+          <line>117</line>
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/novasoftware/token/infra/repository/TokenRepositoryImpl.java</url>
-          <line>52</line>
-          <option name="timeStamp" value="54" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/novasoftware/product/infrastructure/repository/ProductRepositoryImpl.java</url>
+          <line>44</line>
+          <option name="timeStamp" value="63" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -287,6 +337,7 @@
       <configuration name="Application">
         <watch expression="CustomAlert.showConfirmationAlert(stage, &quot;Sucesso&quot;, &quot;Imagem salva com sucesso.&quot;, () -&gt; {&#10;                    System.out.println(&quot;Imagem salva com sucesso!&quot;);&#10;                });" />
         <watch expression="  .join(Users.class, &quot;tokens.user_id&quot;, &quot;users.id&quot;)&#10;                .where(TokensEnum.TOKEN, Operator.EQUALS, tokenValue)&#10;                .and(TokensEnum.EXPIRES_AT, Operator.GREATER_THAN, new Timestamp(System.currentTimeMillis()))&#10;                .is_null(TokensEnum.USED_AT);&#10;" />
+        <watch expression="                pstmt.setObject(paramIndex++, value);&#10;            }&#10;&#10;            int rowsAffected = pstmt.executeUpdate();&#10;            return rowsAffected &gt; 0;&#10;        } catch (SQLException e) {&#10;            e.printStackTrace();&#10;            return false;&#10;        }" />
       </configuration>
     </watches-manager>
   </component>

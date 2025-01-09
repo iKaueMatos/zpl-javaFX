@@ -53,7 +53,6 @@ public class UserRepositoryImpl implements UserRepository {
             return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            DiscordLogger.sendLogToDiscord("Erro","Ocorreu um erro critico ao processar a requisição", e.toString(), UserRepository.class, DiscordLogger.COLOR_RED);
             return false;
         }
     }

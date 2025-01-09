@@ -27,19 +27,20 @@ module com.novasoftware {
     requires spring.context.support;
     requires jakarta.mail;
     requires spring.security.crypto;
+    requires com.zaxxer.hikari;
 
     exports com.novasoftware.tools.domain.model to javafx.fxml;
     exports com.novasoftware.tools.domain.service to javafx.fxml;
-    exports com.novasoftware.tools.infrastructure.http.controller.config;
-    opens com.novasoftware.tools.infrastructure.http.controller.config to javafx.fxml;
+    exports com.novasoftware.config.infrastructure.http.controller.config;
+    opens com.novasoftware.config.infrastructure.http.controller.config to javafx.fxml;
     exports com.novasoftware.shared.loading;
     opens com.novasoftware.shared.loading to javafx.fxml;
     exports com.novasoftware.tools.infrastructure.http.controller.tools;
     opens com.novasoftware.tools.infrastructure.http.controller.tools to javafx.fxml;
     exports com.novasoftware.user.infra.http.controller.auth;
     opens com.novasoftware.user.infra.http.controller.auth to javafx.fxml;
-    exports com.novasoftware.tools.infrastructure.http.controller.spreadsheet to javafx.fxml;
-    opens com.novasoftware.tools.infrastructure.http.controller.spreadsheet to javafx.fxml;
+    exports com.novasoftware.spreadsheet.infrastructure.http.controller.spreadsheet to javafx.fxml;
+    opens com.novasoftware.spreadsheet.infrastructure.http.controller.spreadsheet to javafx.fxml;
     exports com.novasoftware.base.layout to javafx.fxml;
     opens com.novasoftware.base.layout to javafx.fxml;
     exports com.novasoftware.base.ui.view to javafx.fxml;

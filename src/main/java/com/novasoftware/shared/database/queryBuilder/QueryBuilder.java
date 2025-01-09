@@ -202,7 +202,6 @@ public class QueryBuilder<T extends Enum<T> & TableColumn> {
 
         List<String> updatedColumns = new ArrayList<>();
         List<Object> updatedValues = new ArrayList<>();
-
         for (var field : objectToUpdate.getClass().getDeclaredFields()) {
             field.setAccessible(true);
             try {

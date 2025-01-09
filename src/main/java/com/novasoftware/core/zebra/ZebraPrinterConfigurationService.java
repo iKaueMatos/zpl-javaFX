@@ -25,29 +25,17 @@ public class ZebraPrinterConfigurationService {
                 @Override
                 public void foundPrinter(DiscoveredPrinter discoveredPrinter) {
                     printersFound.add(discoveredPrinter.address);
-                    System.out.println("Impressora encontrada: " + discoveredPrinter.address);
                 }
 
                 @Override
-                public void discoveryFinished() {
-                    if (printersFound.isEmpty()) {
-                        CustomAlert.showWarningAlert(null, "Nenhuma Impressora Encontrada", "Nenhuma impressora Zebra foi detectada.");
-                    } else {
-                        CustomAlert.showInfoAlert(null, "Impressoras Encontradas", "Impressoras Zebra detectadas com sucesso.");
-                    }
-                }
+                public void discoveryFinished() {}
 
                 @Override
-                public void discoveryError(String errorMessage) {
-                    System.out.println("Erro ao descobrir impressoras: " + errorMessage);
-                    CustomAlert.showErrorAlert(null, "Erro ao Descobrir Impressoras", "Ocorreu um erro ao tentar descobrir impressoras Zebra.");
-                }
+                public void discoveryError(String errorMessage) {}
             };
 
             NetworkDiscoverer.findPrinters(discoveryHandler);
         } catch (DiscoveryException e) {
-            e.printStackTrace();
-            System.out.println("Erro ao detectar impressoras.");
             CustomAlert.showErrorAlert(null, "Erro de Conexão", "Erro ao detectar as impressoras Zebra.");
         }
 

@@ -1,6 +1,9 @@
 package com.novasoftware.core.config;
 
 import com.novasoftware.shared.util.alert.CustomAlert;
+import com.novasoftware.tools.application.repository.ConfigRepository;
+import com.novasoftware.tools.domain.service.PrinterService;
+import com.novasoftware.tools.infrastructure.repository.ConfigRepositoryImpl;
 import com.novasoftware.user.infra.http.controller.auth.LoginController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -19,10 +22,15 @@ import io.github.palexdev.materialfx.theming.UserAgentBuilder;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AppInitializer {
     private static StackPane rootContainer = new StackPane();
     private static Stage primaryStage;
+    private static PrinterService printerService = new PrinterService();
+    private static final ExecutorService executorService = Executors.newCachedThreadPool();
 
     public static void initialize(Stage stage) {
         primaryStage = stage;
@@ -31,9 +39,25 @@ public class AppInitializer {
             configureGlobalTheme();
             configurePrimaryStage(stage);
             initializeScreens();
-            SystemTrayManager.addToSystemTray(stage);
+
+            CompletableFuture<Void> initializationTask = CompletableFuture.runAsync(() -> {
+                try {
+                    detectPrintersAsync();
+                } catch (Exception e) {
+                    System.err.println("Erro ao inicializar a detecção de impressoras: " + e.getMessage());
+                    Platform.runLater(() -> {
+                        CustomAlert.showErrorAlert(primaryStage, "Erro na Detecção de Impressoras",
+                                "Não foi possível inicializar a detecção de impressoras.");
+                    });
+                }
+            }, executorService);
+
+            initializationTask.thenRunAsync(() -> {
+                Platform.runLater(() -> {
+                    System.out.println("Detecção de impressoras concluída com sucesso.");
+                });
+            });
         } catch (Exception e) {
-            System.err.println("Erro ao iniciar a aplicação: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -46,6 +70,20 @@ public class AppInitializer {
                 .setResolveAssets(true)
                 .build()
                 .setGlobal();
+    }
+
+    public static void detectPrintersAsync() {
+        CompletableFuture.runAsync(() -> {
+            try {
+                printerService.detectPrinters();
+                printerService.detectZebraPrinters();
+            } catch (Exception e) {
+                System.err.println("Erro ao detectar impressoras: " + e.getMessage());
+            }
+        }).exceptionally(ex -> {
+            System.err.println("Erro inesperado ao detectar impressoras: " + ex.getMessage());
+            return null;
+        });
     }
 
     private static void configurePrimaryStage(Stage stage) {

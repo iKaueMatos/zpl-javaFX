@@ -2,10 +2,9 @@ package com.novasoftware.user.infra.http.controller.auth;
 
 import com.novasoftware.base.layout.BaseController;
 import com.novasoftware.core.config.AppInitializer;
-import com.novasoftware.token.domain.service.TokenService;
+import com.novasoftware.token.domain.service.TokenServiceImpl;
 import com.novasoftware.user.application.dto.ForgotUserPassword;
 import com.novasoftware.user.domain.service.UserService;
-import com.novasoftware.user.infra.email.service.EmailService;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
@@ -103,7 +102,7 @@ public class ForgotPasswordController extends BaseController {
 
     private boolean sendTokenToEmail(String email) {
         CompletableFuture.runAsync(() -> {
-            TokenService tokenService = new TokenService(new EmailService());
+            TokenServiceImpl tokenService = new TokenServiceImpl();
             tokenService.sendTokenToEmail(email);
         });
 

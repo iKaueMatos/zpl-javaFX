@@ -2,6 +2,7 @@ package com.novasoftware.user.infra.http.controller.auth;
 
 import com.novasoftware.base.layout.BaseController;
 import com.novasoftware.core.config.AppInitializer;
+import com.novasoftware.token.application.service.TokenService;
 import com.novasoftware.token.domain.service.TokenServiceImpl;
 import com.novasoftware.user.application.dto.ForgotUserPassword;
 import com.novasoftware.user.domain.service.UserService;
@@ -102,7 +103,7 @@ public class ForgotPasswordController extends BaseController {
 
     private boolean sendTokenToEmail(String email) {
         CompletableFuture.runAsync(() -> {
-            TokenServiceImpl tokenService = new TokenServiceImpl();
+            TokenService tokenService = new TokenServiceImpl();
             tokenService.sendTokenToEmail(email);
         });
 

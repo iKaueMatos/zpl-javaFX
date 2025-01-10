@@ -7,4 +7,3 @@ public interface TokenService {
         return null;
     }
 }
-

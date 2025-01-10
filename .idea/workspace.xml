@@ -5,39 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad99ba91-effb-41a9-a6c1-7cc6e4f52db4" name="Changes" comment="feature: adding ZEBRA.API">
-      <change afterPath="$PROJECT_DIR$/out/artifacts/nova_javafx_jar/nova-javafx.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/Supplier/domain/model/Supplier.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/category/domain/model/Category.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/application/dto/ProductData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/application/repository/ProductRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/domain/service/ProductServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/infrastructure/mapper/ProductMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/infrastructure/repository/ProductRepositoryImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/Enum/product/ProductEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/spreadsheet/infrastructure/service/ImportSpreadsheetService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/application/service/TokenService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/db/V3__create__table__product.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/domain/service/TokenServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Planilha_Erros.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/main/resources/view/configuration_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/bin/main/resources/view/configuration_screen.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/view/configuration_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/bin/view/configuration_screen.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/label.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config/AppInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config/AppInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/path/ResourcePaths.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/path/ResourcePaths.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/zebra/ZebraPrinterConfigurationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/zebra/ZebraPrinterConfigurationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/domain/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/domain/model/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/database/queryBuilder/QueryBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/database/queryBuilder/QueryBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/domain/service/TokenService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/http/controller/config/ConfigPrinterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/config/infrastructure/http/controller/config/ConfigPrinterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/http/controller/spreadsheet/SpreadsheetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/spreadsheet/infrastructure/http/controller/spreadsheet/SpreadsheetController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/domain/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/domain/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/application/service/TokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/application/service/TokenService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/ForgotPasswordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/ForgotPasswordController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/repository/UserRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/repository/UserRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/configuration_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/configuration_screen.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_import_spreadsheet_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_import_spreadsheet_screen.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,29 +93,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.NovaSoftwareToolsApplication.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "true",
-    "JAR Application.ZSDK_API.jar.executor": "Run",
-    "JAR Application.nova-javafx-1.0-SNAPSHOT.jar.executor": "Run",
-    "JAR Application.nova-javafx.jar.executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "v2",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/ikaue/workspace/nova-tools-javaFX/lib",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.48965517",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.NovaSoftwareToolsApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
+    &quot;JAR Application.ZSDK_API.jar.executor&quot;: &quot;Run&quot;,
+    &quot;JAR Application.nova-javafx-1.0-SNAPSHOT.jar.executor&quot;: &quot;Run&quot;,
+    &quot;JAR Application.nova-javafx.jar.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;v2&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/ikaue/workspace/nova-tools-javaFX/lib&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.48965517&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/lib" />
@@ -318,7 +290,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/novasoftware/token/infra/repository/TokenRepositoryImpl.java</url>
-          <line>117</line>
+          <line>115</line>
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

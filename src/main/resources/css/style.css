@@ -1,0 +1,150 @@
+.login-container, .register-container {
+    -fx-background-color: #0A0A0A;
+}
+
+.left-panel {
+    -fx-background-color: #ffffff;
+    -fx-padding: 40;
+    -fx-spacing: 20;
+    -fx-alignment: center;
+}
+
+.subtitle {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 18px;
+    -fx-text-fill: #666666;
+    -fx-padding: 10 0 0 0;
+}
+
+.loading-spinner {
+    -fx-fill: white;
+    -fx-progress-color: #D9E6F2;
+}
+
+.right-panel {
+    -fx-padding: 40;
+}
+
+.welcome-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffff;
+}
+
+.welcome-subtitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: #6C757D;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}
+
+.primary-button {
+    -fx-background-color: #b916f9;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 10;
+}
+
+.primary-button:hover {
+    -fx-background-color: #ffffff;
+    -fx-cursor: hand;
+    -fx-text-fill: #0A0A0A;
+}
+
+.link-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+}
+
+.link-bold-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.small-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #B0BEC5;
+}
+
+.footer-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #B0BEC5;
+}
+
+.title-bar {
+    -fx-background-color: #0A0A0A;
+    -fx-padding: 0 10;
+}
+
+.title-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-hgrow: ALWAYS;
+}
+
+.window-controls {
+    -fx-spacing: 5;
+}
+
+.window-button {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 5px;
+}
+
+.window-button:hover {
+    -fx-text-fill: white;
+    -fx-background-color: #ff5555;
+}
+
+.mfx-text-field, .mfx-password-field {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-size: 14px;
+    -fx-padding: 2px 6px;
+    -fx-text-fill: #0A0A0A;
+    -fx-prompt-text-fill: #aaaaaa;
+    -fx-cursor: text;
+}
+
+.mfx-text-field:focused, .mfx-password-field:focused {
+    -fx-border-color: #b916f9;
+    -fx-border-width: 2px;
+    -fx-background-color: #FFFFFF;
+    -fx-effect: none;
+}
+
+.mfx-text-field:hover, .mfx-password-field:hover {
+    -fx-border-color: #b916f9;
+}
+
+.mfx-text-field:focused .border, .mfx-password-field:focused .border {
+    -fx-stroke: transparent;
+}
+
+.mfx-text-field .text, .mfx-password-field .text {
+    -fx-fill: #0A0A0A;
+}
+
+.mfx-text-field .prompt-text, .mfx-password-field .prompt-text {
+    -fx-fill: #aaaaaa;
+}
+
+.logo-title {
+    -fx-font-family: "Arial Black", sans-serif;
+    -fx-font-size: 32px;
+    -fx-text-fill: #0A0A0A;
+}

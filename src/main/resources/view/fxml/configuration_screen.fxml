@@ -19,11 +19,6 @@
             <Label text="Configurações de Impressão" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
 
             <VBox spacing="10">
-                <Label text="Impressora padrão para etiquetas (ZPL):" style="-fx-font-size: 14px;" />
-                <MFXComboBox fx:id="zebraPrinterComboBox" style="-fx-font-size: 14px; -fx-pref-width: 250px;" />
-            </VBox>
-
-            <VBox spacing="10">
                 <Label text="Impressora padrão para (Modelo A4):" style="-fx-font-size: 14px;" />
                 <MFXComboBox fx:id="printA4" style="-fx-font-size: 14px; -fx-pref-width: 250px;" />
             </VBox>

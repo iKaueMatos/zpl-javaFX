@@ -1,15 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="nova-javafx:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad99ba91-effb-41a9-a6c1-7cc6e4f52db4" name="Changes" comment="feature: adding ZEBRA.API">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/domain/service/TokenServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/unnamed.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/nova_javafx_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/nova_javafx_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RELEASE_NOTES.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/ca.pem" beforeDir="false" afterPath="$PROJECT_DIR$/data/ca.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/client-cert.pem" beforeDir="false" afterPath="$PROJECT_DIR$/data/client-cert.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/public_key.pem" beforeDir="false" afterPath="$PROJECT_DIR$/data/public_key.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/server-cert.pem" beforeDir="false" afterPath="$PROJECT_DIR$/data/server-cert.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ZSDK_API.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/nova_javafx_jar/nova-javafx.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/nova_javafx_jar/nova-javafx.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/application/service/TokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/application/service/TokenService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/ForgotPasswordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/ForgotPasswordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/config/infrastructure/http/controller/config/ConfigPrinterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/config/infrastructure/http/controller/config/ConfigPrinterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config/AppInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config/AppInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/path/ResourcePaths.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/path/ResourcePaths.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/zebra/ZebraPrinterConfigurationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/zebra/ZebraPrinterService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/domain/service/PrinterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/domain/service/PrinterService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/http/controller/tools/ToolsTagController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/http/controller/tools/ToolsTagController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/assets/logo-app.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/logo-app.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/assets/logo-system.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/logo-system.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/assets/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/css/loading.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/loading.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/configuration_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/configuration_screen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/forgot_password_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/forgot_password_screen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/login_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/login_screen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/register_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/register_screen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_zpl_tag.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_zpl_tag.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,29 +124,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Application.NovaSoftwareToolsApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
-    &quot;JAR Application.ZSDK_API.jar.executor&quot;: &quot;Run&quot;,
-    &quot;JAR Application.nova-javafx-1.0-SNAPSHOT.jar.executor&quot;: &quot;Run&quot;,
-    &quot;JAR Application.nova-javafx.jar.executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;v2&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/ikaue/workspace/nova-tools-javaFX/lib&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.48965517&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.NovaSoftwareToolsApplication.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "true",
+    "JAR Application.ZSDK_API.jar.executor": "Run",
+    "JAR Application.nova-javafx-1.0-SNAPSHOT.jar.executor": "Run",
+    "JAR Application.nova-javafx.jar.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "v2",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/ikaue/workspace/nova-tools-javaFX",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.09891197",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/lib" />
@@ -125,15 +156,17 @@
       <recent name="C:\Users\kaue1\nova-tools-javaFX\src\main\java\com\novasoftware\tools\application\service" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="C:\Users\kaue1\nova-tools-javaFX\src\main\resources\view\assets" />
       <recent name="C:\Users\kaue1\zpl-javaFX\lib" />
       <recent name="C:\Users\kaue1\zpl-javaFX\src\main\resources\view\assets" />
-      <recent name="C:\Users\kaue1\zpl-javaFX\src\main\resources\view" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.NovaSoftwareToolsApplication">
+  <component name="RunManager" selected="JAR Application.nova-javafx.jar">
     <configuration name="NovaSoftwareToolsApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="$USER_HOME$/.jdks/corretto-17.0.13" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.novasoftware.NovaSoftwareToolsApplication" />
       <module name="nova-javafx" />
       <extension name="coverage">
@@ -152,20 +185,25 @@
           <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
         </ENTRIES>
       </extension>
+      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ZSDK_API.jar" type="JarApplication" temporary="true">
-      <option name="JAR_PATH" value="$PROJECT_DIR$/lib/ZSDK_API.jar" />
-      <method v="2" />
-    </configuration>
-    <configuration name="nova-javafx-1.0-SNAPSHOT.jar" type="JarApplication" temporary="true">
-      <option name="JAR_PATH" value="$PROJECT_DIR$/target/nova-javafx-1.0-SNAPSHOT.jar" />
-      <method v="2" />
-    </configuration>
     <configuration name="nova-javafx.jar" type="JarApplication" temporary="true">
+      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
+      </extension>
       <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/nova_javafx_jar/nova-javafx.jar" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="corretto-17" />
+      <module name="nova-javafx" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
@@ -174,12 +212,14 @@
       </deployment>
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Application.NovaSoftwareToolsApplication" />
+      <item itemvalue="JAR Application.nova-javafx.jar" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.NovaSoftwareToolsApplication" />
-        <item itemvalue="JAR Application.nova-javafx-1.0-SNAPSHOT.jar" />
         <item itemvalue="JAR Application.nova-javafx.jar" />
-        <item itemvalue="JAR Application.ZSDK_API.jar" />
+        <item itemvalue="Application.NovaSoftwareToolsApplication" />
       </list>
     </recent_temporary>
   </component>

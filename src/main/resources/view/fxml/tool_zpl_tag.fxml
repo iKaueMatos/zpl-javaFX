@@ -100,8 +100,6 @@
                                        style="-fx-background-color: #0A0A0A; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-font-weight: bold; -fx-border-radius: 10px;"
                                        text="Download PDF"
                                        HBox.hgrow="ALWAYS" />
-                            <MFXButton fx:id="printer" onAction="#printLabel" prefWidth="150" style="-fx-background-color: #B916F9; -fx-text-fill: #FFFFFF; -fx-font-size: 16px; -fx-font-weight: bold; -fx-border-radius: 10px;" text="Imprimir Etiqueta" />
-                            <MFXButton fx:id="detectPrintersButton" onAction="#onDetectPrintersButtonClicked" prefWidth="150" style="-fx-background-color: #4CAF50; -fx-text-fill: #FFFFFF; -fx-font-size: 16px; -fx-font-weight: bold; -fx-border-radius: 10px;" text="Detectar Impressoras" />
                         </children>
                     </HBox>
                 </children>

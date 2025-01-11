@@ -1,9 +1,9 @@
 package com.novasoftware.core.path;
 
 public class ResourcePaths {
-    public static final String LOGO_PATH = "/view/assets/logo-app.jpg";
-    public static final String LOGO_PATH_PNG = "/view/assets/logo.png";
-    public static final String LOGO_32 = "/view/assets/logo-system.png";
+    public static final String LOGO_PATH = "/assets/logo-app.jpg";
+    public static final String LOGO_PATH_PNG = "/assets/logo.png";
+    public static final String LOGO_32 = "/assets/logo-system.png";
 
     public static final String LOGIN_SCREEN_PATH = "/view/fxml/login_screen.fxml";
     public static final String LOADING_SCREEN_PATH = "/view/fxml/loading_screen.fxml";

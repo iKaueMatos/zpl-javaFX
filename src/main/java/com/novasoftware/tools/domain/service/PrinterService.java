@@ -1,6 +1,5 @@
 package com.novasoftware.tools.domain.service;
 
-import com.novasoftware.core.zebra.ZebraPrinterConfigurationService;
 import com.novasoftware.tools.application.repository.ConfigRepository;
 import com.novasoftware.tools.domain.model.Config;
 import com.novasoftware.tools.infrastructure.repository.ConfigRepositoryImpl;
@@ -16,13 +15,11 @@ public class PrinterService {
     private List<String> zebraPrinters;
 
     private ConfigRepository configRepository;
-    private ZebraPrinterConfigurationService zebraPrinterConfigurationService;
 
     public PrinterService() {
         availablePrinters = new ArrayList<>();
         zebraPrinters = new ArrayList<>();
         configRepository = new ConfigRepositoryImpl();
-        zebraPrinterConfigurationService = new ZebraPrinterConfigurationService();
     }
 
     public List<PrintService> getAvailablePrinters() {
@@ -40,11 +37,6 @@ public class PrinterService {
             }
         }
         return printerNames;
-    }
-
-    public void detectZebraPrinters() {
-        zebraPrinters.clear();
-        zebraPrinters = zebraPrinterConfigurationService.detectZebraPrinters();
     }
 
     public List<String> getZebraPrinters() {

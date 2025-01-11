@@ -76,7 +76,6 @@ public class AppInitializer {
         CompletableFuture.runAsync(() -> {
             try {
                 printerService.detectPrinters();
-                printerService.detectZebraPrinters();
             } catch (Exception e) {
                 System.err.println("Erro ao detectar impressoras: " + e.getMessage());
             }

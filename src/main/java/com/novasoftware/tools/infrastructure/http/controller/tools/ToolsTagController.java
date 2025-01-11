@@ -18,8 +18,6 @@ import com.novasoftware.tools.domain.Enum.LabelType;
 import com.novasoftware.tools.domain.service.ImageZoomService;
 import com.novasoftware.tools.domain.service.ZplFileService;
 
-import com.novasoftware.core.zebra.ZebraPrinterConfigurationService;
-import com.novasoftware.core.zebra.ZebraPrinterService;
 import com.novasoftware.tools.infrastructure.service.PDFViewerService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
@@ -96,10 +94,6 @@ public class ToolsTagController extends BaseController implements Initializable 
     private final ZplFileService zplFileService = new ZplFileService();
 
     private final ImageZoomService imageZoomService = new ImageZoomService();
-
-    private final ZebraPrinterConfigurationService zebraPrinterConfiguration = new ZebraPrinterConfigurationService();
-
-    private final ZebraPrinterService zebraPrinterService = new ZebraPrinterService();
 
     private final PDFViewerService pdfViewerService = new PDFViewerService();
 
@@ -386,15 +380,5 @@ public class ToolsTagController extends BaseController implements Initializable 
         } catch (IOException e) {
             CustomAlert.showErrorAlert(stage, "Erro ao salvar", "Ocorreu um erro interno do servidor");
         }
-    }
-
-    @FXML
-    private void printLabel() {
-        zebraPrinterService.printLabel(outputArea.getText());
-    }
-
-    @FXML
-    private void onDetectPrintersButtonClicked(ActionEvent event) {
-        zebraPrinterConfiguration.detectZebraPrinters();
     }
 }

@@ -9,25 +9,19 @@ module com.novasoftware {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
-    requires usb.api;
     requires MaterialFX;
     requires javafx.controls;
     requires javafx.fxml;
     requires org.kordamp.ikonli.materialdesign2;
     requires java.net.http;
-    requires ZSDK.API;
-    requires fontawesomefx;
-    requires org.flywaydb.core;
     requires java.prefs;
     requires com.google.protobuf;
     requires org.apache.logging.log4j;
-    requires org.apache.pdfbox;
     requires javafx.swing;
-    requires freemarker;
-    requires spring.context.support;
     requires jakarta.mail;
     requires spring.security.crypto;
-    requires com.zaxxer.hikari;
+    requires spring.context.support;
+    requires freemarker;
 
     exports com.novasoftware.tools.domain.model to javafx.fxml;
     exports com.novasoftware.tools.domain.service to javafx.fxml;

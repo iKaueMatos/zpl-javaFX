@@ -25,7 +25,25 @@ public class Product implements Serializable {
     private Date creationDate;
     private Date lastUpdatedDate;
     private String error;
-    
+    private Long brandId;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Long getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
+    }
+
     public Product() {}
 
     public Long getId() {

@@ -31,8 +31,8 @@ module com.novasoftware {
     opens com.novasoftware.shared.loading to javafx.fxml;
     exports com.novasoftware.tools.infrastructure.http.controller.tools;
     opens com.novasoftware.tools.infrastructure.http.controller.tools to javafx.fxml;
-    exports com.novasoftware.user.infra.http.controller.auth;
-    opens com.novasoftware.user.infra.http.controller.auth to javafx.fxml;
+    exports com.novasoftware.user.infrastructure.http.controller.auth;
+    opens com.novasoftware.user.infrastructure.http.controller.auth to javafx.fxml;
     exports com.novasoftware.spreadsheet.infrastructure.http.controller.spreadsheet to javafx.fxml;
     opens com.novasoftware.spreadsheet.infrastructure.http.controller.spreadsheet to javafx.fxml;
     exports com.novasoftware.base.layout to javafx.fxml;

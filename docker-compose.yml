@@ -1,21 +1,29 @@
+version: '3.8'
+
 services:
   mysql:
-      image: 'mysql:latest'
-      container_name: mysql
-      environment:
-        - MYSQL_DATABASE=nova-tools
-        - MYSQL_USER=nova
-        - MYSQL_PASSWORD=nova
-        - MYSQL_ROOT_PASSWORD=nova
-      ports:
-        - '3306:3306'
-      volumes:
-        - ./data:/var/lib/mysql
-  pontainer:
+    image: 'mysql:latest'
+    container_name: mysql
+    environment:
+      - MYSQL_DATABASE=nova-tools
+      - MYSQL_USER=nova
+      - MYSQL_PASSWORD=nova
+      - MYSQL_ROOT_PASSWORD=nova
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./data:/var/lib/mysql
+  portainer:
     image: 'portainer/portainer-ce:alpine'
-    container_name: pontainer
+    container_name: portainer
     ports:
       - '9000:9000'
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
     restart: always
+  cleaner:
+    image: alpine
+    container_name: cleaner
+    volumes:
+      - ./data:/data
+    entrypoint: sh -c "while true; do rm -rf /data/* && sleep 3600; done"

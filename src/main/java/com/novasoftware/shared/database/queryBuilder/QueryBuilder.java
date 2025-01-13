@@ -18,11 +18,26 @@ public class QueryBuilder<T extends Enum<T> & TableColumn> {
     private final List<InsertColumnValue> insertColumns = new ArrayList<>();
     private int limit = -1;
 
-    private final Class<?> modelClass;
+    private Class<?> modelClass;
+    private String tableName;
 
     public QueryBuilder(Class<?> modelClass) {
         this.modelClass = modelClass;
         this.table = modelClass.getSimpleName().toLowerCase();
+    }
+
+    public QueryBuilder(String tableName) {
+        this.table = tableName;
+    }
+
+    private String getTableName() {
+        if (table != null) {
+            return table;
+        }
+        if (tableName != null) {
+            return tableName;
+        }
+        throw new IllegalStateException("Table name must be specified.");
     }
 
     public QueryBuilder<T> select(String... columns) {
@@ -72,14 +87,15 @@ public class QueryBuilder<T extends Enum<T> & TableColumn> {
         return this;
     }
 
+    public QueryBuilder<T> offset(int offset) {
+        this.limit = offset;
+        return this;
+    }
+
     public String build() {
-        if (table == null) {
-            throw new IllegalStateException("Table name must be specified.");
-        }
-
+        String tableName = getTableName();
         if (!insertColumns.isEmpty()) {
-            StringBuilder query = new StringBuilder("INSERT INTO ").append(table).append(" (");
-
+            StringBuilder query = new StringBuilder("INSERT INTO ").append(tableName).append(" (");
             List<String> columnNames = new ArrayList<>();
             List<String> placeholders = new ArrayList<>();
             for (InsertColumnValue columnValue : insertColumns) {
@@ -153,11 +169,8 @@ public class QueryBuilder<T extends Enum<T> & TableColumn> {
     }
 
     public String buildCreateTable() {
-        if (modelClass == null) {
-            throw new IllegalStateException("Model class must be specified.");
-        }
-
-        StringBuilder query = new StringBuilder("CREATE TABLE ").append(table).append(" (");
+        String tableName = getTableName();
+        StringBuilder query = new StringBuilder("CREATE TABLE ").append(tableName).append(" (");
         var fields = modelClass.getDeclaredFields();
         List<String> columnDefinitions = new ArrayList<>();
         for (var field : fields) {
@@ -198,7 +211,8 @@ public class QueryBuilder<T extends Enum<T> & TableColumn> {
     }
 
     public String buildUpdateQuery(Object objectToUpdate, Object originalObject) {
-        StringBuilder query = new StringBuilder("UPDATE ").append(table).append(" SET ");
+        String tableName = getTableName();
+        StringBuilder query = new StringBuilder("UPDATE ").append(tableName).append(" SET ");
 
         List<String> updatedColumns = new ArrayList<>();
         List<Object> updatedValues = new ArrayList<>();

@@ -1,10 +1,8 @@
 package com.novasoftware.core.config;
 
 import com.novasoftware.shared.util.alert.CustomAlert;
-import com.novasoftware.tools.application.repository.ConfigRepository;
 import com.novasoftware.tools.domain.service.PrinterService;
-import com.novasoftware.tools.infrastructure.repository.ConfigRepositoryImpl;
-import com.novasoftware.user.infra.http.controller.auth.LoginController;
+import com.novasoftware.user.infrastructure.http.controller.auth.LoginController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

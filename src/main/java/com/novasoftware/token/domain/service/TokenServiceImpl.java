@@ -6,14 +6,14 @@ import java.util.Random;
 
 import com.novasoftware.token.application.repository.TokenRepository;
 import com.novasoftware.token.application.service.TokenService;
-import com.novasoftware.token.domain.model.Tokens;
-import com.novasoftware.token.infra.repository.TokenRepositoryImpl;
+import com.novasoftware.token.domain.model.Token;
+import com.novasoftware.token.infrastructure.repository.TokenRepositoryImpl;
 import com.novasoftware.user.application.repository.UserRepository;
-import com.novasoftware.user.domain.model.Users;
-import com.novasoftware.user.infra.email.service.EmailService;
-import com.novasoftware.user.infra.email.strategy.EmailTemplateStrategy;
-import com.novasoftware.user.infra.email.strategy.PasswordResetEmailStrategy;
-import com.novasoftware.user.infra.repository.UserRepositoryImpl;
+import com.novasoftware.user.domain.model.User;
+import com.novasoftware.user.infrastructure.email.service.EmailService;
+import com.novasoftware.user.infrastructure.email.strategy.EmailTemplateStrategy;
+import com.novasoftware.user.infrastructure.email.strategy.PasswordResetEmailStrategy;
+import com.novasoftware.user.infrastructure.repository.UserRepositoryImpl;
 
 public class TokenServiceImpl implements TokenService {
     private final EmailService emailService;
@@ -27,10 +27,10 @@ public class TokenServiceImpl implements TokenService {
     public boolean sendTokenToEmail(String email) {
         try {
             String token = generateToken();
-            Users user = userRepository.findUserByEmail(email)
+            User user = userRepository.findUserByEmail(email)
                     .orElseThrow(() -> new RuntimeException("Usuário não encontrado com o e-mail: " + email));
 
-            Tokens tokenEntity = new Tokens();
+            Token tokenEntity = new Token();
             tokenEntity.setToken(token);
             tokenEntity.setUserId(user.getId());
             tokenEntity.setCreatedAt(new Timestamp(System.currentTimeMillis()));

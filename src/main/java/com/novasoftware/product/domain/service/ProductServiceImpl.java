@@ -8,7 +8,6 @@ import java.util.List;
 
 public class ProductServiceImpl {
     private ProductRepository productRepository = new ProductRepositoryImpl();
-
     public boolean save(List<ProductData> productDataList) {
         return productRepository.insertBatch(productDataList);
     }

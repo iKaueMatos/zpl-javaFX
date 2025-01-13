@@ -12,10 +12,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.novasoftware.product.application.dto.ProductData;
-import com.novasoftware.product.application.repository.ProductRepository;
 import com.novasoftware.product.domain.service.ProductServiceImpl;
-import com.novasoftware.product.infrastructure.repository.ProductRepositoryImpl;
 import com.novasoftware.shared.util.alert.CustomAlert;
+import com.novasoftware.spreadsheet.application.repository.ImportHistoryRepository;
+import com.novasoftware.spreadsheet.domain.model.ImportHistory;
+import com.novasoftware.spreadsheet.infrastructure.repository.ImportHistoryRepositoryImpl;
 import com.novasoftware.spreadsheet.infrastructure.service.ImportSpreadsheetService;
 import com.novasoftware.tools.application.usecase.LabelGeneratorService;
 import com.novasoftware.tools.application.usecase.SpreadsheetReader;
@@ -81,6 +82,7 @@ public class SpreadsheetController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        loadImportHistory();
         setupTable();
         setupFilter();
         setupHistoryTable();
@@ -99,14 +101,17 @@ public class SpreadsheetController implements Initializable {
                 Comparator.comparing(map -> String.valueOf(map.getOrDefault("GTIN", ""))));
         MFXTableColumn<Map<String, Object>> quantityColumn = new MFXTableColumn<>("Quantidade", true,
                 Comparator.comparing(map -> String.valueOf(map.getOrDefault("Quantidade", ""))));
+        MFXTableColumn<Map<String, Object>> brand = new MFXTableColumn<>("Marca", true,
+                Comparator.comparing(map -> String.valueOf(map.getOrDefault("Marca", ""))));
 
         name.setRowCellFactory(data -> new MFXTableRowCell<>(map -> String.valueOf(map.getOrDefault("Nome", "N/A"))));
         eanColumn.setRowCellFactory(data -> new MFXTableRowCell<>(map -> String.valueOf(map.getOrDefault("GTIN", "N/A"))));
         skuColumn.setRowCellFactory(data -> new MFXTableRowCell<>(map -> String.valueOf(map.getOrDefault("SKU", "N/A"))));
         skuVariation.setRowCellFactory(data -> new MFXTableRowCell<>(map -> String.valueOf(map.getOrDefault("SKU_VARIACAO", "N/A"))));
         quantityColumn.setRowCellFactory(data -> new MFXTableRowCell<>(map -> String.valueOf(map.getOrDefault("Quantidade", "0"))));
+        brand.setRowCellFactory(data -> new MFXTableRowCell<>(map -> String.valueOf(map.getOrDefault("Marca", ""))));
 
-        table.getTableColumns().addAll(name, eanColumn, skuColumn, skuVariation, quantityColumn);
+        table.getTableColumns().addAll(name, eanColumn, skuColumn, skuVariation, quantityColumn, brand);
     }
 
     private void setupFilter() {
@@ -156,6 +161,7 @@ public class SpreadsheetController implements Initializable {
                                 map.put("SKU_VARIACAO", product.variationSku());
                                 map.put("GTIN", product.ean());
                                 map.put("Quantidade", product.quantity());
+                                map.put("Marca", product.brand().getName());
                                 return map;
                             })
                             .collect(Collectors.toList());
@@ -187,12 +193,7 @@ public class SpreadsheetController implements Initializable {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             productService.save(productList);
         } else {
-            Map<String, Object> historyEntry = new HashMap<>();
-            historyEntry.put("Data", importDate);
-            historyEntry.put("Status", "Importação cancelada");
-
-            historyData.add(historyEntry);
-            historyTable.setItems(historyData);
+            loadImportHistory();
         }
     }
 
@@ -211,7 +212,7 @@ public class SpreadsheetController implements Initializable {
     public void showLabelFormatsModal(ActionEvent actionEvent) {
         Stage modalStage = new Stage();
         modalStage.initModality(Modality.APPLICATION_MODAL);
-        modalStage.setTitle("Configurar Formatos de Etiqueta");
+        modalStage.setTitle("Configurar Formatos da Etiqueta");
 
         VBox modalLayout = new VBox(15);
         modalLayout.setPadding(new Insets(10));
@@ -219,16 +220,15 @@ public class SpreadsheetController implements Initializable {
         modalLayout.setPrefHeight(600);
 
         MFXComboBox<String> labelFormatComboBox = new MFXComboBox<>();
-
         ObservableList<String> formats = FXCollections.observableArrayList(
                 LabelConstants.FORMAT_1_COLUMN,
                 LabelConstants.FORMAT_2_COLUMNS,
                 LabelConstants.FORMAT_4_LABELS,
                 LabelConstants.FORMAT_CUSTOM_SHIPPING
         );
-
         labelFormatComboBox.setItems(formats);
         labelFormatComboBox.setMaxWidth(Double.MAX_VALUE);
+
         MFXComboBox<String> labelTypeComboBox = new MFXComboBox<>();
         ObservableList<String> labelTypes = FXCollections.observableArrayList(
                 LabelConstants.LABEL_CODE_128,
@@ -237,13 +237,19 @@ public class SpreadsheetController implements Initializable {
                 LabelConstants.LABEL_UPC_A,
                 LabelConstants.LABEL_QR_CODE
         );
-
         labelTypeComboBox.setItems(labelTypes);
         labelTypeComboBox.setMaxWidth(Double.MAX_VALUE);
+
         MFXComboBox<String> labelDataChoiceComboBox = new MFXComboBox<>();
         ObservableList<String> dataChoices = FXCollections.observableArrayList("SKU", "EAN");
         labelDataChoiceComboBox.setItems(dataChoices);
         labelDataChoiceComboBox.setMaxWidth(Double.MAX_VALUE);
+
+        MFXComboBox<String> brandComboBox = new MFXComboBox<>();
+        ObservableList<String> brands = FXCollections.observableArrayList(filterBrands(data));
+        brandComboBox.setItems(brands);
+
+        brandComboBox.setMaxWidth(Double.MAX_VALUE);
 
         MFXButton generateLabelsButton = new MFXButton("Gerar Etiquetas");
         generateLabelsButton.setMaxWidth(Double.MAX_VALUE);
@@ -251,7 +257,12 @@ public class SpreadsheetController implements Initializable {
 
         generateLabelsButton.setOnAction(event -> {
             try {
-                generateLabels(labelFormatComboBox.getSelectedItem(), labelTypeComboBox.getSelectedItem(), labelDataChoiceComboBox.getSelectedItem());
+                generateLabels(
+                        labelFormatComboBox.getSelectedItem(),
+                        labelTypeComboBox.getSelectedItem(),
+                        labelDataChoiceComboBox.getSelectedItem(),
+                        brandComboBox.getSelectedItem() == null ? null : brandComboBox.getSelectedItem().toString()
+                );
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -270,6 +281,8 @@ public class SpreadsheetController implements Initializable {
                 labelTypeComboBox,
                 new Label("Escolha o Tipo de Dado para Etiqueta:"),
                 labelDataChoiceComboBox,
+                new Label("Escolha a Marca:"),
+                brandComboBox,
                 generateLabelsButton,
                 closeButton
         );
@@ -281,7 +294,7 @@ public class SpreadsheetController implements Initializable {
     }
 
     @FXML
-    public void generateLabels(String labelFormat, String labelType, String labelDataChoice) throws IOException {
+    public void generateLabels(String labelFormat, String labelType, String labelDataChoice, String selectedBrand) throws IOException {
         if (labelFormat == null || labelType == null || labelDataChoice == null) {
             CustomAlert.showWarningAlert(ownerStage, "Seleção Inválida", "Por favor, selecione o formato, o tipo de etiqueta e o dado para gerar.");
             return;
@@ -289,11 +302,22 @@ public class SpreadsheetController implements Initializable {
 
         List<Map<String, Object>> labelsData = new ArrayList<>();
         for (Map<String, Object> row : data) {
+            if (selectedBrand != null && !selectedBrand.isEmpty()) {
+                String brand = String.valueOf(row.getOrDefault("Marca", ""));
+                if (!brand.equals(selectedBrand)) {
+                    continue;
+                }
+            }
+
             Map<String, Object> labelData = new HashMap<>();
 
-            String dataToUse = labelDataChoice.equals("SKU") ?
-                    String.valueOf(row.getOrDefault("SKU_VARIACAO", "N/A")) :
-                    String.valueOf(row.getOrDefault("EAN", "N/A"));
+            String sku = Optional.ofNullable(row.get("SKU")).map(Object::toString).orElse("");
+            String ean = Optional.ofNullable(row.get("GTIN")).map(Object::toString).orElse("");
+            String dataToUse = "EAN".equals(labelDataChoice)
+                    ? ean
+                    : "SKU".equals(labelDataChoice)
+                    ? sku
+                    : "N/A";
 
             int quantity = Integer.parseInt(String.valueOf(row.getOrDefault("Quantidade", "0")));
 
@@ -312,12 +336,12 @@ public class SpreadsheetController implements Initializable {
 
     @FXML
     public void downloadErrorFile() {
-        File errorFile = new File("Planilha_Erros.xlsx");
+        File errorFile = new File("Planilha-erros.xlsx");
 
         if (errorFile.exists()) {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx", "*.xls"));
-            fileChooser.setInitialFileName("Planilha_Erros.xlsx");
+            fileChooser.setInitialFileName("Planilha-Erros.xlsx");
 
             File fileToSave = fileChooser.showSaveDialog(ownerStage);
             if (fileToSave != null) {
@@ -353,5 +377,34 @@ public class SpreadsheetController implements Initializable {
                 CustomAlert.showErrorAlert(ownerStage, "Erro ao Salvar", "Ocorreu um erro ao tentar salvar o arquivo ZPL.");
             }
         }
+    }
+
+    public ObservableList<String> filterBrands(List<Map<String, Object>> data) {
+        ObservableList<String> brands = FXCollections.observableArrayList(
+                data.stream()
+                        .map(row -> String.valueOf(row.get("Marca")))
+                        .filter(brand -> brand != null && !brand.isEmpty())
+                        .distinct()
+                        .collect(Collectors.toList())
+        );
+        return brands;
+    }
+
+    private void loadImportHistory() {
+        ImportHistoryRepository importHistoryRepository = new ImportHistoryRepositoryImpl();
+
+        List<ImportHistory> importHistories = importHistoryRepository.getAll();
+        List<Map<String, Object>> historyEntries = importHistories.stream()
+                .map(importHistory -> {
+                    Map<String, Object> entry = new HashMap<>();
+                    entry.put("Data", importHistory.getImportDate().toString());
+                    entry.put("Status", importHistory.getStatus());
+                    entry.put("Detalhes", importHistory.getErrorDetails());
+                    return entry;
+                })
+                .collect(Collectors.toList());
+
+        historyData.addAll(historyEntries);
+        historyTable.setItems(historyData);
     }
 }

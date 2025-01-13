@@ -1,6 +1,6 @@
 package com.novasoftware.core.email;
 
-import com.novasoftware.user.infra.http.controller.auth.LoginController;
+import com.novasoftware.user.infrastructure.http.controller.auth.LoginController;
 
 import java.util.prefs.Preferences;
 

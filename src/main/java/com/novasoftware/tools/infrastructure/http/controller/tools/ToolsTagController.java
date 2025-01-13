@@ -25,7 +25,6 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressIndicator;
@@ -196,9 +195,6 @@ public class ToolsTagController extends BaseController implements Initializable 
 
                 imageViewContainer.getChildren().add(imageView);
                 imageZoomService.setupImageZoom(imageViewContainer, imageView);
-
-                printer.setVisible(false);
-                detectPrintersButton.setVisible(false);
             }
         } finally {
             loadingIndicator.setVisible(false);
@@ -297,15 +293,11 @@ public class ToolsTagController extends BaseController implements Initializable 
                 downloadImageButton.setVisible(true);
                 downloadImageButton.setOnAction(event -> downloadImage(image));
 
-//                printer.setVisible(true);
                 downloadLabelPDF.setVisible(true);
-//                detectPrintersButton.setVisible(true);
             }
 
             if (zplFileService.validateZplContent(zpl)) {
-//                printer.setVisible(true);
                 outputArea.setText(zpl);
-//                detectPrintersButton.setVisible(true);
                 saveButton.setDisable(false);
             }
         } catch (IllegalArgumentException e) {

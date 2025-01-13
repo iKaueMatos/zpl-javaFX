@@ -1,11 +1,15 @@
 package com.novasoftware.spreadsheet.infrastructure.service;
 
 import com.novasoftware.Supplier.domain.model.Supplier;
+import com.novasoftware.brand.domain.model.Brand;
 import com.novasoftware.category.domain.model.Category;
 import com.novasoftware.product.application.dto.ProductData;
 import com.novasoftware.product.application.repository.ProductRepository;
 import com.novasoftware.product.infrastructure.repository.ProductRepositoryImpl;
 import com.novasoftware.shared.util.alert.CustomAlert;
+import com.novasoftware.spreadsheet.application.repository.ImportHistoryRepository;
+import com.novasoftware.spreadsheet.domain.model.ImportHistory;
+import com.novasoftware.spreadsheet.infrastructure.repository.ImportHistoryRepositoryImpl;
 import com.novasoftware.tools.application.usecase.SpreadsheetReader;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.application.Platform;
@@ -79,11 +83,22 @@ public class ImportSpreadsheetService {
                 }
             }
 
+            ImportHistoryRepository importHistoryRepository = new ImportHistoryRepositoryImpl();
             if (hasError) {
                 generateErrorSpreadsheetAsync(errorData);
-                Platform.runLater(() -> CustomAlert.showWarningAlert(ownerStage, "Importação com erros", "Alguns dados foram corrigidos. Um relatório de erros foi gerado."));
+                showWarningAlert(ownerStage, "Importação com erros", "Alguns dados foram corrigidos. Um relatório de erros foi gerado.");
+                ImportHistory importHistory = createImportHistory(
+                        "Importação com erros",
+                        "Alguns dados foram corrigidos. Um relatório de erros foi gerado."
+                );
+                importHistoryRepository.insert(importHistory);
             } else {
-                Platform.runLater(() -> CustomAlert.showInfoAlert(ownerStage, "Importação bem-sucedida", "Planilha importada com sucesso!"));
+                ImportHistory importHistory = createImportHistory(
+                        "Importação feita com sucesso",
+                        "Nenhum erro foi encontrado"
+                );
+                importHistoryRepository.insert(importHistory);
+                showInfoAlert(ownerStage, "Importação bem-sucedida", "Planilha importada com sucesso!");
             }
 
         } catch (IOException e) {
@@ -99,19 +114,27 @@ public class ImportSpreadsheetService {
         String variationSku = String.valueOf(row.getOrDefault("SKU_VARIACAO", ""));
         String ean = String.valueOf(row.getOrDefault("EAN", ""));
         int quantity = Integer.parseInt(String.valueOf(row.getOrDefault("Quantidade", "0")));
-        Double salePrice = 0.0;
+        Double salePrice = Double.parseDouble(String.valueOf(row.getOrDefault("PREÇO_UNITARIO", 0.0)));
         Date expiryDate = null;
-        Category category = null;
-        Supplier supplier = null;
+        Category category = new Category();
+        category.setName(String.valueOf(row.getOrDefault("CATEGORIA", null)));
+        Supplier supplier = new Supplier();
+        supplier.setName(String.valueOf(row.getOrDefault("MARCA", null)));
         Double weight = 0.0;
         List<String> images = null;
         Date creationDate = new Date();
         Date lastUpdatedDate = new Date();
+        Brand brandId = new Brand();
+        brandId.setName(String.valueOf(row.getOrDefault("MARCA", null)));
+        brandId.setCreated_at(new Date());
+        brandId.setUpdated_at(null);
+        brandId.setDescription(String.valueOf(row.getOrDefault("DESCRIÇÃO", null)));
 
+        String description = null;
         String error = rowHasError ? "Erro detectado" : null;
 
         return new ProductData(
-                name, sku, variationSku, ean, quantity, salePrice, category, expiryDate, supplier, weight, images, creationDate, lastUpdatedDate, error
+                name, sku, variationSku, ean, quantity, salePrice, category, expiryDate, supplier, weight, images, creationDate, lastUpdatedDate, error, brandId, description
         );
     }
 
@@ -151,7 +174,25 @@ public class ImportSpreadsheetService {
         });
     }
 
-    private void saveProductsToDatabase(List<ProductData> productList) {
-
+    private void showWarningAlert(Stage ownerStage, String title, String message) {
+        Platform.runLater(() -> CustomAlert.showWarningAlert(ownerStage, title, message));
     }
+
+    private void showInfoAlert(Stage ownerStage, String title, String message) {
+        Platform.runLater(() -> CustomAlert.showInfoAlert(ownerStage, title, message));
+    }
+
+    private ImportHistory createImportHistory(String status, String errorDetails) {
+        ImportHistory importHistory = new ImportHistory();
+        Date now = new Date();
+
+        importHistory.setImportDate(now);
+        importHistory.setCreatedAt(now);
+        importHistory.setUpdatedAt(now);
+        importHistory.setStatus(status);
+        importHistory.setErrorDetails(errorDetails);
+
+        return importHistory;
+    }
+
 }

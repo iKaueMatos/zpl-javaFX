@@ -3,14 +3,14 @@ package com.novasoftware.user.domain.service;
 import com.novasoftware.core.email.SavedEmail;
 import com.novasoftware.shared.util.notification.NotificationUtil;
 import com.novasoftware.token.application.repository.TokenRepository;
-import com.novasoftware.token.infra.repository.TokenRepositoryImpl;
+import com.novasoftware.token.infrastructure.repository.TokenRepositoryImpl;
 import com.novasoftware.user.application.repository.UserRepository;
 import com.novasoftware.user.application.dto.ForgotUserPassword;
-import com.novasoftware.user.domain.model.Users;
-import com.novasoftware.user.infra.email.service.EmailService;
-import com.novasoftware.user.infra.email.strategy.EmailTemplateStrategy;
-import com.novasoftware.user.infra.email.strategy.WelcomeEmailStrategy;
-import com.novasoftware.user.infra.repository.UserRepositoryImpl;
+import com.novasoftware.user.domain.model.User;
+import com.novasoftware.user.infrastructure.email.service.EmailService;
+import com.novasoftware.user.infrastructure.email.strategy.EmailTemplateStrategy;
+import com.novasoftware.user.infrastructure.email.strategy.WelcomeEmailStrategy;
+import com.novasoftware.user.infrastructure.repository.UserRepositoryImpl;
 import org.controlsfx.control.Notifications;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,11 +28,11 @@ public class UserService {
     private final EmailService emailService = new EmailService();
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public Optional<Users> login(String email, String password, CheckBox rememberEmailCheckBox, Runnable onLoginSuccess) {
-        Optional<Users> optionalUser = userRepository.findUserByEmail(email);
+    public Optional<User> login(String email, String password, CheckBox rememberEmailCheckBox, Runnable onLoginSuccess) {
+        Optional<User> optionalUser = userRepository.findUserByEmail(email);
 
         if (optionalUser.isPresent()) {
-            Users user = optionalUser.get();
+            User user = optionalUser.get();
 
             if (!isEncrypted(user.getPassword())) {
                 String encryptedPassword = passwordEncoder.encode(user.getPassword());
@@ -56,7 +56,7 @@ public class UserService {
         return Optional.empty();
     }
 
-    public Optional<Users> register(String name, String email, String password, String confirmPassword) {
+    public Optional<User> register(String name, String email, String password, String confirmPassword) {
         if (!areFieldsValid(name, email, password, confirmPassword)) {
             return Optional.empty();
         }
@@ -66,7 +66,7 @@ public class UserService {
             return Optional.empty();
         }
 
-        Users newUser = createNewUser(name, email, password);
+        User newUser = createNewUser(name, email, password);
         if (userRepository.insertUser(newUser)) {
             sendNotification("Sucesso", "Registro realizado com sucesso!", true);
             sendWelcomeEmailAsync(newUser);
@@ -82,9 +82,9 @@ public class UserService {
             return false;
         }
 
-        Optional<Users> userOptional = tokenRepository.findUserByToken(forgotUserPassword.token());
+        Optional<User> userOptional = tokenRepository.findUserByToken(forgotUserPassword.token());
         if (userOptional.isPresent()) {
-            Users user = userOptional.get();
+            User user = userOptional.get();
             user.setPassword(encodePassword(forgotUserPassword.newPassword()));
             userRepository.update(user);
             return true;
@@ -116,15 +116,14 @@ public class UserService {
         return password.startsWith("$2a$") || password.startsWith("$2b$") || password.startsWith("$2y$");
     }
 
-    private Users createNewUser(String name, String email, String password) {
-        Users user = new Users();
+    private User createNewUser(String name, String email, String password) {
+        User user = new User();
         user.setUsername(name);
         user.setEmail(email);
         user.setPassword(encodePassword(password));
         user.setCreated_at(new Date());
         user.setUpdated_at(new Date());
         user.setIsActive(1);
-        user.setToken(generateToken());
         return user;
     }
 
@@ -132,11 +131,7 @@ public class UserService {
         return passwordEncoder.encode(password);
     }
 
-    private String generateToken() {
-        return "token_gerado";
-    }
-
-    private void sendWelcomeEmailAsync(Users newUser) {
+    private void sendWelcomeEmailAsync(User newUser) {
         CompletableFuture.runAsync(() -> {
             Map<String, Object> data = Map.of("name", newUser.getUsername());
             EmailTemplateStrategy strategy = new WelcomeEmailStrategy();

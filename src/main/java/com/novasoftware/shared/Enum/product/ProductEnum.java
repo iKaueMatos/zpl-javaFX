@@ -17,7 +17,10 @@ public enum ProductEnum implements TableColumn {
     IMAGES("images"),
     CREATION_DATE("creation_date"),
     LAST_UPDATED_DATE("last_updated_date"),
-    ERROR("error");
+    ERROR("error"),
+    BRAND_ID("brand_id"),
+    ALL_COLUMN("*"),
+    DESCRIPTION("description");
 
     private final String value;
 

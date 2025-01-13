@@ -8,12 +8,9 @@ public class Supplier implements Serializable {
     private Long id;
     private String name;
 
-    public Supplier() {}
+    public Supplier(long aLong) {}
 
-    public Supplier(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    public Supplier() {}
 
     public Long getId() {
         return id;

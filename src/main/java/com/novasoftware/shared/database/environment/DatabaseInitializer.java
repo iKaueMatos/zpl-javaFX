@@ -5,6 +5,6 @@ import java.sql.SQLException;
 
 public class DatabaseInitializer {
     public static void initialize() throws SQLException {
-        DatabaseManager.connect();
+        DatabaseManager.getInstance().connect();
     }
 }

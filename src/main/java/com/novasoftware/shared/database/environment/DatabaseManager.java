@@ -13,6 +13,20 @@ public class DatabaseManager {
     private static String dbUsername;
     private static String dbPassword;
     private static boolean isDevelopment;
+    private static DatabaseManager instance;
+
+    public static DatabaseManager getInstance() {
+        if (instance == null) {
+            synchronized (DatabaseManager.class) {
+                if (instance == null) {
+                    instance = new DatabaseManager();
+                }
+            }
+        }
+        return instance;
+    }
+
+    public DatabaseManager() { }
 
     static {
         try (InputStream input = DatabaseManager.class.getClassLoader().getResourceAsStream("application.properties")) {

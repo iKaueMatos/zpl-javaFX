@@ -25,7 +25,7 @@ public class ConfigRepositoryImpl implements ConfigRepository {
 
         String query = queryBuilder.build();
 
-        try (Connection conn = DatabaseManager.connect();
+        try (Connection conn = DatabaseManager.getInstance().connect();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.executeUpdate();
             System.out.println("Configuração salva com sucesso.");
@@ -45,7 +45,7 @@ public class ConfigRepositoryImpl implements ConfigRepository {
 
         String query = queryBuilder.build();
 
-        try (Connection conn = DatabaseManager.connect();
+        try (Connection conn = DatabaseManager.getInstance().connect();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.executeUpdate();
             System.out.println("Configuração atualizada com sucesso.");

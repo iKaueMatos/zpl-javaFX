@@ -17,7 +17,7 @@ public class ConfigPrinterController {
         printerService = new PrinterService();
         detectCommonPrinters();
 
-        printA4.setOnAction(event -> saveSelectedPrinter("danfe", printA4.getValue()));
+        printA4.setOnAction(event -> saveSelectedPrinter("A4", printA4.getValue()));
     }
 
     private void detectCommonPrinters() {
@@ -44,7 +44,7 @@ public class ConfigPrinterController {
     }
 
     private void saveSelectedPrinter(String type, String printerName) {
-        if (printerName != null && !printerName.equals("Nenhuma impressora encontrada.") && !printerName.equals("Nenhuma impressora Zebra encontrada.") && !printerName.equals("Procurando impressoras...")) {
+        if (printerName != null && !printerName.equals("Nenhuma impressora encontrada.") && !printerName.equals("Procurando impressoras...")) {
             printerService.savePrinterConfigurations(type, printerName);
         }
     }

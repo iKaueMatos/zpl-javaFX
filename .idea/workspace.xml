@@ -10,71 +10,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad99ba91-effb-41a9-a6c1-7cc6e4f52db4" name="Changes" comment="update">
-      <change afterPath="$PROJECT_DIR$/etiquetas" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/brand/application/dto/Brand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/brand/application/repository/BrandRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/brand/domain/model/Brand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/brand/infrastructure/repository/BrandRepositoryImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/Enum/Brand/BrandEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/Enum/history/ImportHistoryEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/spreadsheet/application/repository/ImportHistoryRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/spreadsheet/domain/model/ImportHistory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/spreadsheet/domain/service/ImportHistoryService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/spreadsheet/infrastructure/repository/ImportHistoryRepositoryImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/infrastructure/mapper/TokenMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infrastructure/mapper/UserMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/main/resources/view/login_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/bin/main/resources/view/login_screen.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/view/login_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/bin/view/login_screen.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/ca.pem" beforeDir="false" afterPath="$PROJECT_DIR$/data/ca.pem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/client-cert.pem" beforeDir="false" afterPath="$PROJECT_DIR$/data/client-cert.pem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/public_key.pem" beforeDir="false" afterPath="$PROJECT_DIR$/data/public_key.pem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/server-cert.pem" beforeDir="false" afterPath="$PROJECT_DIR$/data/server-cert.pem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/Supplier/domain/model/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/Supplier/domain/model/Supplier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/category/domain/model/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/category/domain/model/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/company/infra/http/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/company/infrastructure/http/CompanyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/company/infra/repository/CompanyRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/company/infrastructure/repository/CompanyRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config/AppInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/config/AppInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/email/SavedEmail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/core/email/SavedEmail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/application/dto/ProductData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/application/dto/ProductData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/application/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/application/repository/ProductRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/domain/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/domain/model/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/domain/service/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/domain/service/ProductServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/infrastructure/mapper/ProductMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/infrastructure/mapper/ProductMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/infrastructure/repository/ProductRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/product/infrastructure/repository/ProductRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/Enum/product/ProductEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/Enum/product/ProductEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/Enum/user/UsersEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/Enum/user/UserEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/database/environment/DatabaseInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/database/environment/DatabaseInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/database/environment/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/database/environment/DatabaseManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/database/queryBuilder/QueryBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/shared/database/queryBuilder/QueryBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/spreadsheet/infrastructure/http/controller/spreadsheet/SpreadsheetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/spreadsheet/infrastructure/http/controller/spreadsheet/SpreadsheetController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/spreadsheet/infrastructure/service/ImportSpreadsheetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/spreadsheet/infrastructure/service/ImportSpreadsheetService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/application/repository/TokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/application/repository/TokenRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/domain/model/Tokens.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/domain/model/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/domain/service/TokenServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/domain/service/TokenServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/infra/repository/TokenRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/token/infrastructure/repository/TokenRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev-database.sqlite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/etiquetas" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/config/infrastructure/http/controller/config/ConfigPrinterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/config/infrastructure/http/controller/config/ConfigPrinterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/domain/service/PrinterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/domain/service/PrinterService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/http/controller/tools/ToolsTagController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/http/controller/tools/ToolsTagController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/repository/ConfigRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/tools/infrastructure/repository/ConfigRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/application/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/application/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/domain/model/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/domain/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/domain/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/domain/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/email/service/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infrastructure/email/service/EmailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/email/strategy/EmailTemplateData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infrastructure/email/strategy/EmailTemplateData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/email/strategy/EmailTemplateStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infrastructure/email/strategy/EmailTemplateStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/email/strategy/PasswordResetEmailStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infrastructure/email/strategy/PasswordResetEmailStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/email/strategy/PasswordResetEmailSucessStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infrastructure/email/strategy/PasswordResetEmailSucessStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/email/strategy/WelcomeEmailStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infrastructure/email/strategy/WelcomeEmailStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/ForgotPasswordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infrastructure/http/controller/auth/ForgotPasswordController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infrastructure/http/controller/auth/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/http/controller/auth/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infrastructure/http/controller/auth/RegisterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infra/repository/UserRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/novasoftware/user/infrastructure/repository/UserRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db/V1__create_labels_table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db/V1__create_labels_table.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db/V3__create__table__product.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db/V4__create__table__product.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/configuration_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/configuration_screen.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/forgot_password_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/forgot_password_screen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/loading_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/loading_screen.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/login_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/login_screen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/main_layout_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/main_layout_screen.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/register_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/register_screen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_import_spreadsheet_screen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_import_spreadsheet_screen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_zpl_tag.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/fxml/tool_zpl_tag.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,9 +83,9 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="jar://$USER_HOME$/.jdks/corretto-17.0.13/lib/src.zip!/java.base/java/lang/String.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/corretto-17.0.13/lib/src.zip!/java.base/java/time/Duration.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$USER_HOME$/.jdks/corretto-17.0.13/lib/src.zip!/java.sql/java/sql/SQLException.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$PROJECT_DIR$/../.jdks/corretto-17.0.13/lib/src.zip!/java.base/java/lang/String.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$PROJECT_DIR$/../.jdks/corretto-17.0.13/lib/src.zip!/java.base/java/time/Duration.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$PROJECT_DIR$/../.jdks/corretto-17.0.13/lib/src.zip!/java.sql/java/sql/SQLException.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/mysql/mysql-connector-java/8.0.28/mysql-connector-java-8.0.28.jar!/com/mysql/cj/jdbc/AbandonedConnectionCleanupThread.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/mysql/mysql-connector-java/8.0.28/mysql-connector-java-8.0.28.jar!/com/mysql/cj/jdbc/Driver.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/mysql/mysql-connector-java/8.0.28/mysql-connector-java-8.0.28.jar!/com/mysql/cj/jdbc/NonRegisteringDriver.class" root0="SKIP_INSPECTION" />
@@ -160,29 +111,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.NovaSoftwareToolsApplication.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "true",
-    "JAR Application.ZSDK_API.jar.executor": "Run",
-    "JAR Application.nova-javafx-1.0-SNAPSHOT.jar.executor": "Run",
-    "JAR Application.nova-javafx.jar.executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "v2",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/ikaue/nova-tools",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.09891197",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.NovaSoftwareToolsApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
+    &quot;JAR Application.ZSDK_API.jar.executor&quot;: &quot;Run&quot;,
+    &quot;JAR Application.nova-javafx-1.0-SNAPSHOT.jar.executor&quot;: &quot;Run&quot;,
+    &quot;JAR Application.nova-javafx.jar.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;v2&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/ikaue/nova-tools&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.09891197&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/lib" />
@@ -201,7 +152,7 @@
   </component>
   <component name="RunManager" selected="Application.NovaSoftwareToolsApplication">
     <configuration name="NovaSoftwareToolsApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="$USER_HOME$/.jdks/corretto-17.0.13" />
+      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../.jdks/corretto-17.0.13" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.novasoftware.NovaSoftwareToolsApplication" />
       <module name="nova-javafx" />
@@ -372,11 +323,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/novasoftware/user/infrastructure/http/controller/util/ScreenManager.java</url>
           <line>26</line>
           <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/novasoftware/product/infrastructure/repository/ProductRepositoryImpl.java</url>
-          <line>47</line>
-          <option name="timeStamp" value="63" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/novasoftware/spreadsheet/infrastructure/http/controller/spreadsheet/SpreadsheetController.java</url>

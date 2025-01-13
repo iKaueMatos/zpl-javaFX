@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.CheckBox?>
-<StackPane prefHeight="600.0" prefWidth="900.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<StackPane prefHeight="600.0" prefWidth="900.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.novasoftware.user.infrastructure.http.controller.auth.LoginController">
 
     <VBox>

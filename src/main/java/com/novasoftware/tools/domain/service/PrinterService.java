@@ -12,13 +12,11 @@ import java.util.List;
 
 public class PrinterService {
     private List<PrintService> availablePrinters;
-    private List<String> zebraPrinters;
 
     private ConfigRepository configRepository;
 
     public PrinterService() {
         availablePrinters = new ArrayList<>();
-        zebraPrinters = new ArrayList<>();
         configRepository = new ConfigRepositoryImpl();
     }
 
@@ -37,10 +35,6 @@ public class PrinterService {
             }
         }
         return printerNames;
-    }
-
-    public List<String> getZebraPrinters() {
-        return zebraPrinters;
     }
 
     public void detectPrinters() {

@@ -265,6 +265,10 @@ public class ToolsTagController extends BaseController implements Initializable 
             labelDpmm.setValue(labelDpmm.getValue() != null ? labelDpmm.getValue() : LabelFormat.PRINTER_DENSITY_8DPMM.getValue());
             labelDimension.setValue(labelDimension.getValue() != null ? labelDimension.getValue() : LabelFormat.LABEL_DIMENSIONS_3X2.getValue());
 
+            if (Integer.parseInt(quantityField.getText()) > 50) {
+                CustomAlert.showErrorAlert(stage, "Ocorreu um erro", "A quantidade inserida não pode ser maior que 50.");
+            }
+
             byte[] imageBytes = LabelaryClient.sendZplToLabelary(
                     zpl,
                     labelDpmm.getValue(),

@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.tools.infrastructure.http.controller.tools.ToolsTagController"
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.novasoftware.tools.infrastructure.http.controller.tools.ToolsTagController"
             style="-fx-padding: 20px;">
     <HBox prefHeight="756.0" prefWidth="1361.0" spacing="20" style="-fx-padding: 20;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <children>
@@ -41,7 +41,7 @@
                                                 <String fx:value="2x1" />
                                                 <String fx:value="3x2" />
                                                 <String fx:value="4x6" />
-                                                <String fx:value="5x2.5" />
+                                                <String fx:value="5x25" />
                                             </FXCollections>
                                         </items>
                                     </MFXComboBox>

@@ -22,6 +22,7 @@ module com.novasoftware {
     requires spring.security.crypto;
     requires spring.context.support;
     requires freemarker;
+    requires javafx.graphics;
 
     exports com.novasoftware.tools.domain.model to javafx.fxml;
     exports com.novasoftware.tools.domain.service to javafx.fxml;
